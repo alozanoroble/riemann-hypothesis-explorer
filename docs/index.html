@@ -149,6 +149,68 @@ var, .v { font-family: var(--serif); font-style: italic; font-size: 1.06em; }
   border-radius: 3px;
   overflow-x: auto;
 }
+/* Display mathematics, set by hand rather than by a TeX engine. The sandbox
+   this page runs in allows scripts from a CDN but neither stylesheets nor font
+   files, which rules out KaTeX and MathJax's font-based output; these few
+   primitives cover what the page actually needs -- limits stacked on a big
+   operator, and built-up fractions -- and cost nothing to load. */
+.eq .mrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+.eq .rel { margin: 0 0.4em; }
+
+.bigop {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  margin: 0 0.2em;
+}
+.bigop .sym {
+  font-size: 1.75em;
+  line-height: 0.9;
+  font-style: normal;
+}
+.bigop .lim {
+  font-size: 0.56em;
+  font-style: normal;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.bigop .lim.top { margin-bottom: 0.15em; }
+.bigop .lim.bot { margin-top: 0.15em; }
+/* an operator whose only limit is underneath, like lim or a bare product */
+.bigop.under .sym { font-size: 1em; line-height: 1.1; }
+
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.25;
+  margin: 0 0.2em;
+  text-align: center;
+}
+.frac > .num { padding: 0 0.35em 0.12em; }
+.frac > .den {
+  padding: 0.12em 0.35em 0;
+  border-top: 1px solid currentColor;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.eq .where {
+  display: block;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
 .eq .lbl {
   display: block;
   font-family: var(--mono);
@@ -459,9 +521,19 @@ footer {
       function is what the hypothesis is about.
     </p>
     <div class="eq">
-      <span class="fn">&zeta;</span>(<span class="v">s</span>) =
-      &sum;<sub><span class="v">n</span>=1</sub><sup>&infin;</sup>
-      1 / <span class="v">n</span><sup><span class="v">s</span></sup>
+      <span class="mrow">
+        <span class="fn">&zeta;</span>(<span class="v">s</span>)
+        <span class="rel">=</span>
+        <span class="bigop">
+          <span class="lim top">&infin;</span>
+          <span class="sym">&sum;</span>
+          <span class="lim bot"><span class="v">n</span>&thinsp;=&thinsp;1</span>
+        </span>
+        <span class="frac">
+          <span class="num">1</span>
+          <span class="den"><span class="v">n</span><sup><span class="v">s</span></sup></span>
+        </span>
+      </span>
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
@@ -490,9 +562,15 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <span class="fn">&zeta;</span>(<span class="v">s</span>) =
-      &prod;<sub><span class="v">p</span> prime</sub>
-      (1 &minus; <span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="mrow">
+        <span class="fn">&zeta;</span>(<span class="v">s</span>)
+        <span class="rel">=</span>
+        <span class="bigop">
+          <span class="sym">&prod;</span>
+          <span class="lim bot"><span class="v">p</span> prime</span>
+        </span>
+        <span>(1 &minus; <span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
+      </span>
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
@@ -636,9 +714,18 @@ footer {
       function of <span class="v">K</span> counts ideals, graded by their norm.
     </p>
     <div class="eq">
-      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
-      &sum;<sub><span class="v">I</span> &ne; 0</sub>
-      1 / <span class="fn">N</span>(<span class="v">I</span>)<sup><span class="v">s</span></sup>
+      <span class="mrow">
+        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
+        <span class="rel">=</span>
+        <span class="bigop">
+          <span class="sym">&sum;</span>
+          <span class="lim bot"><span class="v">I</span> &ne; 0</span>
+        </span>
+        <span class="frac">
+          <span class="num">1</span>
+          <span class="den"><span class="fn">N</span>(<span class="v">I</span>)<sup><span class="v">s</span></sup></span>
+        </span>
+      </span>
       <span class="lbl"><span class="v">I</span> runs over the non-zero ideals of the ring of integers; Re(s) &gt; 1</span>
     </div>
     <p>
@@ -672,9 +759,15 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
-      &prod;<sub><span class="v">P</span></sub>
-      (1 &minus; <span class="fn">N</span>(<span class="v">P</span>)<sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="mrow">
+        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
+        <span class="rel">=</span>
+        <span class="bigop">
+          <span class="sym">&prod;</span>
+          <span class="lim bot"><span class="v">P</span></span>
+        </span>
+        <span>(1 &minus; <span class="fn">N</span>(<span class="v">P</span>)<sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
+      </span>
       <span class="lbl"><span class="v">P</span> runs over the prime ideals &mdash; not the prime numbers <span class="v">p</span></span>
     </div>
     <p>
@@ -728,11 +821,18 @@ footer {
       arithmetic the field started with.
     </p>
     <div class="eq">
-      lim<sub><span class="v">s</span>&rarr;1</sub>
-      (<span class="v">s</span> &minus; 1)
-      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
-      = 2&pi;<span class="v">h</span> /
-      (<span class="v">w</span>&radic;|<span class="v">d<sub>K</sub></span>|)
+      <span class="mrow">
+        <span class="bigop under">
+          <span class="sym fn">lim</span>
+          <span class="lim bot"><span class="v">s</span>&thinsp;&rarr;&thinsp;1</span>
+        </span>
+        <span>(<span class="v">s</span> &minus; 1)&thinsp;<span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)</span>
+        <span class="rel">=</span>
+        <span class="frac">
+          <span class="num">2&pi;<span class="v">h</span></span>
+          <span class="den"><span class="v">w</span>&thinsp;&radic;<span style="border-top:1px solid currentColor;padding:0 0.1em">|<span class="v">d<sub>K</sub></span>|</span></span>
+        </span>
+      </span>
       <span class="lbl"><span class="v">h</span> the class number, <span class="v">w</span> the roots of unity</span>
     </div>
     <div id="strip-erh"></div>
@@ -867,10 +967,19 @@ footer {
       <span class="v">&chi;</span>(&minus;1) = &minus;1.
     </p>
     <div class="eq">
-      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>) =
-      &sum;<sub><span class="v">n</span>=1</sub><sup>&infin;</sup>
-      <span class="v">&chi;</span>(<span class="v">n</span>) /
-      <span class="v">n</span><sup><span class="v">s</span></sup>
+      <span class="mrow">
+        <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
+        <span class="rel">=</span>
+        <span class="bigop">
+          <span class="lim top">&infin;</span>
+          <span class="sym">&sum;</span>
+          <span class="lim bot"><span class="v">n</span>&thinsp;=&thinsp;1</span>
+        </span>
+        <span class="frac">
+          <span class="num"><span class="v">&chi;</span>(<span class="v">n</span>)</span>
+          <span class="den"><span class="v">n</span><sup><span class="v">s</span></sup></span>
+        </span>
+      </span>
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
@@ -901,10 +1010,15 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>) =
-      &prod;<sub><span class="v">p</span> &ne; 3</sub>
-      (1 &minus; <span class="v">&chi;</span>(<span class="v">p</span>)
-      <span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="mrow">
+        <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
+        <span class="rel">=</span>
+        <span class="bigop">
+          <span class="sym">&prod;</span>
+          <span class="lim bot"><span class="v">p</span> &ne; 3</span>
+        </span>
+        <span>(1 &minus; <span class="v">&chi;</span>(<span class="v">p</span>)&thinsp;<span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
+      </span>
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
@@ -1054,9 +1168,13 @@ footer {
     <p class="note">
       &ldquo;Modular&rdquo; is doing real work in that sentence. Every elliptic
       curve over &#8474; is modular, so over &#8474; the restriction costs
-      nothing; over a general number field automorphy is not known, and without
-      it there is no automorphic <span class="v">L</span>-function for the Grand
-      Riemann Hypothesis to be about. The examples below are over &#8474;.
+      nothing. Over a general number field the curve still <em>has</em> a
+      Hasse&ndash;Weil <span class="v">L</span>-function &mdash; the Euler
+      product is defined regardless &mdash; but automorphy is not known for
+      every such curve, so that <span class="v">L</span>-function cannot always
+      be placed unconditionally inside the automorphic framework this
+      conjecture is stated in, and with it go the analytic continuation and
+      functional equation. The examples below are over &#8474;.
     </p>
     <p class="note">
       A warning about normalisation. For an elliptic curve the natural
@@ -1079,13 +1197,27 @@ footer {
       record the deficit.
     </p>
     <div class="eq">
-      <span class="v">a<sub>p</sub></span> =
-      <span class="v">p</span> + 1 &minus; #<span class="v">E</span>(&#120125;<sub><span class="v">p</span></sub>),
-      &nbsp;&nbsp;
-      <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>) =
-      &sum;<sub><span class="v">n</span>=1</sub><sup>&infin;</sup>
-      <span class="v">a<sub>n</sub></span> /
-      <span class="v">n</span><sup><span class="v">s</span></sup>
+      <span class="mrow">
+        <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>)
+        <span class="rel">=</span>
+        <span class="bigop">
+          <span class="lim top">&infin;</span>
+          <span class="sym">&sum;</span>
+          <span class="lim bot"><span class="v">n</span>&thinsp;=&thinsp;1</span>
+        </span>
+        <span class="frac">
+          <span class="num"><span class="v">a<sub>n</sub></span></span>
+          <span class="den"><span class="v">n</span><sup><span class="v">s</span></sup></span>
+        </span>
+      </span>
+      <span class="where">
+        where <span class="v">a<sub>p</sub></span> =
+        <span class="v">p</span> + 1 &minus;
+        #<span class="v">E</span>(&#120125;<sub><span class="v">p</span></sub>)
+        at each prime <span class="v">p</span> of good reduction, and the
+        remaining <span class="v">a<sub>n</sub></span> follow from the Euler
+        product below.
+      </span>
       <span class="lbl">valid for Re(s) &gt; 3/2</span>
     </div>
     <p>
@@ -1112,12 +1244,20 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>) =
-      &prod;<sub><span class="v">p</span> &#8740; <span class="v">N</span></sub>
-      (1 &minus; <span class="v">a<sub>p</sub></span><span class="v">p</span><sup>&minus;<span class="v">s</span></sup>
-      + <span class="v">p</span><sup>1&minus;2<span class="v">s</span></sup>)<sup>&minus;1</sup>
-      &prod;<sub><span class="v">p</span> | <span class="v">N</span></sub>
-      (1 &minus; <span class="v">a<sub>p</sub></span><span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="mrow">
+        <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>)
+        <span class="rel">=</span>
+        <span class="bigop">
+          <span class="sym">&prod;</span>
+          <span class="lim bot"><span class="v">p</span> &#8740; <span class="v">N</span></span>
+        </span>
+        <span>(1 &minus; <span class="v">a<sub>p</sub></span>&thinsp;<span class="v">p</span><sup>&minus;<span class="v">s</span></sup> + <span class="v">p</span><sup>1&minus;2<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
+        <span class="bigop">
+          <span class="sym">&prod;</span>
+          <span class="lim bot"><span class="v">p</span> | <span class="v">N</span></span>
+        </span>
+        <span>(1 &minus; <span class="v">a<sub>p</sub></span>&thinsp;<span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
+      </span>
       <span class="lbl">degree 2 at the good primes, degree 1 at the bad ones</span>
     </div>
     <p>

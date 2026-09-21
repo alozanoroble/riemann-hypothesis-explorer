@@ -14,7 +14,7 @@ SetColumns(0);
 va, vb, vc := GetVersion();
 printf "VERSION %o.%o-%o\n", va, vb, vc;
 
-PREC   := 40;
+PREC   := 30;   // 40 exhausted memory on the conductor-20 scan; 30 completes
 NCOEFF := 40;
 STEP   := 1/10;
 
@@ -103,7 +103,10 @@ for spec in [ <-5, "D20">, <-23, "D23"> ] do
     printf "%o ZETAK_VAL_2 %o\n", tag, Evaluate(LK, 2);
     printf "%o ZETAK_VAL_halfplus8i %o\n", tag, Evaluate(LK, CC!(1/2) + i*8);
     printf "%o ZETAK_VAL_1.5plus2i %o\n", tag, Evaluate(LK, CC!(3/2) + i*2);
-    printf "%o ZETAK_RESIDUE %o\n", tag, Evaluate(LK, 1 : Derivative := 0, Leading);
+    // No residue call here: zeta_K has a pole at s = 1 and asking Magma to
+    // evaluate the completed function there aborts the run. The residue is
+    // L(1, chi_D) anyway, since zeta contributes residue 1, and that is
+    // printed above next to the class number formula it must equal.
 
     // how the rational primes split, for the Euler-product section
     printf "%o SPLIT %o\n", tag,
