@@ -25,7 +25,7 @@ for D in [-20, -23] do
     Z := func< t | Real(LStar(L, RR!(1/2) + i*RR!t)/rt) >;
     printf "%o SIGN %o\n", tag, Sign(L);
     zeros := [RR|]; t0 := STEP; f0 := Z(t0);
-    while t0 lt 30 do
+    while t0 lt 41 do
         t1 := t0 + STEP; f1 := Z(t1);
         if f0*f1 lt 0 then
             Append(~zeros, IllinoisRoot(Z, t0, t1, f0, f1, RR!10^-24, 50));

@@ -110,7 +110,7 @@ end procedure;
 printf "### ZETA\n";
 L1 := RiemannZeta(: Precision := PREC);
 printf "ZETA COEFFS %o\n", LGetCoefficients(L1, NCOEFF);
-z1 := CriticalLineZeros(L1, 50, "ZETA");
+z1 := CriticalLineZeros(L1, 78, "ZETA");
 ShowZeros(z1, "ZETA");
 printf "ZETA VAL 2 %o\n", Evaluate(L1, 2);
 printf "ZETA VAL 3 %o\n", Evaluate(L1, 3);

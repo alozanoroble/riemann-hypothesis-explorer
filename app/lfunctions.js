@@ -368,12 +368,18 @@
   };
   function bySize(p, q) { return p - q; }
 
-  /* Merging the two factor lists only gives CONSECUTIVE zeros of zeta_K up to
-   * the point where both lists are still complete. Past the shorter list's
-   * last entry the merge silently turns into "the remaining zeros of the
-   * longer factor", which are not the next zeros of zeta_K at all -- so the
-   * merge is cut at min(max of each list). COMPLETE_TO records that height for
-   * every family, and the app refuses to mark zeros above it. */
+  /* Merging the two factor lists only stays correctly interleaved up to the
+   * shorter list's last entry. Past it the merge silently turns into "the
+   * remaining tabulated zeros of the longer factor", skipping the zeros of the
+   * other one that belong between them -- so the merge is cut at
+   * min(max of each list).
+   *
+   * CHECKED_TO records that height for every family, and the app marks no
+   * zeros above it. The name is deliberate: these lists are tabulated and
+   * cross-checked against a sign-change scan, which cannot see a zero of even
+   * order, two zeros inside one step, or anything off the critical line.
+   * Establishing completeness needs a zero-counting argument (Turing's
+   * method), which is not what this is. */
   function mergeZeros(a, b) {
     var lim = Math.min(a[a.length - 1], b[b.length - 1]);
     return a.concat(b).sort(bySize).filter(function (t) { return t <= lim; });
@@ -382,9 +388,9 @@
   ZEROS.zetaK20 = mergeZeros(ZEROS.zeta, ZEROS.chi20);
   ZEROS.zetaK23 = mergeZeros(ZEROS.zeta, ZEROS.chi23);
 
-  var COMPLETE_TO = {};
+  var CHECKED_TO = {};
   Object.keys(ZEROS).forEach(function (k) {
-    COMPLETE_TO[k] = ZEROS[k][ZEROS[k].length - 1];
+    CHECKED_TO[k] = ZEROS[k][ZEROS[k].length - 1];
   });
 
   /* kind: which evaluator and which gamma factor.
@@ -631,6 +637,6 @@
     gammaFactor: gammaFactor, zfunction: zfunction, zline: zline,
     grid: grid, gridJob: gridJob,
     CHARS: CHARS, CURVES: CURVES, ZEROS: ZEROS, FAMILY: FAMILY,
-    COMPLETE_TO: COMPLETE_TO
+    CHECKED_TO: CHECKED_TO
   };
 })(typeof window !== 'undefined' ? window : this);

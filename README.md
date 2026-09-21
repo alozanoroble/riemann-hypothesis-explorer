@@ -41,9 +41,25 @@ from a computation in this repository, and usually both:
 - **Dedekind zeta** — assembled from its two factors, since
   ζ<sub>*K*</sub> = ζ · *L*(*s*, χ<sub>*D*</sub>) for a quadratic field.
 
-The Magma scripts in `scripts/` reproduce all of them independently, and agree
-with the published values to every digit those sources print. `results/` holds
-the output they produced.
+The Magma scripts in `scripts/` re-derive every tabulated ordinate
+independently, and agree with the published values to every digit those sources
+print. `results/` holds the output they produced. The scan heights are chosen
+to cover each table in full:
+
+| | tabulated to | scanned to | script |
+|---|---|---|---|
+| ζ(*s*) | 77.145 | 78 | `lfunction-data.m` |
+| *L*(*s*, χ₋₃) | 47.514 | 50 | `lfunction-data.m` |
+| *L*(*s*, χ₋₂₀), *L*(*s*, χ₋₂₃) | 39.805, 38.687 | 41 | `quad-char-zeros.m` |
+| 11a1, 37a1 | 27.068, 19.815 | 35 | `lfunction-data.m` |
+
+A caveat worth stating plainly: this is a *numerical reproduction* of the
+published ordinates, not an independent certification. The scripts find zeros
+by detecting sign changes of a real-valued function on the critical line, which
+is blind to a zero of even order, to an even number of zeros inside one step,
+and to any zero off the line. Establishing that a list is complete needs a
+zero-counting argument — Turing's method, which is what LMFDB's certified
+zeta-zero dataset uses.
 
 ## Computing the zeros yourself
 
@@ -63,8 +79,10 @@ Magma 2.29 has no zero-finding intrinsic for the `LSer` type — `Zeros` only
 accepts curves, function fields and number fields — so these scripts locate
 zeros themselves. If *L* is self-dual with root number ε and motivic weight
 *m*, then Λ(*s*) = ε Λ(*m*+1−*s*) forces Λ(*c* + *it*)/√ε to be real on the
-critical line, and its sign changes are the zeros. A scan plus the Illinois
-root-finder does the rest.
+critical line, and its sign changes are the odd-order zeros there. A scan plus
+the Illinois root-finder does the rest. A zero exactly at the central point is
+invisible to a sign change, so it is tested separately — that is what catches
+the rank-1 vanishing of 37a1.
 
 One trap worth knowing: `Sign(L)` returns 0 until you have called
 `CheckFunctionalEquation(L)`, which then divides by zero further down.

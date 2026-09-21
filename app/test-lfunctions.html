@@ -142,15 +142,21 @@ Object.keys(LF.FAMILY).forEach(function (id) {
     '</td><td>' + crossings + ' sign changes, ' + missed + ' missed</td></tr>');
 });
 
-/* The referee's point: a merged list of zeros is only a list of CONSECUTIVE
-   zeros up to where both factor lists run out. Test it directly rather than
-   trust the merge -- scan Z on a fine grid up to the stated completeness
-   height and count sign changes. Every one must be accounted for by a listed
-   zero, and every listed zero by a crossing. This catches a truncated list,
-   an interleaving mistake, and a fabricated ordinate alike. */
+/* A merged list of zeros only stays correctly interleaved up to where both
+   factor lists run out. Test that directly rather than trust the merge: scan Z
+   on a fine grid up to the checked height and count sign changes. Every one
+   must be accounted for by a listed zero, and every listed zero by a crossing.
+   This catches a truncated list, an interleaving mistake, and a fabricated
+   ordinate alike.
+
+   What it does NOT establish is completeness. A sign-change scan is blind to
+   a zero of even order, to an even number of zeros inside one grid interval,
+   and to anything off the critical line -- exactly the caveats the page itself
+   states. So this checks consistency with every DETECTED crossing, and the
+   height is named CHECKED_TO rather than anything suggesting a proof. */
 var crows = [];
 Object.keys(LF.FAMILY).forEach(function (id) {
-  var lim = LF.COMPLETE_TO[id];
+  var lim = LF.CHECKED_TO[id];
   /* scan a little past `lim`: the last listed zero sits exactly at it, and a
      sign change there needs a sample on both sides */
   var step = 0.02, prev = LF.zfunction(id, 0.01), found = [];
@@ -169,10 +175,10 @@ Object.keys(LF.FAMILY).forEach(function (id) {
   var bad = matched.length !== listed.length || extra.length > 0;
   if (bad) fails++;
   crows.push('<tr class="' + (bad ? 'bad' : '') + '"><td>' + id +
-    '</td><td>complete to ' + lim.toFixed(3) +
+    '</td><td>checked to ' + lim.toFixed(3) +
     '</td><td>' + listed.length + ' listed, ' + found.length + ' crossings found' +
     '</td><td>' + (bad ? (listed.length - matched.length) + ' unmatched, ' +
-                   extra.length + ' unlisted crossings' : 'every crossing listed') +
+                   extra.length + ' unlisted crossings' : 'every detected crossing listed') +
     '</td></tr>');
 });
 
@@ -223,7 +229,7 @@ document.getElementById('out').innerHTML =
   '<table>' + zrows.join('') + '</table>' +
   '<h3>Z-function: real, |Z| = |L|, sign changes at the zeros</h3>' +
   '<table>' + zfrows.join('') + '</table>' +
-  '<h3>the listed zeros are consecutive, up to the stated height</h3>' +
+  '<h3>every detected critical-line sign change is accounted for, up to the stated height</h3>' +
   '<table>' + crows.join('') + '</table>' +
   '<h3>grid() consistency</h3><table>' + gmsg.join('') + '</table>' +
   '<h3>timing</h3><table>' + tmsg.join('') + '</table>';

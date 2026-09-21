@@ -144,6 +144,11 @@ var, .v { font-family: var(--serif); font-style: italic; font-size: 1.06em; }
   color: var(--faint);
   margin-top: 8px;
 }
+/* Case carries meaning in mathematics: the uppercase label style would turn
+   the prime ideal P and the rational prime p into the same letter, and the
+   curve 11a1 into 11A1. Exempt anything marked as a symbol or a literal. */
+.eq .lbl .v, .eq .lbl .lit { text-transform: none; letter-spacing: 0; }
+.eq .lbl .lit { font-family: var(--mono); font-style: normal; }
 sub, sup { font-size: 0.72em; line-height: 0; }
 
 /* ---------------------------------------------------------- switcher --- */
@@ -400,8 +405,8 @@ footer {
     (the <strong>Extended Riemann Hypothesis</strong>), for a Dirichlet
     <span class="v">L</span>-function (the <strong>Generalized Riemann
     Hypothesis</strong>), and for the <span class="v">L</span>-function of an
-    elliptic curve or any automorphic form (the <strong>Grand Riemann
-    Hypothesis</strong>). The names are not used entirely consistently in the
+    elliptic curve over &#8474;, or of any automorphic form (the <strong>Grand
+    Riemann Hypothesis</strong>). The names are not used entirely consistently in the
     literature, and the four statements are very far from independent. A
     Dedekind zeta function of an <em>abelian</em> field factors into Dirichlet
     <span class="v">L</span>-functions, so ERH for those fields is exactly RH
@@ -541,9 +546,12 @@ footer {
         is still essentially Vinogradov&ndash;Korobov, and is far from the line.
       </li>
       <li>
-        <strong>Verified very far up.</strong> Platt and Trudgian (2021) confirmed
-        that every zero with imaginary part below 3&nbsp;&times;&nbsp;10<sup>12</sup>
-        lies on the line.
+        <strong>Verified very far up.</strong> Platt and Trudgian (2021)
+        rigorously verified that every non-trivial zero
+        <span class="v">&beta;</span> + <span class="v">i&gamma;</span> with
+        0 &lt; <span class="v">&gamma;</span> &le; 3&nbsp;&times;&nbsp;10<sup>12</sup>
+        has <span class="v">&beta;</span> = &frac12;; the reflected range
+        follows by symmetry.
       </li>
       <li>
         <strong>It is worth a million dollars.</strong> One of the seven Clay
@@ -613,7 +621,7 @@ footer {
       <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
       &sum;<sub><span class="v">I</span> &ne; 0</sub>
       1 / <span class="fn">N</span>(<span class="v">I</span>)<sup><span class="v">s</span></sup>
-      <span class="lbl">I runs over the non-zero ideals of the ring of integers; Re(s) &gt; 1</span>
+      <span class="lbl"><span class="v">I</span> runs over the non-zero ideals of the ring of integers; Re(s) &gt; 1</span>
     </div>
     <p>
       How far unique factorisation fails is measured by the <strong>class
@@ -649,7 +657,7 @@ footer {
       <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
       &prod;<sub><span class="v">P</span></sub>
       (1 &minus; <span class="fn">N</span>(<span class="v">P</span>)<sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
-      <span class="lbl">P runs over the prime ideals — not the prime numbers p</span>
+      <span class="lbl"><span class="v">P</span> runs over the prime ideals &mdash; not the prime numbers <span class="v">p</span></span>
     </div>
     <p>
       Grouping the prime ideals by the rational prime underneath them gives the
@@ -707,7 +715,7 @@ footer {
       <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
       = 2&pi;<span class="v">h</span> /
       (<span class="v">w</span>&radic;|<span class="v">d<sub>K</sub></span>|)
-      <span class="lbl">h the class number, w the roots of unity</span>
+      <span class="lbl"><span class="v">h</span> the class number, <span class="v">w</span> the roots of unity</span>
     </div>
     <div id="strip-erh"></div>
   </div></div>
@@ -726,14 +734,17 @@ footer {
       </p>
       <p class="note">
         The merged column stops where it does on purpose. Interleaving two
-        finite lists only gives <em>consecutive</em> zeros of
-        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub> up to
-        the last entry of the shorter one; past that, a merge would quietly
-        turn into &ldquo;the remaining tabulated zeros of
-        <span class="fn">&zeta;</span>&rdquo;, skipping the zeros of
+        finite lists only stays correct up to the last entry of the shorter
+        one; past that, a merge would quietly turn into &ldquo;the remaining
+        tabulated zeros of <span class="fn">&zeta;</span>&rdquo;, skipping the
+        zeros of
         <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;<sub>D</sub></span>)
         that belong between them. So the merge is cut at that height, and the
-        plot marks no zeros above it either.
+        plot marks no zeros above it either. What is listed is the correctly
+        interleaved <em>tabulated</em> critical-line zeros &mdash; complete in
+        the sense of matching every crossing a fine scan of
+        <span class="v">Z</span> finds below that height, which is not the same
+        as a proof that none were missed.
       </p>
     </div>
     <div class="scroll"><table id="zeros-erh"></table></div>
@@ -955,11 +966,14 @@ footer {
         <span class="v">s</span> = 1 and you are reading off a class number.
       </li>
       <li>
-        <strong>Siegel zeros are the gap.</strong> Nobody can rule out a single
-        real zero of a real character's <span class="v">L</span>-function sitting
-        very close to <span class="v">s</span> = 1. GRH would kill it instantly;
-        without GRH the best bounds (Siegel's) are ineffective, meaning they
-        contain a constant no one can compute.
+        <strong>Siegel zeros are the gap.</strong> Unconditionally, one cannot
+        <em>uniformly</em> exclude the possibility that some real primitive
+        Dirichlet character has an exceptional real zero extremely close to
+        <span class="v">s</span> = 1. For any one character written down
+        explicitly the question can in principle be settled by computation; it
+        is across the whole family that it stays open. GRH would kill it
+        instantly; without GRH the best bounds (Siegel's) are ineffective,
+        meaning they contain a constant no one can compute.
       </li>
       <li>
         <strong>A great deal is conditional on Riemann hypotheses &mdash; but
@@ -1008,11 +1022,23 @@ footer {
       </p>
     </div>
     <p>
-      This is the version that swallows the other two: <span class="fn">&zeta;</span>
-      is the GL<sub>1</sub> case over &#8474;, Dirichlet
-      <span class="v">L</span>-functions are the other GL<sub>1</sub> cases, and
-      an elliptic curve gives a GL<sub>2</sub> case. The example here is the
+      This version contains the other three as special cases.
+      <span class="fn">&zeta;</span> is the standard
+      <span class="v">L</span>-function of the trivial GL<sub>1</sub> character
+      over &#8474;; more generally
+      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub> is the
+      corresponding GL<sub>1</sub> example over a number field
+      <span class="v">K</span>; Dirichlet <span class="v">L</span>-functions
+      come from the other GL<sub>1</sub> characters; and a <em>modular</em>
+      elliptic curve gives a GL<sub>2</sub> example. The example here is the
       curve of conductor 11 &mdash; the smallest conductor there is.
+    </p>
+    <p class="note">
+      &ldquo;Modular&rdquo; is doing real work in that sentence. Every elliptic
+      curve over &#8474; is modular, so over &#8474; the restriction costs
+      nothing; over a general number field automorphy is not known, and without
+      it there is no automorphic <span class="v">L</span>-function for the Grand
+      Riemann Hypothesis to be about. The examples below are over &#8474;.
     </p>
     <p class="note">
       A warning about normalisation. For an elliptic curve the natural
@@ -1094,7 +1120,7 @@ footer {
       &Gamma;(<span class="v">s</span>)
       <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>)
       = <span class="v">&epsilon;</span>&thinsp;&Lambda;(2 &minus; <span class="v">s</span>)
-      <span class="lbl">&epsilon; = +1 for 11a1, &minus;1 for 37a1</span>
+      <span class="lbl"><span class="v">&epsilon;</span> = +1 for <span class="lit">11a1</span>, &minus;1 for <span class="lit">37a1</span></span>
     </div>
     <p>
       The sign <span class="v">&epsilon;</span> is forced by the curve and it
@@ -1199,10 +1225,17 @@ footer {
     <div class="prose">
       <h3>Compute it yourself</h3>
       <p>
-        Nothing on this page needs to be taken on trust. Both scripts below
-        locate critical-line zeros numerically, by detecting sign changes of a
-        real-valued function on the line; the Magma one produced the tables
-        here.
+        The numerical values and critical-line crossings shown on this page can
+        be reproduced with the scripts below, which locate zeros by detecting
+        sign changes of a real-valued function on the line.
+      </p>
+      <p class="note">
+        What is shown here is a short illustration of the method, over modest
+        heights. The full scripts in the
+        <a href="https://github.com/alozanoroble/riemann-hypothesis-explorer">repository</a>
+        scan the complete range of every table on this page. The tabulated
+        ordinates themselves are Odlyzko's and LMFDB's; the scripts reproduce
+        them rather than replace them.
       </p>
       <p class="note">
         What that does and does not establish. For the examples and ranges
@@ -1547,7 +1580,7 @@ footer {
        zeros there. For a Dedekind zeta the list runs out at whichever of its
        two factors was tabulated less far. */
     function completenessNote() {
-      var lim = LF.COMPLETE_TO[id];
+      var lim = LF.CHECKED_TO[id];
       if (view[3] <= lim) return '';
       return ' Marked zeros are tabulated only up to Im(s) = ' + lim.toFixed(3) +
              '; above that the function is still drawn correctly, but no ' +
@@ -1657,7 +1690,7 @@ footer {
       }
       if (show.zeros) {
         octx.strokeStyle = cZero; octx.lineWidth = 1.8 * dpr;
-        var lim = LF.COMPLETE_TO[id];
+        var lim = LF.CHECKED_TO[id];
         (LF.ZEROS[id] || []).forEach(function (t) {
           if (t > lim) return;
           [t, -t].forEach(function (tt) {
@@ -1790,7 +1823,7 @@ footer {
       if (show.zeros) {
         fctx.strokeStyle = zcol; fctx.fillStyle = zcol; fctx.lineWidth = 2;
         (LF.ZEROS[id] || []).forEach(function (z) {
-          if (z < t0 || z > t1 || z > LF.COMPLETE_TO[id]) return;
+          if (z < t0 || z > t1 || z > LF.CHECKED_TO[id]) return;
           var xz = X(z);
           fctx.beginPath();
           fctx.moveTo(xz, Y(0) + 4); fctx.lineTo(xz, Y(0) + 12);
@@ -2002,28 +2035,35 @@ footer {
 '    return zeros;\n' +
 'end function;\n' +
 '\n' +
-'<span class="c">// (1) the Riemann zeta function</span>\n' +
-'CriticalLineZeros(RiemannZeta(: Precision := PREC), 50, 1/10);\n' +
+'<span class="c">// (1) the Riemann zeta function. Height 78 covers every zeta</span>\n' +
+'<span class="c">//     ordinate tabulated on this page; drop it to 50 for a quick run.</span>\n' +
+'CriticalLineZeros(RiemannZeta(: Precision := PREC), 78, 1/10);\n' +
 '\n' +
-'<span class="c">// (2) a Dedekind zeta function: Q(sqrt(-5)) has class number 2</span>\n' +
+'<span class="c">// (2) a Dedekind zeta function: Q(sqrt(-5)) has class number 2.</span>\n' +
+'<span class="c">//     The table above is built by merging the zeros of its two</span>\n' +
+'<span class="c">//     factors, but scanning zeta_K directly is a good cross-check.</span>\n' +
 'K := QuadraticField(-5);\n' +
 'ClassNumber(K);                       <span class="c">// 2</span>\n' +
 'Discriminant(MaximalOrder(K));        <span class="c">// -20</span>\n' +
-'CriticalLineZeros(LSeries(K : Precision := PREC), 30, 1/10);\n' +
+'CriticalLineZeros(LSeries(K : Precision := PREC), 41, 1/10);\n' +
 '\n' +
-'<span class="c">// (3) the Dirichlet L-function it factors through</span>\n' +
-'chi := KroneckerCharacter(-20);\n' +
-'CriticalLineZeros(LSeries(chi : Precision := PREC), 30, 1/10);\n' +
-'<span class="c">// L(1, chi) is the class number formula: 2*pi*h/(w*sqrt|D|) = pi/sqrt(5)</span>\n' +
-'Evaluate(LSeries(chi : Precision := PREC), 1);\n' +
+'<span class="c">// (3) the Dirichlet L-functions the Dedekind zetas factor through.</span>\n' +
+'<span class="c">//     Height 41 covers the conductor-20 and -23 tables above.</span>\n' +
+'for D in [-3, -20, -23] do\n' +
+'    CriticalLineZeros(LSeries(KroneckerCharacter(D) : Precision := PREC), 41, 1/10);\n' +
+'end for;\n' +
+'<span class="c">// L(1, chi_-20) is the class number formula 2*pi*h/(w*sqrt|D|) = pi/sqrt(5)</span>\n' +
+'Evaluate(LSeries(KroneckerCharacter(-20) : Precision := PREC), 1);\n' +
 '\n' +
-'<span class="c">// (4) an elliptic curve L-function</span>\n' +
-'E := EllipticCurve("11a1");\n' +
-'CriticalLineZeros(LSeries(E : Precision := PREC), 35, 1/10);\n' +
-'\n' +
-'<span class="c">// A zero exactly at the centre is invisible to a sign change, so test</span>\n' +
-'<span class="c">// the central value separately -- this is 0 for 37a1, which has rank 1.</span>\n' +
-'Evaluate(LSeries(EllipticCurve("37a1") : Precision := PREC), 1);\n',
+'<span class="c">// (4) the elliptic curve L-functions, both of them</span>\n' +
+'for lab in ["11a1", "37a1"] do\n' +
+'    L := LSeries(EllipticCurve(lab) : Precision := PREC);\n' +
+'    CriticalLineZeros(L, 35, 1/10);\n' +
+'    <span class="c">// A zero exactly at the centre is invisible to a sign change,</span>\n' +
+'    <span class="c">// so test the central value separately. It is 0 for 37a1,</span>\n' +
+'    <span class="c">// which has rank 1, and 0.2538... for 11a1, which has rank 0.</span>\n' +
+'    Evaluate(L, 1);\n' +
+'end for;\n',
 
     sage: '<span class="c"># Zeros of an L-function, in Sage. Rubinstein\'s lcalc does the work.</span>\n' +
 '\n' +
@@ -2062,11 +2102,12 @@ footer {
 '<span class="c"># 0.253841860855911</span>\n',
 
     note: {
-      magma: 'This is the script that generated the tables on this page, run under ' +
-             'Magma 2.29-10. Over the ranges shown its ordinates agreed with the ' +
-             'Odlyzko and LMFDB values to every digit those sources print — a ' +
-             'reproduction of them, not an independent certification that the ' +
-             'lists are complete.',
+      magma: 'A cut-down version of the repository scripts, run under Magma ' +
+             '2.29-10. The heights here are chosen to run quickly; the full ' +
+             'scripts scan every range tabulated above, and over those ranges ' +
+             'their ordinates agree with the Odlyzko and LMFDB values to every ' +
+             'digit those sources print — a reproduction of them, not an ' +
+             'independent certification that the lists are complete.',
       sage:  'The Sage calls follow the documented examples for lcalc and for ' +
              'EllipticCurve.lseries(); they were not run on the machine that built ' +
              'this page, which has no Sage installed.'
