@@ -2246,7 +2246,24 @@ footer {
       var cCrit = cs.getPropertyValue('--crit').trim() || '#9c2b47';
       var cZero = cs.getPropertyValue('--zero').trim() || '#0f7382';
       var cFaint = cs.getPropertyValue('--faint').trim() || '#888';
+      var cPaper = cs.getPropertyValue('--paper').trim() || '#f1f3f6';
       var f = LF.FAMILY[id], c = f.centre;
+
+      /* The strip reads by contrast, not by tint: a wash over everything
+         OUTSIDE it, so the strip is the only part at full strength. A faint
+         fill over the strip itself is invisible against a saturated field --
+         which is what this used to be. Drawn before the tick gutters so the
+         axis labels stay crisp. */
+      var stripA = toPx(c - 0.5, 0)[0], stripB = toPx(c + 0.5, 0)[0];
+      if (show.strip) {
+        octx.save();
+        octx.fillStyle = cPaper;
+        octx.globalAlpha = 0.62;
+        octx.fillRect(0, 0, Math.max(0, Math.min(w, stripA)), h);
+        octx.fillRect(Math.max(0, Math.min(w, stripB)), 0,
+                      w - Math.max(0, Math.min(w, stripB)), h);
+        octx.restore();
+      }
 
       /* Ticks sit on top of a saturated field, so they get their own gutters
          rather than relying on contrast that may or may not be there. */
@@ -2275,10 +2292,19 @@ footer {
       }
 
       if (show.strip) {
-        var a = toPx(c - 0.5, 0)[0], b = toPx(c + 0.5, 0)[0];
-        octx.fillStyle = cCrit; octx.globalAlpha = 0.09;
-        octx.fillRect(a, 0, b - a, h);
-        octx.globalAlpha = 1;
+        /* crisp dashed edges at Re(s) = c +/- 1/2, and a label on the left one */
+        octx.save();
+        octx.strokeStyle = cCrit;
+        octx.lineWidth = 1.3 * dpr;
+        octx.setLineDash([5 * dpr, 4 * dpr]);
+        [stripA, stripB].forEach(function (x) {
+          octx.beginPath(); octx.moveTo(x, 0); octx.lineTo(x, h - gb); octx.stroke();
+        });
+        octx.restore();
+        octx.fillStyle = cCrit;
+        octx.font = (9.5 * dpr) + 'px "IBM Plex Mono", monospace';
+        octx.fillText('critical strip', stripA + 4 * dpr, 11 * dpr);
+        octx.font = (10 * dpr) + 'px "IBM Plex Mono", monospace';
       }
       if (show.line) {
         var x = toPx(c, 0)[0];
