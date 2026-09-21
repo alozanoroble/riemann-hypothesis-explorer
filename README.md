@@ -138,6 +138,25 @@ root number and *a<sub>n</sub>*. One gap: every character currently included is
 odd, so a real quadratic field would need the even branch of `gammaFactor`
 written.
 
+## Licence
+
+[![Licence: CC BY 4.0](https://img.shields.io/badge/licence-CC%20BY%204.0-informational)](https://creativecommons.org/licenses/by/4.0/)
+
+Released under the [Creative Commons Attribution 4.0 International
+licence](https://creativecommons.org/licenses/by/4.0/). You may share and
+adapt any of it, including commercially, provided you give credit. The full
+text is in [`LICENSE`](LICENSE).
+
+To attribute:
+
+> *The Riemann Hypothesis — an explorer*, Álvaro Lozano-Robledo,
+> University of Connecticut,
+> <https://github.com/alozanoroble/riemann-hypothesis-explorer>, CC BY 4.0.
+
+The licence covers the exposition, the plots and the code here. It does not
+cover the data it cites: Odlyzko's tables and LMFDB's zeros belong to their
+authors and are linked rather than redistributed.
+
 ---
 
 Álvaro Lozano-Robledo, Department of Mathematics, University of Connecticut.
