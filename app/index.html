@@ -1,0 +1,1956 @@
+<title>The Riemann Hypothesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root {
+  --paper:   #f1f3f6;
+  --surface: #ffffff;
+  --sunk:    #e7eaf0;
+  --ink:     #14161d;
+  --muted:   #5c6374;
+  --faint:   #838b9c;
+  --rule:    #d5dae3;
+  --crit:    #9c2b47;
+  --crit-bg: #9c2b4714;
+  --zero:    #0f7382;
+  --shadow:  0 1px 2px #14161d0f, 0 8px 24px #14161d0a;
+
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans:  "IBM Plex Sans", system-ui, -apple-system, Segoe UI, sans-serif;
+  --mono:  "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:   #0d0f14;
+    --surface: #161a23;
+    --sunk:    #1d222d;
+    --ink:     #e7eaf1;
+    --muted:   #98a1b4;
+    --faint:   #798193;
+    --rule:    #262c3a;
+    --crit:    #e8738f;
+    --crit-bg: #e8738f1f;
+    --zero:    #45c3d4;
+    --shadow:  0 1px 2px #0006, 0 8px 24px #0003;
+  }
+}
+:root[data-theme="dark"] {
+  --paper:   #0d0f14;
+  --surface: #161a23;
+  --sunk:    #1d222d;
+  --ink:     #e7eaf1;
+  --muted:   #98a1b4;
+  --faint:   #798193;
+  --rule:    #262c3a;
+  --crit:    #e8738f;
+  --crit-bg: #e8738f1f;
+  --zero:    #45c3d4;
+  --shadow:  0 1px 2px #0006, 0 8px 24px #0003;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+.prose { max-width: 68ch; }
+
+/* ---------------------------------------------------------- masthead --- */
+
+header.top { padding-block: 56px 28px; }
+h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+  text-wrap: balance;
+}
+h1 em { font-style: italic; color: var(--crit); }
+.standfirst {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2.4vw, 1.3rem);
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
+  max-width: 60ch;
+}
+
+/* ------------------------------------------------------------- rules --- */
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0 0 6px;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 12px;
+  text-wrap: balance;
+}
+h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.22rem;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+p { margin: 0 0 14px; }
+a { color: var(--crit); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+/* --------------------------------------------------------- variables --- */
+
+var, .v { font-family: var(--serif); font-style: italic; font-size: 1.06em; }
+.fn { font-family: var(--serif); font-style: normal; }
+
+.eq {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.9;
+  text-align: center;
+  margin: 18px 0;
+  padding: 14px 12px;
+  background: var(--sunk);
+  border-radius: 3px;
+  overflow-x: auto;
+}
+.eq .lbl {
+  display: block;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-top: 8px;
+}
+sub, sup { font-size: 0.72em; line-height: 0; }
+
+/* ---------------------------------------------------------- switcher --- */
+
+.switcher {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 36px;
+}
+.switcher-inner {
+  max-width: 1040px; margin: 0 auto; padding: 10px 16px;
+  display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+}
+.tab {
+  appearance: none; border: 1px solid transparent; background: none;
+  font-family: var(--sans); font-size: 0.9rem; font-weight: 500;
+  color: var(--muted); padding: 7px 13px; border-radius: 3px; cursor: pointer;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--ink); background: var(--sunk); }
+.tab[aria-selected="true"] {
+  color: var(--surface); background: var(--crit); border-color: var(--crit);
+}
+.tab:focus-visible { outline: 2px solid var(--zero); outline-offset: 2px; }
+
+/* --------------------------------------------------------- lettering --- */
+/* The (a)-(g) sequence is the structure of the material, not decoration:
+   each variant is examined through the same seven lenses. */
+
+.step {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  gap: 0 14px;
+  padding: 22px 0;
+  border-top: 1px solid var(--rule);
+}
+.step:first-of-type { border-top: none; }
+.step > .letter {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--crit);
+  padding-top: 5px;
+  border-left: 2px solid var(--crit);
+  padding-left: 9px;
+}
+.step > .body { min-width: 0; }
+
+/* ----------------------------------------------------------- panels ---- */
+
+.claim {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--crit);
+  border-radius: 3px;
+  padding: 18px 20px;
+  margin: 0 0 30px;
+  box-shadow: var(--shadow);
+}
+.claim .eyebrow { color: var(--crit); }
+.claim p:last-child { margin-bottom: 0; }
+.claim .statement {
+  font-family: var(--serif);
+  font-size: 1.24rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+}
+
+/* ------------------------------------------------------------- plot ---- */
+
+.plotwrap { margin: 4px 0 8px; }
+.plotgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 540px) minmax(190px, 240px);
+  gap: 16px; align-items: start;
+}
+@media (max-width: 760px) { .plotgrid { grid-template-columns: 1fr; } }
+
+.stage {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+canvas.field { display: block; width: 100%; height: auto; cursor: crosshair; touch-action: none; }
+canvas.over  { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.badge {
+  position: absolute; left: 10px; top: 10px;
+  font-family: var(--mono); font-size: 0.68rem;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border: 1px solid var(--rule); border-radius: 3px;
+  padding: 3px 7px; color: var(--muted);
+}
+.busy { position: absolute; right: 10px; top: 10px; }
+
+.sidebar {
+  display: flex; flex-direction: column; gap: 12px; font-size: 0.86rem;
+  position: sticky; top: calc(env(safe-area-inset-top, 0px) + 62px);
+}
+@media (max-width: 760px) { .sidebar { position: static; } }
+fieldset {
+  border: 1px solid var(--rule); border-radius: 3px; margin: 0; padding: 10px 12px;
+}
+legend {
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--faint); padding: 0 4px;
+}
+.row { display: flex; align-items: center; gap: 7px; margin: 5px 0; }
+.row label { cursor: pointer; }
+select, .btn {
+  font-family: var(--sans); font-size: 0.85rem; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--rule);
+  border-radius: 3px; padding: 5px 8px; width: 100%; cursor: pointer;
+}
+.btn:hover { background: var(--sunk); }
+input[type="checkbox"] { accent-color: var(--crit); width: 15px; height: 15px; }
+
+.readout {
+  font-family: var(--mono); font-size: 0.76rem; line-height: 1.75;
+  color: var(--muted); background: var(--sunk);
+  border-radius: 3px; padding: 9px 11px; min-height: 84px;
+}
+.readout b { color: var(--ink); font-weight: 500; }
+
+.legendbar { height: 9px; border-radius: 2px; margin: 4px 0 2px; }
+.legendlabels {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 0.64rem; color: var(--faint);
+}
+
+/* ------------------------------------------------------------ tables --- */
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.84rem; }
+th, td {
+  text-align: left; padding: 5px 10px 5px 0;
+  border-bottom: 1px solid var(--rule); white-space: nowrap;
+}
+th {
+  font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--faint); font-weight: 500;
+}
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+td.idx { color: var(--faint); font-family: var(--mono); }
+
+.coeffs {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  font-family: var(--mono); font-size: 0.78rem; margin: 10px 0 4px;
+}
+.coeffs span {
+  display: inline-flex; flex-direction: column; align-items: center;
+  min-width: 2.5rem; padding: 3px 4px;
+  background: var(--sunk); border-radius: 2px;
+}
+.coeffs span i {
+  font-style: normal; font-size: 0.62rem; color: var(--faint);
+}
+.coeffs span b { font-weight: 500; font-variant-numeric: tabular-nums; }
+.coeffs span.z b { color: var(--faint); }
+
+/* -------------------------------------------------------------- refs --- */
+
+ul.refs { list-style: none; margin: 0; padding: 0; }
+ul.refs li {
+  padding: 8px 0 8px 15px; border-left: 1px solid var(--rule);
+  margin-bottom: 2px; font-size: 0.92rem;
+}
+ul.refs li .who { color: var(--muted); }
+ul.facts { margin: 0 0 14px; padding-left: 20px; }
+ul.facts li { margin-bottom: 8px; }
+
+/* -------------------------------------------------------------- code --- */
+
+.codeblock { position: relative; margin: 12px 0; }
+pre {
+  margin: 0; padding: 14px 16px; overflow-x: auto;
+  background: var(--sunk); border-radius: 3px;
+  font-family: var(--mono); font-size: 0.78rem; line-height: 1.65;
+}
+pre .c { color: var(--faint); }
+.copy {
+  position: absolute; right: 8px; top: 8px; width: auto;
+  font-family: var(--mono); font-size: 0.68rem; padding: 3px 8px;
+}
+
+.note {
+  font-size: 0.85rem; color: var(--muted);
+  border-left: 2px solid var(--zero); padding: 2px 0 2px 12px; margin: 14px 0;
+}
+
+footer {
+  margin-top: 56px; padding: 26px 0 40px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.83rem; color: var(--faint);
+}
+
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="top wrap">
+  <h1>The <em>Riemann</em> Hypothesis</h1>
+  <p class="standfirst">
+    One statement about where a function vanishes, and three generalisations
+    that stretch it across all of arithmetic. Each comes with a live picture of
+    its <span class="v">L</span>-function &mdash; over the complex plane, where
+    the zeros are white points strung along a single vertical line, or along
+    that line itself, where they are crossings.
+  </p>
+</header>
+
+<nav class="switcher" aria-label="Which hypothesis">
+  <div class="switcher-inner" role="tablist">
+    <button class="tab" role="tab" id="tab-rh"    aria-selected="true"  data-panel="rh">RH &mdash; the zeta function</button>
+    <button class="tab" role="tab" id="tab-erh"   aria-selected="false" data-panel="erh">ERH &mdash; Dedekind zeta functions</button>
+    <button class="tab" role="tab" id="tab-grh"   aria-selected="false" data-panel="grh">GRH &mdash; Dirichlet <span class="v">L</span>-functions</button>
+    <button class="tab" role="tab" id="tab-grand" aria-selected="false" data-panel="grand">Grand RH &mdash; automorphic <span class="v">L</span>-functions</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ==================================================== intro ========== -->
+<section class="prose" id="intro">
+  <p class="eyebrow">Where this starts</p>
+  <p>
+    For <span class="v">s</span> a complex number with real part greater than 1,
+    the series <span class="v">&sum; n<sup>&minus;s</sup></span> converges, and
+    Euler's identity rewrites it as a product over the primes. That single
+    identity is why a question about primes can be asked as a question about a
+    function of a complex variable. Riemann's 1859 memoir continued the function
+    to the whole plane and observed that the distribution of primes is governed
+    by the location of its zeros.
+  </p>
+  <p>
+    All the interesting zeros lie in the <strong>critical strip</strong>, and
+    the hypothesis is that they lie on a single line down its middle. It is
+    unproved. It is also not one conjecture but a family. The same statement
+    can be made for the zeta function of a number field
+    (the <strong>Extended Riemann Hypothesis</strong>), for a Dirichlet
+    <span class="v">L</span>-function (the <strong>Generalized Riemann
+    Hypothesis</strong>), and for the <span class="v">L</span>-function of an
+    elliptic curve or any automorphic form (the <strong>Grand Riemann
+    Hypothesis</strong>). The names are not used entirely consistently in the
+    literature, and the four statements are not independent &mdash; but they
+    get harder in roughly this order. Pick one above.
+  </p>
+</section>
+
+<!-- ==================================================== RH ============= -->
+<section class="panel" id="panel-rh" role="tabpanel" aria-labelledby="tab-rh">
+
+  <div class="prose">
+    <p class="eyebrow">Variant one</p>
+    <h2>The Riemann zeta function</h2>
+    <div class="claim">
+      <p class="eyebrow">The conjecture</p>
+      <p class="statement">
+        Every zero of <span class="fn">&zeta;</span>(<span class="v">s</span>)
+        in the strip 0 &lt; Re(<span class="v">s</span>) &lt; 1 satisfies
+        Re(<span class="v">s</span>) = &frac12;.
+      </p>
+    </div>
+  </div>
+
+  <div class="step"><div class="letter">a</div><div class="body prose">
+    <h3>The <span class="v">L</span>-function</h3>
+    <p>
+      Defined first by a series that only converges on a half-plane, then
+      extended everywhere else by analytic continuation &mdash; the continued
+      function is what the hypothesis is about.
+    </p>
+    <div class="eq">
+      <span class="fn">&zeta;</span>(<span class="v">s</span>) =
+      &sum;<sub><span class="v">n</span>=1</sub><sup>&infin;</sup>
+      1 / <span class="v">n</span><sup><span class="v">s</span></sup>
+      <span class="lbl">valid for Re(s) &gt; 1</span>
+    </div>
+    <p>
+      The continuation is holomorphic on all of &#8450; except for a single
+      simple pole at <span class="v">s</span> = 1 with residue 1. That pole is
+      the analytic shadow of the fact that
+      &sum;&thinsp;1/<span class="v">p</span> diverges &mdash; there are
+      infinitely many primes.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">b</div><div class="body prose">
+    <h3>Coefficients</h3>
+    <p>The most featureless coefficients possible: every one of them is 1.</p>
+    <div class="coeffs" id="coef-zeta"></div>
+    <p class="note">
+      Everything arithmetic in <span class="fn">&zeta;</span> comes from the
+      exponent <span class="v">n</span><sup>&minus;<span class="v">s</span></sup>,
+      not from the numerators. The other two variants earn their difficulty by
+      putting real arithmetic into these coefficients.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">c</div><div class="body prose">
+    <h3>Euler product</h3>
+    <div class="eq">
+      <span class="fn">&zeta;</span>(<span class="v">s</span>) =
+      &prod;<sub><span class="v">p</span> prime</sub>
+      (1 &minus; <span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="lbl">valid for Re(s) &gt; 1</span>
+    </div>
+    <p>
+      Expanding each factor as a geometric series and multiplying out
+      reproduces &sum;&thinsp;<span class="v">n</span><sup>&minus;<span class="v">s</span></sup>
+      exactly once per integer &mdash; the product <em>is</em> unique
+      factorisation, written analytically.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">d</div><div class="body prose">
+    <h3>The critical strip</h3>
+    <p>
+      The Euler product shows there are no zeros with
+      Re(<span class="v">s</span>) &gt; 1. The functional equation reflects that
+      half-plane onto Re(<span class="v">s</span>) &lt; 0, where the only zeros
+      are the <strong>trivial</strong> ones at
+      <span class="v">s</span> = &minus;2, &minus;4, &minus;6, &hellip;
+      Everything unresolved is squeezed into the strip between.
+    </p>
+    <div class="eq">
+      &Lambda;(<span class="v">s</span>) =
+      &pi;<sup>&minus;<span class="v">s</span>/2</sup>
+      &Gamma;(<span class="v">s</span>/2)
+      <span class="fn">&zeta;</span>(<span class="v">s</span>)
+      = &Lambda;(1 &minus; <span class="v">s</span>)
+      <span class="lbl">the functional equation</span>
+    </div>
+    <div id="strip-rh"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">e</div><div class="body">
+    <div class="prose">
+      <h3>Zeros in the strip</h3>
+      <p>
+        Imaginary parts of the first zeros above the real axis; each has a mirror
+        image below. These are read off Odlyzko's table, which carries them to
+        1000 decimal places.
+      </p>
+    </div>
+    <div class="scroll"><table id="zeros-zeta"></table></div>
+  </div></div>
+
+  <div class="step"><div class="letter">f</div><div class="body">
+    <div class="prose"><h3>The function on the plane</h3></div>
+    <div class="plotwrap" data-plot="rh" data-ids="zeta"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">g</div><div class="body prose">
+    <h3>What is known</h3>
+    <ul class="facts">
+      <li>
+        <strong>Infinitely many zeros are on the line.</strong> Hardy, 1914.
+        This does not rule out infinitely many off it.
+      </li>
+      <li>
+        <strong>A positive proportion are on the line.</strong> Levinson
+        (1974) got at least a third; Conrey (1989) two fifths; Pratt, Robles,
+        Zaharescu and Zeindler (2020) currently hold the record at more than
+        five twelfths.
+      </li>
+      <li>
+        <strong>No zeros on Re(<span class="v">s</span>) = 1.</strong> Proved
+        independently by Hadamard and de la Vall&eacute;e Poussin in 1896, and
+        equivalent to the prime number theorem. The best known zero-free region
+        is still essentially Vinogradov&ndash;Korobov, and is far from the line.
+      </li>
+      <li>
+        <strong>Verified very far up.</strong> Platt and Trudgian (2021) confirmed
+        that every zero with imaginary part below 3&nbsp;&times;&nbsp;10<sup>12</sup>
+        lies on the line.
+      </li>
+      <li>
+        <strong>It is worth a million dollars.</strong> One of the seven Clay
+        Millennium Problems, and the only one also on Hilbert's 1900 list.
+      </li>
+    </ul>
+    <p>
+      The hypothesis is equivalent to a sharp error term in the prime counting
+      function: <span class="v">&pi;</span>(<span class="v">x</span>) =
+      li(<span class="v">x</span>) + <span class="fn">O</span>(&radic;<span class="v">x</span>
+      log <span class="v">x</span>). Loosely, RH says the primes are as evenly
+      distributed as they could possibly be.
+    </p>
+    <h3>Further reading</h3>
+    <ul class="refs">
+      <li>B. Riemann, <em>&Uuml;ber die Anzahl der Primzahlen unter einer gegebenen Gr&ouml;sse</em> (1859). <span class="who">The original eight pages.</span></li>
+      <li>H. M. Edwards, <em>Riemann's Zeta Function</em> (1974). <span class="who">Still the best way in; builds everything from the memoir.</span></li>
+      <li>J. B. Conrey, <em>The Riemann Hypothesis</em>, Notices of the AMS <strong>50</strong> (2003), 341&ndash;353. <span class="who">The standard survey.</span></li>
+      <li>D. Platt and T. Trudgian, <em>The Riemann hypothesis is true up to 3&middot;10<sup>12</sup></em>, Bull. LMS <strong>53</strong> (2021). <span class="who">The current verification.</span></li>
+      <li>K. Pratt, N. Robles, A. Zaharescu, D. Zeindler, <em>More than five-twelfths of the zeros of &zeta; are on the critical line</em>, Res. Math. Sci. <strong>7</strong> (2020). <span class="who">The current proportion.</span></li>
+      <li><a href="https://www-users.cse.umn.edu/~odlyzko/zeta_tables/">A. Odlyzko's tables of zeros</a>. <span class="who">Source of the numbers above.</span></li>
+    </ul>
+  </div></div>
+</section>
+
+<!-- ==================================================== ERH ============ -->
+<section class="panel" id="panel-erh" role="tabpanel" aria-labelledby="tab-erh" hidden>
+
+  <div class="prose">
+    <p class="eyebrow">Variant two</p>
+    <h2>Dedekind zeta functions</h2>
+    <div class="claim">
+      <p class="eyebrow">The conjecture</p>
+      <p class="statement">
+        For every number field <span class="v">K</span>, every zero of
+        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
+        in the strip 0 &lt; Re(<span class="v">s</span>) &lt; 1 satisfies
+        Re(<span class="v">s</span>) = &frac12;.
+      </p>
+    </div>
+    <p>
+      Replace &#8484; by the ring of integers of a number field and the whole
+      construction goes through &mdash; with one complication that is the
+      reason to care. In a general ring of integers, numbers do not factor
+      uniquely. The example here is
+      <span class="v">K</span> = &#8474;(&radic;&minus;5), the smallest field
+      where that failure is visible.
+    </p>
+    <div class="eq">
+      6 = 2 &middot; 3 = (1 + &radic;&minus;5)(1 &minus; &radic;&minus;5)
+      <span class="lbl">two genuinely different factorisations into irreducibles</span>
+    </div>
+  </div>
+
+  <div class="step"><div class="letter">a</div><div class="body prose">
+    <h3>The <span class="v">L</span>-function</h3>
+    <p>
+      Kummer and Dedekind's repair was to factor <em>ideals</em> instead of
+      numbers, and for ideals factorisation is unique again. So the zeta
+      function of <span class="v">K</span> counts ideals, graded by their norm.
+    </p>
+    <div class="eq">
+      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
+      &sum;<sub><span class="v">&#120504;</span> &ne; 0</sub>
+      1 / <span class="fn">N</span>(<span class="v">&#120504;</span>)<sup><span class="v">s</span></sup>
+      <span class="lbl">over non-zero ideals of the ring of integers, Re(s) &gt; 1</span>
+    </div>
+    <p>
+      How far unique factorisation fails is measured by the <strong>class
+      number</strong> <span class="v">h</span>, the size of the group of
+      ideals modulo principal ones. For &#8474;(&radic;&minus;5),
+      <span class="v">h</span> = 2; for &#8474;(&radic;&minus;23),
+      <span class="v">h</span> = 3; for &#8474;(&radic;&minus;3),
+      <span class="v">h</span> = 1 and factorisation does work. All three are
+      available in the plot below.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">b</div><div class="body prose">
+    <h3>Coefficients</h3>
+    <p>
+      Here <span class="v">a<sub>n</sub></span> counts the ideals of norm
+      exactly <span class="v">n</span>. A zero means no ideal has that norm.
+    </p>
+    <div class="coeffs" id="coef-zetaK"></div>
+    <p class="note">
+      <span class="v">a</span><sub>11</sub> = 0 because 11 stays prime in
+      &#8484;[&radic;&minus;5]: the only ideal above it has norm 11&sup2; = 121.
+      <span class="v">a</span><sub>3</sub> = 2 because 3 splits into two
+      distinct primes, each of norm 3. <span class="v">a</span><sub>2</sub> = 1
+      because 2 ramifies &mdash; the prime (2, 1+&radic;&minus;5) appears
+      squared.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">c</div><div class="body prose">
+    <h3>Euler product</h3>
+    <div class="eq">
+      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
+      &prod;<sub><span class="v">&#120505;</span> prime</sub>
+      (1 &minus; <span class="fn">N</span>(<span class="v">&#120505;</span>)<sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="lbl">now over prime ideals, not prime numbers</span>
+    </div>
+    <p>
+      Grouping the prime ideals by the rational prime underneath them gives the
+      identity that makes this variant computable. Each rational prime either
+      splits into two primes of norm <span class="v">p</span>, stays inert as a
+      single prime of norm <span class="v">p</span><sup>2</sup>, or ramifies
+      &mdash; and which one happens is recorded by the quadratic character
+      <span class="v">&chi;<sub>D</sub></span> of the discriminant.
+    </p>
+    <div class="eq">
+      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
+      <span class="fn">&zeta;</span>(<span class="v">s</span>) &middot;
+      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;<sub>D</sub></span>)
+      <span class="lbl">for any quadratic field of discriminant D</span>
+    </div>
+    <p class="note">
+      This is worth pausing on, because it settles what ERH does and does not
+      add. For an <em>abelian</em> field, the Dedekind zeta function is a
+      product of Dirichlet <span class="v">L</span>-functions, so ERH for it is
+      exactly RH together with GRH for those factors &mdash; no new content.
+      The real weight of ERH sits on the non-abelian fields, where the factors
+      are Artin <span class="v">L</span>-functions that are not even known to
+      be entire.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">d</div><div class="body prose">
+    <h3>The critical strip</h3>
+    <p>
+      Same strip, same line. For an imaginary quadratic field the completed
+      function carries the discriminant as its conductor and a single
+      &Gamma;-factor, and the trivial zeros fill in all the negative integers
+      &mdash; the even ones inherited from
+      <span class="fn">&zeta;</span> and the odd ones from
+      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;<sub>D</sub></span>).
+    </p>
+    <div class="eq">
+      &Lambda;<sub><span class="v">K</span></sub>(<span class="v">s</span>) =
+      |<span class="v">d<sub>K</sub></span>|<sup><span class="v">s</span>/2</sup>
+      (2&pi;)<sup>&minus;<span class="v">s</span></sup>
+      &Gamma;(<span class="v">s</span>)
+      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
+      = &Lambda;<sub><span class="v">K</span></sub>(1 &minus; <span class="v">s</span>)
+      <span class="lbl">imaginary quadratic: one complex place, no real ones</span>
+    </div>
+    <p>
+      There is still a simple pole at <span class="v">s</span> = 1, and its
+      residue is not an accident &mdash; it is the <strong>analytic class
+      number formula</strong>, which ties the analysis directly to the
+      arithmetic the field started with.
+    </p>
+    <div class="eq">
+      lim<sub><span class="v">s</span>&rarr;1</sub>
+      (<span class="v">s</span> &minus; 1)
+      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
+      = 2&pi;<span class="v">h</span> /
+      (<span class="v">w</span>&radic;|<span class="v">d<sub>K</sub></span>|)
+      <span class="lbl">h the class number, w the roots of unity</span>
+    </div>
+    <div id="strip-erh"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">e</div><div class="body">
+    <div class="prose">
+      <h3>Zeros in the strip</h3>
+      <p>
+        Because
+        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub> =
+        <span class="fn">&zeta;</span> &middot;
+        <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;<sub>D</sub></span>),
+        the zeros are the two lists interleaved. Below they are shown
+        separately so you can see which is which; in the plot they are one set
+        of points on one line.
+      </p>
+    </div>
+    <div class="scroll"><table id="zeros-erh"></table></div>
+  </div></div>
+
+  <div class="step"><div class="letter">f</div><div class="body">
+    <div class="prose"><h3>The function on the plane</h3></div>
+    <div class="plotwrap" data-plot="erh" data-ids="zetaK20,zetaK23,zetaK3"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">g</div><div class="body prose">
+    <h3>What is known</h3>
+    <ul class="facts">
+      <li>
+        <strong>The class number formula is a theorem.</strong> Dirichlet for
+        quadratic fields, Dedekind in general. It is what turns
+        <span class="v">L</span>(1,&thinsp;<span class="v">&chi;<sub>D</sub></span>)
+        into an arithmetic quantity: for &#8474;(&radic;&minus;5) it equals
+        &pi;/&radic;5 = 1.404962946&hellip;, and the 2 hiding inside it is the
+        class number.
+      </li>
+      <li>
+        <strong>The quotient is entire.</strong> Aramata and Brauer proved that
+        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub> /
+        <span class="fn">&zeta;</span> is entire whenever
+        <span class="v">K</span>/&#8474; is Galois. For non-Galois
+        <span class="v">K</span> this is still open in general &mdash; it is
+        Dedekind's conjecture, and it follows from Artin's holomorphy
+        conjecture.
+      </li>
+      <li>
+        <strong>ERH makes class groups computable.</strong> Bach proved that
+        under ERH the class group is generated by the prime ideals of norm at
+        most 12(log&thinsp;|<span class="v">d<sub>K</sub></span>|)&sup2;.
+        Unconditionally one falls back on the Minkowski bound, which is
+        enormously larger. This is not a footnote: it is why serious class
+        group computations are usually reported as conditional on ERH.
+      </li>
+      <li>
+        <strong>And makes Chebotarev effective.</strong> Lagarias and Odlyzko's
+        effective Chebotarev density theorem, under ERH, bounds the norm of the
+        smallest prime with a given Frobenius. Without ERH the bounds are
+        ineffective in the same way Siegel's are.
+      </li>
+      <li>
+        <strong>Verified numerically, field by field.</strong> As with
+        <span class="fn">&zeta;</span> there is no proof, only computation:
+        LMFDB stores verified zeros for a large number of number fields.
+      </li>
+    </ul>
+    <h3>Further reading</h3>
+    <ul class="refs">
+      <li>J. Neukirch, <em>Algebraic Number Theory</em>, ch. VII. <span class="who">Dedekind zeta, the functional equation, the class number formula.</span></li>
+      <li>E. Bach, <em>Explicit bounds for primality testing and related problems</em>, Math. Comp. <strong>55</strong> (1990). <span class="who">The 12(log|d|)&sup2; bound.</span></li>
+      <li>J. Lagarias and A. Odlyzko, <em>Effective versions of the Chebotarev density theorem</em> (1977). <span class="who">What ERH buys you.</span></li>
+      <li>H. Aramata (1933) and R. Brauer (1947). <span class="who">&zeta;<sub>K</sub>/&zeta; is entire for Galois K.</span></li>
+      <li><a href="https://www.lmfdb.org/NumberField/2.0.20.1">LMFDB: the field &#8474;(&radic;&minus;5)</a> and <a href="https://www.lmfdb.org/NumberField/2.0.23.1">&#8474;(&radic;&minus;23)</a>. <span class="who">Class groups, and the zeros used here.</span></li>
+    </ul>
+  </div></div>
+</section>
+
+<!-- ==================================================== GRH ============ -->
+<section class="panel" id="panel-grh" role="tabpanel" aria-labelledby="tab-grh" hidden>
+
+  <div class="prose">
+    <p class="eyebrow">Variant two</p>
+    <h2>Dirichlet <span class="v">L</span>-functions</h2>
+    <div class="claim">
+      <p class="eyebrow">The conjecture</p>
+      <p class="statement">
+        For every Dirichlet character <span class="v">&chi;</span>, every zero of
+        <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
+        in the strip 0 &lt; Re(<span class="v">s</span>) &lt; 1 satisfies
+        Re(<span class="v">s</span>) = &frac12;.
+      </p>
+    </div>
+    <p>
+      Where <span class="fn">&zeta;</span> counts all integers equally, these
+      functions sort them by remainder. The example here is the quadratic
+      character of conductor 3, the one attached to the field
+      &#8474;(&radic;&minus;3).
+    </p>
+  </div>
+
+  <div class="step"><div class="letter">a</div><div class="body prose">
+    <h3>The <span class="v">L</span>-function</h3>
+    <p>
+      Let <span class="v">&chi;</span> be the non-trivial character modulo 3:
+      it sends <span class="v">n</span> to +1 when
+      <span class="v">n</span> &equiv; 1, to &minus;1 when
+      <span class="v">n</span> &equiv; 2, and to 0 when 3 divides
+      <span class="v">n</span>. It is the Kronecker symbol
+      (&minus;3&thinsp;/&thinsp;&middot;), and it is <em>odd</em>:
+      <span class="v">&chi;</span>(&minus;1) = &minus;1.
+    </p>
+    <div class="eq">
+      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>) =
+      &sum;<sub><span class="v">n</span>=1</sub><sup>&infin;</sup>
+      <span class="v">&chi;</span>(<span class="v">n</span>) /
+      <span class="v">n</span><sup><span class="v">s</span></sup>
+      <span class="lbl">valid for Re(s) &gt; 1</span>
+    </div>
+    <p>
+      Because <span class="v">&chi;</span> is non-trivial the partial sums stay
+      bounded, so this one is entire &mdash; no pole at
+      <span class="v">s</span> = 1, and that is exactly what makes the next fact
+      possible.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">b</div><div class="body prose">
+    <h3>Coefficients</h3>
+    <p>Periodic with period 3, and that is the whole of it.</p>
+    <div class="coeffs" id="coef-chi3"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">c</div><div class="body prose">
+    <h3>Euler product</h3>
+    <div class="eq">
+      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>) =
+      &prod;<sub><span class="v">p</span> &ne; 3</sub>
+      (1 &minus; <span class="v">&chi;</span>(<span class="v">p</span>)
+      <span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="lbl">valid for Re(s) &gt; 1</span>
+    </div>
+    <p>
+      A prime <span class="v">p</span> &gt; 3 contributes a factor that depends
+      only on whether <span class="v">p</span> is 1 or 2 mod 3 &mdash; equivalently,
+      by quadratic reciprocity, on whether &minus;3 is a square mod
+      <span class="v">p</span>, which is whether <span class="v">p</span> splits
+      in &#8474;(&radic;&minus;3).
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">d</div><div class="body prose">
+    <h3>The critical strip</h3>
+    <p>
+      Same strip, same line, a different gamma factor: because
+      <span class="v">&chi;</span> is odd the completed function uses
+      (<span class="v">s</span>+1)/2 rather than
+      <span class="v">s</span>/2, which moves the trivial zeros to the negative
+      <em>odd</em> integers &minus;1, &minus;3, &minus;5, &hellip;
+    </p>
+    <div class="eq">
+      &Lambda;(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>) =
+      (3/&pi;)<sup>(<span class="v">s</span>+1)/2</sup>
+      &Gamma;((<span class="v">s</span>+1)/2)
+      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
+      = &Lambda;(1 &minus; <span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
+      <span class="lbl">root number +1 for this character</span>
+    </div>
+    <div id="strip-grh"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">e</div><div class="body">
+    <div class="prose">
+      <h3>Zeros in the strip</h3>
+      <p>
+        Computed in Magma and agreeing with LMFDB's entry
+        <span class="v">1-3-3.2-r1-0-0</span> to every digit it prints.
+      </p>
+    </div>
+    <div class="scroll"><table id="zeros-chi3"></table></div>
+  </div></div>
+
+  <div class="step"><div class="letter">f</div><div class="body">
+    <div class="prose">
+      <h3>The function on the plane</h3>
+      <p>
+        The other two options are the characters of conductor 20 and 23 &mdash;
+        the ones attached to the two fields in the ERH panel. Notice how much
+        lower the first zero sits as the conductor grows: 8.04 for conductor 3,
+        2.36 for conductor 20, 2.87 for conductor 23. Zeros are packed more
+        densely when the conductor is larger.
+      </p>
+    </div>
+    <div class="plotwrap" data-plot="grh" data-ids="chi3,chi20,chi23"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">g</div><div class="body prose">
+    <h3>What is known</h3>
+    <ul class="facts">
+      <li>
+        <strong><span class="v">L</span>(1,&thinsp;<span class="v">&chi;</span>) &ne; 0.</strong>
+        Dirichlet, 1837 &mdash; and this non-vanishing <em>is</em> the proof that
+        every arithmetic progression <span class="v">a</span>,
+        <span class="v">a</span>+<span class="v">q</span>,
+        <span class="v">a</span>+2<span class="v">q</span>, &hellip; with
+        gcd(<span class="v">a</span>,&thinsp;<span class="v">q</span>) = 1
+        contains infinitely many primes.
+      </li>
+      <li>
+        <strong>Its value is a class number.</strong> For this character the
+        analytic class number formula gives
+        <span class="v">L</span>(1,&thinsp;<span class="v">&chi;</span>) =
+        2&pi;<span class="v">h</span> / (<span class="v">w</span>&radic;3) =
+        &pi;/(3&radic;3) = 0.604599788&hellip;, using
+        <span class="v">h</span> = 1 and <span class="v">w</span> = 6 roots of
+        unity in &#8474;(&radic;&minus;3). Hover the plot at
+        <span class="v">s</span> = 1 and you are reading off a class number.
+      </li>
+      <li>
+        <strong>Siegel zeros are the gap.</strong> Nobody can rule out a single
+        real zero of a real character's <span class="v">L</span>-function sitting
+        very close to <span class="v">s</span> = 1. GRH would kill it instantly;
+        without GRH the best bounds (Siegel's) are ineffective, meaning they
+        contain a constant no one can compute.
+      </li>
+      <li>
+        <strong>A great deal is conditional on it.</strong> Under GRH the
+        Miller&ndash;Rabin test becomes a deterministic polynomial-time primality
+        test (Miller, 1976), Artin's primitive root conjecture holds (Hooley,
+        1967), and Chebotarev's density theorem becomes effective
+        (Lagarias&ndash;Odlyzko).
+      </li>
+    </ul>
+    <h3>Further reading</h3>
+    <ul class="refs">
+      <li>H. Davenport, <em>Multiplicative Number Theory</em>, 3rd ed. <span class="who">The standard treatment of Dirichlet L-functions.</span></li>
+      <li>H. Iwaniec and E. Kowalski, <em>Analytic Number Theory</em>, AMS Colloq. Publ. 53 (2004). <span class="who">Chapter 5 for the general framework.</span></li>
+      <li>C. L. Siegel, <em>&Uuml;ber die Classenzahl quadratischer Zahlk&ouml;rper</em> (1935). <span class="who">The ineffective bound.</span></li>
+      <li><a href="https://www.lmfdb.org/L/Character/Dirichlet/3/2/">LMFDB: L-function 1-3-3.2-r1-0-0</a>. <span class="who">This exact function, with its zeros.</span></li>
+    </ul>
+  </div></div>
+</section>
+
+<!-- ==================================================== Grand RH ======= -->
+<section class="panel" id="panel-grand" role="tabpanel" aria-labelledby="tab-grand" hidden>
+
+  <div class="prose">
+    <p class="eyebrow">Variant three</p>
+    <h2>Automorphic <span class="v">L</span>-functions</h2>
+    <div class="claim">
+      <p class="eyebrow">The conjecture</p>
+      <p class="statement">
+        For every cuspidal automorphic representation of
+        GL<sub><span class="v">n</span></sub> over a number field, every
+        non-trivial zero of its <span class="v">L</span>-function lies on the
+        central line.
+      </p>
+    </div>
+    <p>
+      This is the version that swallows the other two: <span class="fn">&zeta;</span>
+      is the GL<sub>1</sub> case over &#8474;, Dirichlet
+      <span class="v">L</span>-functions are the other GL<sub>1</sub> cases, and
+      an elliptic curve gives a GL<sub>2</sub> case. The example here is the
+      curve of conductor 11 &mdash; the smallest conductor there is.
+    </p>
+    <p class="note">
+      A warning about normalisation. For an elliptic curve the natural
+      variable puts the centre at <span class="v">s</span> = 1 and the strip at
+      &frac12; &lt; Re(<span class="v">s</span>) &lt; 3/2; this is what the plot
+      below uses. Replacing <span class="v">s</span> by
+      <span class="v">s</span> + &frac12; slides everything back to the familiar
+      picture with the line at &frac12;. Both conventions are in constant use.
+    </p>
+  </div>
+
+  <div class="step"><div class="letter">a</div><div class="body prose">
+    <h3>The <span class="v">L</span>-function</h3>
+    <p>
+      Take the elliptic curve <strong>11a1</strong> (LMFDB 11.a2), the curve
+      <span class="v">y</span><sup>2</sup> + <span class="v">y</span> =
+      <span class="v">x</span><sup>3</sup> &minus; <span class="v">x</span><sup>2</sup>
+      &minus; 10<span class="v">x</span> &minus; 20, of conductor 11. For each
+      prime of good reduction count its points mod <span class="v">p</span> and
+      record the deficit.
+    </p>
+    <div class="eq">
+      <span class="v">a<sub>p</sub></span> =
+      <span class="v">p</span> + 1 &minus; #<span class="v">E</span>(&#120125;<sub><span class="v">p</span></sub>),
+      &nbsp;&nbsp;
+      <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>) =
+      &sum;<sub><span class="v">n</span>=1</sub><sup>&infin;</sup>
+      <span class="v">a<sub>n</sub></span> /
+      <span class="v">n</span><sup><span class="v">s</span></sup>
+      <span class="lbl">valid for Re(s) &gt; 3/2</span>
+    </div>
+    <p>
+      That the series continues to the whole plane at all is the
+      <strong>modularity theorem</strong>: <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>)
+      equals the <span class="v">L</span>-function of a weight-2 newform of level
+      11. This is the hardest input on the page, and it was only proved for all
+      elliptic curves over &#8474; in 2001.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">b</div><div class="body prose">
+    <h3>Coefficients</h3>
+    <p>
+      Genuinely arithmetic, and no longer bounded: Hasse's theorem pins
+      |<span class="v">a<sub>p</sub></span>| &le; 2&radic;<span class="v">p</span>,
+      and how they fluctuate inside that range is itself a deep question
+      (Sato&ndash;Tate).
+    </p>
+    <div class="coeffs" id="coef-ec"></div>
+    <div class="scroll"><table id="ap-table"></table></div>
+  </div></div>
+
+  <div class="step"><div class="letter">c</div><div class="body prose">
+    <h3>Euler product</h3>
+    <div class="eq">
+      <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>) =
+      &prod;<sub><span class="v">p</span> &#8740; <span class="v">N</span></sub>
+      (1 &minus; <span class="v">a<sub>p</sub></span><span class="v">p</span><sup>&minus;<span class="v">s</span></sup>
+      + <span class="v">p</span><sup>1&minus;2<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      &prod;<sub><span class="v">p</span> | <span class="v">N</span></sub>
+      (1 &minus; <span class="v">a<sub>p</sub></span><span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="lbl">degree 2 at the good primes, degree 1 at the bad ones</span>
+    </div>
+    <p>
+      The quadratic factor is what &ldquo;degree 2&rdquo; means, and it is why
+      the zeros are packed about twice as densely as
+      <span class="fn">&zeta;</span>'s at the same height.
+    </p>
+  </div></div>
+
+  <div class="step"><div class="letter">d</div><div class="body prose">
+    <h3>The critical strip</h3>
+    <div class="eq">
+      &Lambda;(<span class="v">s</span>) =
+      <span class="v">N</span><sup><span class="v">s</span>/2</sup>
+      (2&pi;)<sup>&minus;<span class="v">s</span></sup>
+      &Gamma;(<span class="v">s</span>)
+      <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>)
+      = <span class="v">&epsilon;</span>&thinsp;&Lambda;(2 &minus; <span class="v">s</span>)
+      <span class="lbl">&epsilon; = +1 for 11a1, &minus;1 for 37a1</span>
+    </div>
+    <p>
+      The sign <span class="v">&epsilon;</span> is forced by the curve and it
+      decides the parity of the order of vanishing at the centre. When
+      <span class="v">&epsilon;</span> = &minus;1 the completed function is odd
+      about <span class="v">s</span> = 1 and therefore <em>must</em> vanish
+      there &mdash; which is why 37a1 has a zero sitting exactly at the centre
+      and 11a1 does not.
+    </p>
+    <div id="strip-grand"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">e</div><div class="body">
+    <div class="prose">
+      <h3>Zeros in the strip</h3>
+      <p>
+        From LMFDB, cross-checked against Magma. Note the entry at
+        <span class="v">t</span> = 0 for 37a1: a zero at the central point
+        <span class="v">s</span> = 1 itself.
+      </p>
+    </div>
+    <div class="scroll"><table id="zeros-ec"></table></div>
+  </div></div>
+
+  <div class="step"><div class="letter">f</div><div class="body">
+    <div class="prose"><h3>The function on the plane</h3></div>
+    <div class="plotwrap" data-plot="grand" data-ids="11a1,37a1"></div>
+  </div></div>
+
+  <div class="step"><div class="letter">g</div><div class="body prose">
+    <h3>What is known</h3>
+    <ul class="facts">
+      <li>
+        <strong>The functions exist.</strong> For elliptic curves over
+        &#8474;, analytic continuation and the functional equation follow from
+        modularity: Wiles and Taylor&ndash;Wiles (1995) for the semistable case,
+        completed by Breuil, Conrad, Diamond and Taylor (2001). For general
+        automorphic <span class="v">L</span>-functions this is
+        Godement&ndash;Jacquet.
+      </li>
+      <li>
+        <strong>The centre is understood in low rank.</strong> Birch and
+        Swinnerton-Dyer predict that the order of vanishing at
+        <span class="v">s</span> = 1 equals the rank of
+        <span class="v">E</span>(&#8474;). When the analytic order is 0 or 1 this
+        is a theorem &mdash; Gross&ndash;Zagier and Kolyvagin. 11a1 has rank 0 and
+        <span class="v">L</span>(<span class="v">E</span>,&thinsp;1) =
+        0.2538418608&hellip;; 37a1 has rank 1 and vanishes there.
+      </li>
+      <li>
+        <strong>No zero-free region reaching the line.</strong> As with
+        <span class="fn">&zeta;</span>, non-vanishing on Re(<span class="v">s</span>) = 3/2
+        is known and everything inside is open.
+      </li>
+      <li>
+        <strong>The statistics look right.</strong> Spacings between high zeros
+        match the eigenvalue statistics of random unitary matrices, and low-lying
+        zeros in families follow the Katz&ndash;Sarnak predictions &mdash;
+        evidence of the spectral interpretation that a proof would presumably
+        need.
+      </li>
+      <li>
+        <strong>Maass forms are the other GL<sub>2</sub> case.</strong> For a
+        Maass cusp form on the modular surface, Grand RH is equally open, and it
+        sits beside a second unproved statement about the same objects: the
+        Ramanujan&ndash;Petersson conjecture, where the best bound is
+        Kim&ndash;Sarnak's 7/64. Those <span class="v">L</span>-functions need
+        spectral parameters that this page does not carry, so the live example
+        here stays with the elliptic curves.
+      </li>
+    </ul>
+    <h3>Further reading</h3>
+    <ul class="refs">
+      <li>H. Iwaniec and E. Kowalski, <em>Analytic Number Theory</em>, ch. 5. <span class="who">The axioms an L-function is expected to satisfy.</span></li>
+      <li>P. Sarnak, <em>Notes on the generalized Ramanujan conjectures</em> (2005). <span class="who">Where Grand RH sits among its neighbours.</span></li>
+      <li>J. E. Cremona, <em>Algorithms for Modular Elliptic Curves</em>, 2nd ed. (1997). <span class="who">Includes the smoothed sum this page uses to evaluate L(E,s).</span></li>
+      <li>B. Gross and D. Zagier, <em>Heegner points and derivatives of L-series</em>, Invent. Math. <strong>84</strong> (1986). <span class="who">With Kolyvagin, BSD in analytic rank &le; 1.</span></li>
+      <li><a href="https://www.lmfdb.org/L/EllipticCurve/Q/11/a/">LMFDB: L-function 2-11-1.1-c1-0-0</a> and <a href="https://www.lmfdb.org/L/EllipticCurve/Q/37/a/">2-37-1.1-c1-0-1</a>. <span class="who">Source of the zeros above.</span></li>
+    </ul>
+  </div></div>
+</section>
+
+<!-- ==================================================== compute ======== -->
+<section id="compute">
+  <div class="step"><div class="letter">h</div><div class="body">
+    <div class="prose">
+      <h3>Compute it yourself</h3>
+      <p>
+        Nothing on this page needs to be taken on trust. Both scripts below find
+        zeros from scratch; the Magma one is what produced the tables here.
+      </p>
+      <div class="row" style="margin:14px 0">
+        <select id="lang" aria-label="Language" style="max-width:170px">
+          <option value="magma">Magma</option>
+          <option value="sage">Sage</option>
+        </select>
+      </div>
+    </div>
+    <div class="codeblock">
+      <button class="btn copy" id="copybtn" type="button">copy</button>
+      <pre id="code"></pre>
+    </div>
+    <div class="prose">
+      <p class="note" id="codenote"></p>
+    </div>
+  </div></div>
+</section>
+
+<footer class="wrap">
+  <p>
+    Zeros of <span class="fn">&zeta;</span> from Odlyzko's 1000-digit table;
+    zeros of the Dirichlet and elliptic-curve
+    <span class="v">L</span>-functions from LMFDB, independently reproduced in
+    Magma 2.29-10; zeros of a Dedekind zeta function assembled from its two
+    factors. Values in the plots are computed live in your browser &mdash;
+    Euler&ndash;Maclaurin on the Hurwitz zeta function for the first three
+    variants, and the incomplete-gamma smoothed sum for the elliptic curves
+    &mdash; and agree with Magma to about 13 significant figures everywhere but
+    the elliptic curves. That last sum loses roughly
+    <span class="v">e</span><sup>&pi;<span class="v">t</span>/2</sup> of its
+    precision to cancellation as you go up, which is why its window stops near
+    Im(<span class="v">s</span>) = 18.
+  </p>
+</footer>
+</main>
+
+<script src="lfunctions.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var LABEL = {
+    zeta:    'ζ(s)',
+    chi3:    'L(s, χ₋₃)   conductor 3',
+    chi20:   'L(s, χ₋₂₀)   conductor 20',
+    chi23:   'L(s, χ₋₂₃)   conductor 23',
+    zetaK3:  'ζₖ(s),  K = ℚ(√−3),  h = 1',
+    zetaK20: 'ζₖ(s),  K = ℚ(√−5),  h = 2',
+    zetaK23: 'ζₖ(s),  K = ℚ(√−23),  h = 3',
+    '11a1':  'L(E, s),  E = 11a1,  rank 0',
+    '37a1':  'L(E, s),  E = 37a1,  rank 1'
+  };
+
+  /* ------------------------------------------------------- tab switch -- */
+
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      tabs.forEach(function (o) {
+        var on = o === t;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        document.getElementById('panel-' + o.dataset.panel).hidden = !on;
+      });
+      PLOTS.forEach(function (p) { if (!p.root.closest('.panel').hidden) p.ensure(); });
+    });
+  });
+
+  /* ------------------------------------------------ coefficient chips -- */
+
+  function chips(el, vals, from) {
+    el.innerHTML = vals.map(function (a, k) {
+      return '<span class="' + (a === 0 ? 'z' : '') + '"><i>' + (k + from) +
+             '</i><b>' + a + '</b></span>';
+    }).join('');
+  }
+  chips(document.getElementById('coef-zeta'),
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 1);
+  chips(document.getElementById('coef-chi3'),
+        [1, -1, 0, 1, -1, 0, 1, -1, 0, 1, -1, 0, 1, -1, 0, 1, -1, 0], 1);
+  chips(document.getElementById('coef-ec'),
+        LF.CURVES['11a1'].a.slice(1, 19), 1);
+
+  /* ----------------------------------------------------------- tables -- */
+
+  function zeroTable(el, cols) {
+    var n = Math.max.apply(null, cols.map(function (c) { return c.z.length; }));
+    var h = '<tr><th>#</th>' + cols.map(function (c) {
+      return '<th>' + c.head + '</th>';
+    }).join('') + '</tr>';
+    var rows = '';
+    for (var i = 0; i < n; i++) {
+      rows += '<tr><td class="idx">' + (i + 1) + '</td>' + cols.map(function (c) {
+        return '<td class="num">' + (c.z[i] === undefined ? '' :
+               (c.z[i] === 0 ? '0  (the central point)' : c.z[i].toFixed(9))) + '</td>';
+      }).join('') + '</tr>';
+    }
+    el.innerHTML = h + rows;
+  }
+
+  zeroTable(document.getElementById('zeros-zeta'),
+            [{ head: 'Im(s) of the nth zero of ζ', z: LF.ZEROS.zeta }]);
+  zeroTable(document.getElementById('zeros-chi3'),
+            [{ head: 'conductor 3', z: LF.ZEROS.chi3 },
+             { head: 'conductor 20', z: LF.ZEROS.chi20 },
+             { head: 'conductor 23', z: LF.ZEROS.chi23 }]);
+  zeroTable(document.getElementById('zeros-erh'),
+            [{ head: 'from ζ', z: LF.ZEROS.zeta },
+             { head: 'from L(s, χ₋₂₀)', z: LF.ZEROS.chi20 },
+             { head: 'ζₖ for Q(√−5): both', z: LF.ZEROS.zetaK20 }]);
+  chips(document.getElementById('coef-zetaK'),
+        [1, 1, 2, 1, 1, 2, 2, 1, 3, 1, 0, 2, 0, 2, 2, 1, 0, 3], 1);
+  zeroTable(document.getElementById('zeros-ec'),
+            [{ head: '11a1  (rank 0)', z: LF.ZEROS['11a1'] },
+             { head: '37a1  (rank 1)', z: LF.ZEROS['37a1'] }]);
+
+  (function () {
+    var ap = [[2, -2], [3, -1], [5, 1], [7, -2], [13, 4], [17, -2],
+              [19, 0], [23, -1], [29, 0], [31, 7], [37, 3]];
+    document.getElementById('ap-table').innerHTML =
+      '<tr><th>p</th>' + ap.map(function (r) { return '<th>' + r[0] + '</th>'; }).join('') +
+      '</tr><tr><td class="idx">a<sub>p</sub></td>' +
+      ap.map(function (r) { return '<td class="num">' + r[1] + '</td>'; }).join('') + '</tr>' +
+      '<tr><td class="idx">#E(F<sub>p</sub>)</td>' +
+      ap.map(function (r) { return '<td class="num">' + (r[0] + 1 - r[1]) + '</td>'; }).join('') + '</tr>';
+  })();
+
+  /* ------------------------------------------------- critical-strip --- */
+  /* A small diagram is worth more here than another paragraph: it is the one
+     place the reader can see strip, line, trivial zeros and reflection at once. */
+
+  function stripDiagram(el, opts) {
+    var W = 560, H = 190, x0 = -5.6, x1 = 3.2;
+    function X(v) { return 30 + (v - x0) / (x1 - x0) * (W - 60); }
+    var yMid = H / 2, top = 26, bot = H - 26;
+    var g = [];
+    g.push('<rect x="' + X(opts.a) + '" y="' + top + '" width="' +
+           (X(opts.b) - X(opts.a)) + '" height="' + (bot - top) +
+           '" fill="var(--crit-bg)"/>');
+    g.push('<line x1="30" y1="' + yMid + '" x2="' + (W - 30) + '" y2="' + yMid +
+           '" stroke="var(--rule)" stroke-width="1"/>');
+    [opts.a, opts.b].forEach(function (v) {
+      g.push('<line x1="' + X(v) + '" y1="' + top + '" x2="' + X(v) + '" y2="' + bot +
+             '" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 3"/>');
+    });
+    g.push('<line x1="' + X(opts.c) + '" y1="' + (top - 8) + '" x2="' + X(opts.c) +
+           '" y2="' + (bot + 8) + '" stroke="var(--crit)" stroke-width="2"/>');
+    opts.trivial.forEach(function (v) {
+      g.push('<circle cx="' + X(v) + '" cy="' + yMid + '" r="4" fill="none" stroke="var(--muted)" stroke-width="1.4"/>');
+      g.push('<text x="' + X(v) + '" y="' + (yMid + 20) + '" text-anchor="middle" font-size="10" fill="var(--faint)" font-family="IBM Plex Mono, monospace">' + v + '</text>');
+    });
+    opts.marks.forEach(function (m) {
+      g.push('<circle cx="' + X(opts.c) + '" cy="' + (yMid - m * (bot - top) / 2 / opts.scale) + '" r="3.5" fill="var(--zero)"/>');
+      g.push('<circle cx="' + X(opts.c) + '" cy="' + (yMid + m * (bot - top) / 2 / opts.scale) + '" r="3.5" fill="var(--zero)"/>');
+    });
+    if (opts.pole !== undefined) {
+      g.push('<text x="' + X(opts.pole) + '" y="' + (yMid - 8) + '" text-anchor="middle" font-size="13" fill="var(--crit)">&#215;</text>');
+      g.push('<text x="' + X(opts.pole) + '" y="' + (yMid - 18) + '" text-anchor="middle" font-size="9.5" fill="var(--faint)" font-family="IBM Plex Mono, monospace">pole</text>');
+    }
+    g.push('<text x="' + X(opts.c) + '" y="' + (top - 13) + '" text-anchor="middle" font-size="10" fill="var(--crit)" font-family="IBM Plex Mono, monospace">Re(s) = ' + opts.cLabel + '</text>');
+    g.push('<text x="' + (X(opts.a) + X(opts.b)) / 2 + '" y="' + (bot + 17) +
+           '" text-anchor="middle" font-size="10" fill="var(--faint)" font-family="IBM Plex Mono, monospace">critical strip</text>');
+    g.push('<text x="' + (X(opts.trivial[0]) - 16) + '" y="' + (yMid + 20) +
+           '" text-anchor="end" font-size="10" fill="var(--faint)" font-family="IBM Plex Mono, monospace">trivial zeros</text>');
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" ' +
+      'style="max-width:100%;display:block;margin:6px 0 2px" role="img" ' +
+      'aria-label="The critical strip, the critical line, and the trivial zeros">' +
+      g.join('') + '</svg>';
+  }
+
+  stripDiagram(document.getElementById('strip-rh'), {
+    a: 0, b: 1, c: 0.5, cLabel: '1/2', pole: 1,
+    trivial: [-2, -4], marks: [0.33, 0.55, 0.75], scale: 1
+  });
+  stripDiagram(document.getElementById('strip-erh'), {
+    a: 0, b: 1, c: 0.5, cLabel: '1/2', pole: 1,
+    trivial: [-1, -2, -3], marks: [0.22, 0.44, 0.62, 0.84], scale: 1
+  });
+  stripDiagram(document.getElementById('strip-grh'), {
+    a: 0, b: 1, c: 0.5, cLabel: '1/2',
+    trivial: [-1, -3, -5], marks: [0.28, 0.5, 0.78], scale: 1
+  });
+  stripDiagram(document.getElementById('strip-grand'), {
+    a: 0.5, b: 1.5, c: 1, cLabel: '1',
+    trivial: [0, -1, -2], marks: [0.3, 0.52, 0.72], scale: 1
+  });
+
+  /* -------------------------------------------------------- colouring -- */
+  /* Hue carries the argument; lightness carries the modulus, running to white
+     at a zero and to black at a pole. Faint banding on log|L| gives the eye
+     level curves to hold on to. */
+
+  function hsl2rgb(h, s, l, out, o) {
+    var c = (1 - Math.abs(2 * l - 1)) * s;
+    var hp = h * 6, x = c * (1 - Math.abs(hp % 2 - 1)), m = l - c / 2;
+    var r = 0, g = 0, b = 0;
+    if (hp < 1) { r = c; g = x; }
+    else if (hp < 2) { r = x; g = c; }
+    else if (hp < 3) { g = c; b = x; }
+    else if (hp < 4) { g = x; b = c; }
+    else if (hp < 5) { r = x; b = c; }
+    else { r = c; b = x; }
+    out[o] = (r + m) * 255; out[o + 1] = (g + m) * 255; out[o + 2] = (b + m) * 255;
+    out[o + 3] = 255;
+  }
+
+  /* white -> garnet -> near-black, so |L| = 0 is the brightest thing on screen */
+  var RAMP = [[255, 255, 255], [244, 222, 228], [196, 108, 133],
+              [140, 38, 66], [74, 20, 38], [20, 8, 14]];
+
+  function ramp(t, d, o) {
+    t = Math.min(0.9999, Math.max(0, t)) * (RAMP.length - 1);
+    var k = t | 0, f = t - k, a = RAMP[k], b = RAMP[k + 1];
+    d[o]     = a[0] + (b[0] - a[0]) * f;
+    d[o + 1] = a[1] + (b[1] - a[1]) * f;
+    d[o + 2] = a[2] + (b[2] - a[2]) * f;
+    d[o + 3] = 255;
+  }
+
+  function paint(vals, W, H, mode, img) {
+    var d = img.data;
+    for (var i = 0, n = W * H; i < n; i++) {
+      var re = vals[2 * i], im = vals[2 * i + 1];
+      var o = 4 * i;
+      if (!isFinite(re) || !isFinite(im)) { d[o] = d[o + 1] = d[o + 2] = 0; d[o + 3] = 255; continue; }
+      var m = Math.hypot(re, im);
+      /* A sigmoid in log |L|: mid-tone at |L| = 1, white only very near a
+         zero, near-black only near a pole. Without this almost the whole
+         strip washes out to the same pale colour. */
+      var u = Math.log(m + 1e-300);
+      var l = 0.5 - 0.5 * Math.tanh(u / 3);
+      /* faint level curves at each doubling, to give the eye something to hold */
+      var lg2 = Math.log2(m + 1e-300);
+      l -= 0.035 * (lg2 - Math.floor(lg2) - 0.5);
+      l = Math.min(0.997, Math.max(0.02, l));
+      if (mode === 'modulus') {
+        ramp(1 - l, d, o);
+      } else {
+        var h = Math.atan2(im, re) / (2 * Math.PI);
+        if (h < 0) h += 1;
+        hsl2rgb(h, 0.62, l, d, o);
+      }
+    }
+    return img;
+  }
+
+  /* ------------------------------------------------------------- plot -- */
+
+  /* requestAnimationFrame does not fire in a hidden tab, which would leave a
+     banded render frozen half-painted for anyone who opens the page in the
+     background. Fall back to a timer when the document is hidden. */
+  function nextFrame(fn) {
+    if (document.hidden) setTimeout(fn, 0);
+    else requestAnimationFrame(fn);
+  }
+
+  var PLOTS = [];
+
+  function makePlot(root) {
+    var ids = root.dataset.ids.split(',');
+    var id = ids[0];
+    var fam = LF.FAMILY[id];
+    var view = fam.view.slice();
+    var mode = 'modulus';
+    var vmode = 'plane';
+    var show = { strip: true, line: true, zeros: true };
+    var built = false, dirty = true, token = 0, lastWidth = 0;
+
+    root.innerHTML =
+      '<div class="plotgrid">' +
+        '<div class="stage">' +
+          '<canvas class="field"></canvas>' +
+          '<canvas class="over"></canvas>' +
+          '<div class="badge lab"></div>' +
+          '<div class="badge busy" hidden>computing…</div>' +
+        '</div>' +
+        '<div class="sidebar">' +
+          '<select class="pick" aria-label="Which L-function">' +
+            ids.map(function (k) { return '<option value="' + k + '">' + LABEL[k] + '</option>'; }).join('') +
+          '</select>' +
+          '<fieldset><legend>view</legend>' +
+            '<div class="row"><input type="radio" name="v' + PLOTS.length + '" id="vp' + PLOTS.length + '" checked><label for="vp' + PLOTS.length + '">the complex plane</label></div>' +
+            '<div class="row"><input type="radio" name="v' + PLOTS.length + '" id="vl' + PLOTS.length + '"><label for="vl' + PLOTS.length + '">along the critical line</label></div>' +
+          '</fieldset>' +
+          '<fieldset class="colourset"><legend>colour</legend>' +
+            '<div class="row"><input type="radio" name="m' + PLOTS.length + '" id="mo' + PLOTS.length + '" checked><label for="mo' + PLOTS.length + '">|L(s)| only</label></div>' +
+            '<div class="row"><input type="radio" name="m' + PLOTS.length + '" id="ph' + PLOTS.length + '"><label for="ph' + PLOTS.length + '">|L(s)| and phase</label></div>' +
+            '<div class="legendbar"></div>' +
+            '<div class="legendlabels"><span>zero</span><span>|L| large</span></div>' +
+          '</fieldset>' +
+          '<fieldset><legend>overlay</legend>' +
+            '<div class="row"><input type="checkbox" id="s1' + PLOTS.length + '" checked><label for="s1' + PLOTS.length + '">critical strip</label></div>' +
+            '<div class="row"><input type="checkbox" id="s2' + PLOTS.length + '" checked><label for="s2' + PLOTS.length + '">critical line</label></div>' +
+            '<div class="row"><input type="checkbox" id="s3' + PLOTS.length + '" checked><label for="s3' + PLOTS.length + '">known zeros</label></div>' +
+          '</fieldset>' +
+          '<div class="readout">drag to pan, scroll to zoom<br>hover to read a value</div>' +
+          '<button class="btn reset" type="button">reset view</button>' +
+        '</div>' +
+      '</div>' +
+      '<p class="note scalenote"></p>';
+
+    var stage   = root.querySelector('.stage');
+    var field   = root.querySelector('.field');
+    var over    = root.querySelector('.over');
+    var busy    = root.querySelector('.busy');
+    var lab     = root.querySelector('.lab');
+    var pick    = root.querySelector('.pick');
+    var readout = root.querySelector('.readout');
+    var fctx = field.getContext('2d');
+    var octx = over.getContext('2d');
+
+    (function () {
+      var bar = root.querySelector('.legendbar'), stops = [];
+      for (var k = 0; k <= 10; k++) { var c = []; ramp(k / 10, c, 0); stops.push('rgb(' + (c[0]|0) + ',' + (c[1]|0) + ',' + (c[2]|0) + ')'); }
+      bar.style.background = 'linear-gradient(90deg,' + stops.join(',') + ')';
+    })();
+
+    /* A 35-unit stretch of the strip is only 4 or 5 units wide, so the picture
+       cannot be drawn to equal scales and still fit on a screen. The vertical
+       axis is compressed by about 5x; the tick labels say so, and the caption
+       under the plot says so in words. */
+    function px() {
+      var w = Math.max(240, Math.min(540, stage.clientWidth));
+      var aspect = (view[3] - view[2]) / (view[1] - view[0]);
+      var h = Math.max(300, Math.min(760, Math.round(w * aspect)));
+      return { w: w, h: h };
+    }
+
+    function internal(w, h) {
+      /* the elliptic sum costs ~1000x more per point, so it gets fewer of them */
+      var c = LF.FAMILY[id].cost;
+      var cap = c > 100 ? 190 : (c > 10 ? 250 : (c > 3 ? 330 : 440));
+      var sc = Math.min(1, cap / w);
+      return { w: Math.max(80, Math.round(w * sc)), h: Math.max(80, Math.round(h * sc)) };
+    }
+
+    function toS(cx, cy) {
+      return [view[0] + cx / field.clientWidth * (view[1] - view[0]),
+              view[3] - cy / field.clientHeight * (view[3] - view[2])];
+    }
+    function toPx(sr, si) {
+      return [(sr - view[0]) / (view[1] - view[0]) * over.width,
+              (view[3] - si) / (view[3] - view[2]) * over.height];
+    }
+
+    function drawOverlay() {
+      var w = over.width = stage.clientWidth * (window.devicePixelRatio || 1);
+      var h = over.height = field.clientHeight * (window.devicePixelRatio || 1);
+      var dpr = window.devicePixelRatio || 1;
+      octx.clearRect(0, 0, w, h);
+      octx.lineWidth = 1 * dpr;
+      octx.font = (10 * dpr) + 'px "IBM Plex Mono", monospace';
+
+      var cs = getComputedStyle(document.body);
+      var cCrit = cs.getPropertyValue('--crit').trim() || '#9c2b47';
+      var cZero = cs.getPropertyValue('--zero').trim() || '#0f7382';
+      var cFaint = cs.getPropertyValue('--faint').trim() || '#888';
+      var f = LF.FAMILY[id], c = f.centre;
+
+      /* Ticks sit on top of a saturated field, so they get their own gutters
+         rather than relying on contrast that may or may not be there. */
+      var gl = 30 * dpr, gb = 17 * dpr;
+      octx.fillStyle = '#ffffff'; octx.globalAlpha = 0.82;
+      octx.fillRect(0, 0, gl, h);
+      octx.fillRect(gl, h - gb, w - gl, gb);
+      octx.globalAlpha = 1;
+      octx.strokeStyle = '#3a3f4b'; octx.fillStyle = '#3a3f4b';
+
+      for (var v = Math.ceil(view[0]); v <= view[1]; v++) {
+        var p = toPx(v, 0);
+        if (p[0] < gl) continue;
+        octx.globalAlpha = 0.35;
+        octx.beginPath(); octx.moveTo(p[0], 0); octx.lineTo(p[0], h - gb); octx.stroke();
+        octx.globalAlpha = 1;
+        octx.fillText(String(v), p[0] + 3 * dpr, h - 5 * dpr);
+      }
+      var stepT = (view[3] - view[2]) > 25 ? 10 : 5;
+      for (var t = Math.ceil(view[2] / stepT) * stepT; t <= view[3]; t += stepT) {
+        var q = toPx(0, t);
+        octx.globalAlpha = 0.35;
+        octx.beginPath(); octx.moveTo(gl, q[1]); octx.lineTo(w, q[1]); octx.stroke();
+        octx.globalAlpha = 1;
+        octx.fillText(t + 'i', 3 * dpr, q[1] + 3.5 * dpr);
+      }
+
+      if (show.strip) {
+        var a = toPx(c - 0.5, 0)[0], b = toPx(c + 0.5, 0)[0];
+        octx.fillStyle = cCrit; octx.globalAlpha = 0.09;
+        octx.fillRect(a, 0, b - a, h);
+        octx.globalAlpha = 1;
+      }
+      if (show.line) {
+        var x = toPx(c, 0)[0];
+        octx.strokeStyle = cCrit; octx.lineWidth = 1.6 * dpr;
+        octx.beginPath(); octx.moveTo(x, 0); octx.lineTo(x, h); octx.stroke();
+      }
+      if (show.zeros) {
+        octx.strokeStyle = cZero; octx.lineWidth = 1.8 * dpr;
+        (LF.ZEROS[id] || []).forEach(function (t) {
+          [t, -t].forEach(function (tt) {
+            if (tt < view[2] || tt > view[3]) return;
+            var p = toPx(c, tt);
+            octx.beginPath(); octx.arc(p[0], p[1], 5 * dpr, 0, 6.2832); octx.stroke();
+          });
+        });
+      }
+    }
+
+    function render() {
+      var my = ++token;
+      lastWidth = stage.clientWidth;
+      lab.textContent = LABEL[id];
+      root.querySelector('.colourset').hidden = (vmode !== 'plane');
+      var ov = root.querySelectorAll('fieldset')[2].querySelectorAll('.row');
+      ov[0].hidden = ov[1].hidden = (vmode !== 'plane');
+      if (vmode === 'line') { renderLine(my); return; }
+
+      var s = px();
+      field.style.width = '100%';
+      field.width = s.w; field.height = s.h;
+      var inner = internal(s.w, s.h);
+
+      var k = (s.w * (view[3] - view[2])) / (s.h * (view[1] - view[0]));
+      root.querySelector('.scalenote').textContent =
+        'Horizontal axis Re(s), vertical axis Im(s). The vertical axis is ' +
+        'compressed by a factor of about ' + k.toFixed(1) + ', which is the ' +
+        'only way a tall stretch of the strip fits on a screen — so a ' +
+        'zero shows up as a flattened white spot rather than a round one.';
+
+      /* Paint in bands so even the slowest of these never freezes the page. */
+      var job = LF.gridJob(id, view[0], view[1], view[2], view[3], inner.w, inner.h);
+      var row = 0, band = Math.max(4, Math.round(inner.h / 16));
+      busy.hidden = LF.FAMILY[id].cost < 4;
+      (function stepRows() {
+        if (my !== token) return;
+        var end = Math.min(inner.h, row + band);
+        job.step(row, end);
+        row = end;
+        blit(job.out, inner);
+        drawOverlay();
+        if (row < inner.h) nextFrame(stepRows);
+        else { busy.hidden = true; dirty = false; }
+      })();
+    }
+
+    /* ------------------------------------------- the critical-line view -- */
+    /* Z(t) is real, vanishes exactly at the zeros on the line, and has
+       |Z(t)| = |L(centre + it)|. Plotting it is the only way to *see* a zero
+       as a crossing rather than infer it from a colour. */
+    function renderLine(my) {
+      var w = Math.max(240, Math.min(540, stage.clientWidth));
+      var h = Math.round(Math.max(220, Math.min(340, w * 0.62)));
+      field.style.width = '100%';
+      field.width = w; field.height = h;
+      busy.hidden = LF.FAMILY[id].cost < 4;
+
+      /* Z is even or odd about t = 0, so the negative half is redundant. */
+      var t0 = Math.max(0, view[2]), t1 = view[3];
+      var n = LF.FAMILY[id].cost > 100 ? 260 : Math.min(620, w);
+      var zs = LF.zline(id, t0, t1, n);
+      busy.hidden = true;
+      if (my !== token) return;
+
+      /* A single tall excursion would flatten everything else, so the scale
+         comes from the 90th percentile and the curve is clipped to the box. */
+      var i, mags = [];
+      for (i = 0; i < n; i++) if (isFinite(zs[i])) mags.push(Math.abs(zs[i]));
+      mags.sort(function (p, q) { return p - q; });
+      var reach = mags.length ? mags[mags.length - 1] : 1;
+      var peak = mags.length ? mags[Math.floor(mags.length * 0.9)] * 1.3 : 1;
+      if (!(peak > 0)) peak = 1;
+      var clipped = reach > peak * 1.02;
+
+      var cs = getComputedStyle(document.body);
+      var ink   = cs.getPropertyValue('--ink').trim()   || '#14161d';
+      var rule  = cs.getPropertyValue('--rule').trim()  || '#d5dae3';
+      var faint = cs.getPropertyValue('--faint').trim() || '#838b9c';
+      var crit  = cs.getPropertyValue('--crit').trim()  || '#9c2b47';
+      var zcol  = cs.getPropertyValue('--zero').trim()  || '#0f7382';
+      var surf  = cs.getPropertyValue('--surface').trim() || '#fff';
+
+      var padL = 40, padR = 10, padT = 14, padB = 26;
+      var X = function (t) { return padL + (t - t0) / (t1 - t0) * (w - padL - padR); };
+      var Y = function (z) { return padT + (1 - (z / peak + 1) / 2) * (h - padT - padB); };
+
+      fctx.fillStyle = surf; fctx.fillRect(0, 0, w, h);
+      fctx.font = '10px "IBM Plex Mono", monospace';
+
+      /* grid */
+      fctx.strokeStyle = rule; fctx.lineWidth = 1;
+      var stepT = (t1 - t0) > 25 ? 10 : ((t1 - t0) > 12 ? 5 : 2);
+      fctx.fillStyle = faint;
+      var t;
+      for (t = Math.ceil(t0 / stepT) * stepT; t <= t1; t += stepT) {
+        fctx.beginPath(); fctx.moveTo(X(t), padT); fctx.lineTo(X(t), h - padB); fctx.stroke();
+        fctx.fillText(String(t), X(t) + 2, h - padB + 12);
+      }
+      [-1, -0.5, 0.5, 1].forEach(function (u) {
+        fctx.beginPath(); fctx.moveTo(padL, Y(u * peak)); fctx.lineTo(w - padR, Y(u * peak)); fctx.stroke();
+      });
+      fctx.fillText((peak).toPrecision(2), 2, Y(peak) + 4);
+      fctx.fillText('0', 2, Y(0) + 4);
+      fctx.fillText('-' + (peak).toPrecision(2), 2, Y(-peak) + 4);
+      fctx.fillText('t', w - padR - 6, h - padB + 12);
+
+      /* the zero axis */
+      fctx.strokeStyle = ink; fctx.lineWidth = 1;
+      fctx.beginPath(); fctx.moveTo(padL, Y(0)); fctx.lineTo(w - padR, Y(0)); fctx.stroke();
+
+      /* Z itself */
+      fctx.save();
+      fctx.beginPath();
+      fctx.rect(padL, padT, w - padL - padR, h - padT - padB);
+      fctx.clip();
+      fctx.strokeStyle = crit; fctx.lineWidth = 1.7;
+      fctx.beginPath();
+      for (i = 0; i < n; i++) {
+        var xx = X(t0 + i * (t1 - t0) / (n - 1)), yy = Y(zs[i]);
+        if (i === 0) fctx.moveTo(xx, yy); else fctx.lineTo(xx, yy);
+      }
+      fctx.stroke();
+      fctx.restore();
+
+      /* Known zeros last, so the curve does not paint over them -- and the
+         curve is at its steepest exactly there, which is where it would. */
+      if (show.zeros) {
+        fctx.strokeStyle = zcol; fctx.fillStyle = zcol; fctx.lineWidth = 2;
+        (LF.ZEROS[id] || []).forEach(function (z) {
+          if (z < t0 || z > t1) return;
+          var xz = X(z);
+          fctx.beginPath();
+          fctx.moveTo(xz, Y(0) + 4); fctx.lineTo(xz, Y(0) + 12);
+          fctx.stroke();
+          fctx.beginPath();
+          fctx.arc(xz, Y(0), 3, 0, 6.2832);
+          fctx.fill();
+        });
+      }
+
+      octx.clearRect(0, 0, over.width, over.height);
+      root.querySelector('.scalenote').textContent =
+        'Z(t) is the completed L-function on the critical line, rotated so that ' +
+        'it is real. Its modulus is exactly |L(' +
+        (LF.FAMILY[id].centre === 0.5 ? '½' : '1') +
+        ' + it)|, so it crosses zero precisely where L does — the teal ticks ' +
+        'are the tabulated zeros, and the curve crosses the axis at every one.' +
+        (clipped ? ' The vertical scale is set by the typical size of Z rather ' +
+                   'than its largest excursion, which reaches ' +
+                   reach.toPrecision(3) + ' here; taller peaks are clipped.' : '');
+      dirty = false;
+    }
+
+    function blit(vals, inner) {
+      var img = fctx.createImageData(inner.w, inner.h);
+      paint(vals, inner.w, inner.h, mode, img);
+      var tmp = document.createElement('canvas');
+      tmp.width = inner.w; tmp.height = inner.h;
+      tmp.getContext('2d').putImageData(img, 0, 0);
+      fctx.imageSmoothingEnabled = true;
+      fctx.imageSmoothingQuality = 'high';
+      fctx.clearRect(0, 0, field.width, field.height);
+      fctx.drawImage(tmp, 0, 0, field.width, field.height);
+    }
+
+    /* ------------------------------------------------------ interaction */
+
+    var drag = null;
+    field.addEventListener('pointerdown', function (e) {
+      drag = { x: e.clientX, y: e.clientY, v: view.slice() };
+      field.setPointerCapture(e.pointerId);
+    });
+    field.addEventListener('pointermove', function (e) {
+      var r = field.getBoundingClientRect();
+      if (drag) {
+        if (vmode === 'line') {
+          /* horizontal drag moves along t, which is the Im range */
+          var dt = (e.clientX - drag.x) / r.width * (drag.v[3] - drag.v[2]);
+          view = [drag.v[0], drag.v[1], drag.v[2] - dt, drag.v[3] - dt];
+          clampView();
+          return;
+        }
+        var dx = (e.clientX - drag.x) / r.width * (drag.v[1] - drag.v[0]);
+        var dy = (e.clientY - drag.y) / r.height * (drag.v[3] - drag.v[2]);
+        view = [drag.v[0] - dx, drag.v[1] - dx, drag.v[2] + dy, drag.v[3] + dy];
+        clampView();
+        if (LF.FAMILY[id].cost <= 3 && vmode === 'plane') render(); else drawOverlay();
+        return;
+      }
+      if (vmode === 'line') {
+        var padL = 40, padR = 10;
+        var frac = ((e.clientX - r.left) / r.width * field.width - padL) /
+                   (field.width - padL - padR);
+        if (frac < 0 || frac > 1) return;
+        var tt = view[2] + frac * (view[3] - view[2]);
+        var zz = LF.zfunction(id, tt);
+        readout.innerHTML =
+          't = <b>' + tt.toFixed(4) + '</b><br>' +
+          'Z(t) = <b>' + zz.toPrecision(6) + '</b><br>' +
+          '|L| = <b>' + Math.abs(zz).toPrecision(6) + '</b>';
+        return;
+      }
+      var s = toS(e.clientX - r.left, e.clientY - r.top);
+      var v = LF.evaluate(id, s[0], s[1]);
+      var m = Math.hypot(v[0], v[1]);
+      readout.innerHTML =
+        's = <b>' + s[0].toFixed(4) + (s[1] < 0 ? ' − ' : ' + ') +
+        Math.abs(s[1]).toFixed(4) + 'i</b><br>' +
+        'L(s) = <b>' + v[0].toPrecision(6) + (v[1] < 0 ? ' − ' : ' + ') +
+        Math.abs(v[1]).toPrecision(6) + 'i</b><br>' +
+        '|L(s)| = <b>' + m.toPrecision(6) + '</b><br>' +
+        'arg = <b>' + (Math.atan2(v[1], v[0]) * 180 / Math.PI).toFixed(1) + '°</b>';
+    });
+    function endDrag() {
+      if (!drag) return;
+      drag = null;
+      if (LF.FAMILY[id].cost > 3 || vmode === 'line') render();
+    }
+    field.addEventListener('pointerup', endDrag);
+    field.addEventListener('pointercancel', endDrag);
+    field.addEventListener('pointerleave', function () {
+      if (!drag) readout.innerHTML = 'drag to pan, scroll to zoom<br>hover to read a value';
+    });
+
+    field.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var r = field.getBoundingClientRect();
+      var k = e.deltaY > 0 ? 1.18 : 1 / 1.18;
+      if (vmode === 'line') {
+        var frac = (e.clientX - r.left) / r.width;
+        var tc = view[2] + frac * (view[3] - view[2]);
+        view = [view[0], view[1], tc + (view[2] - tc) * k, tc + (view[3] - tc) * k];
+      } else {
+        var s = toS(e.clientX - r.left, e.clientY - r.top);
+        view = [s[0] + (view[0] - s[0]) * k, s[0] + (view[1] - s[0]) * k,
+                s[1] + (view[2] - s[1]) * k, s[1] + (view[3] - s[1]) * k];
+      }
+      clampView();
+      render();
+    }, { passive: false });
+
+    field.addEventListener('dblclick', function () {
+      view = LF.FAMILY[id].view.slice(); render();
+    });
+    root.querySelector('.reset').addEventListener('click', function () {
+      view = LF.FAMILY[id].view.slice(); render();
+    });
+
+    function clampView() {
+      var lim = LF.FAMILY[id].maxIm;
+      if (view[3] > lim) { var d = view[3] - lim; view[3] -= d; view[2] -= d; }
+      if (view[2] < -lim) { var u = -lim - view[2]; view[2] += u; view[3] += u; }
+      if (view[1] - view[0] > 12) { view[0] = -4; view[1] = 8; }
+    }
+
+    pick.addEventListener('change', function () {
+      id = pick.value;
+      view = LF.FAMILY[id].view.slice();
+      render();
+    });
+    root.querySelectorAll('fieldset')[0].querySelectorAll('input').forEach(function (r, i) {
+      r.addEventListener('change', function () {
+        vmode = i === 0 ? 'plane' : 'line'; render();
+      });
+    });
+    root.querySelector('.colourset').querySelectorAll('input').forEach(function (r, i) {
+      r.addEventListener('change', function () {
+        mode = i === 0 ? 'modulus' : 'phase'; render();
+      });
+    });
+    ['strip', 'line', 'zeros'].forEach(function (k, i) {
+      root.querySelectorAll('fieldset')[2].querySelectorAll('input')[i]
+        .addEventListener('change', function (e) {
+          show[k] = e.target.checked;
+          if (vmode === 'line') render(); else drawOverlay();
+        });
+    });
+
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt); rt = setTimeout(function () { if (built) render(); }, 180);
+    });
+
+    var api = {
+      root: root,
+      /* A hidden panel has zero width, so a plot built while hidden would be
+         sized wrong. Render on first reveal, and again if the width moved. */
+      ensure: function () {
+        if (!stage.clientWidth) return;
+        if (!built || dirty || stage.clientWidth !== lastWidth) {
+          built = true;
+          render();
+        }
+      }
+    };
+    PLOTS.push(api);
+    return api;
+  }
+
+  [].slice.call(document.querySelectorAll('.plotwrap')).forEach(makePlot);
+  PLOTS[0].ensure();
+
+  /* ------------------------------------------------------------- code -- */
+
+  var SNIPPETS = {
+    magma: '<span class="c">// Zeros of an L-function on the critical line, in Magma.</span>\n' +
+'<span class="c">// Magma 2.29-10 has no zero-finder for the LSer type, so this uses the</span>\n' +
+'<span class="c">// fact that Lambda(centre + it) / sqrt(eps) is real, and hunts sign changes.</span>\n' +
+'<span class="c">// Run it with:  magma -b thisfile.m</span>\n' +
+'\n' +
+'PREC := 40;\n' +
+'RR := RealField(PREC);\n' +
+'CC := ComplexField(PREC);\n' +
+'i  := CC.1;\n' +
+'\n' +
+'function CriticalLineZeros(L, height, step)\n' +
+'    _ := CheckFunctionalEquation(L);   <span class="c">// Sign(L) is 0 until you do this</span>\n' +
+'    centre := RR!(MotivicWeight(L)+1)/2;\n' +
+'    rt := Sqrt(CC!Sign(L));\n' +
+'    Z := func&lt; t | Real(LStar(L, centre + i*RR!t)/rt) &gt;;\n' +
+'    zeros := [RR|];\n' +
+'    t0 := step; f0 := Z(t0);\n' +
+'    while t0 lt height do\n' +
+'        t1 := t0 + step; f1 := Z(t1);\n' +
+'        if f0*f1 lt 0 then\n' +
+'            a := t0; b := t1; fa := f0; fb := f1;   <span class="c">// Illinois</span>\n' +
+'            for n in [1..60] do\n' +
+'                if fb eq fa then break; end if;\n' +
+'                c := b - fb*(b-a)/(fb-fa); fc := Z(c);\n' +
+'                if fc eq 0 or Abs(b-a) lt RR!10^-30 then break; end if;\n' +
+'                if fc*fb lt 0 then a := b; fa := fb; else fa := fa/2; end if;\n' +
+'                b := c; fb := fc;\n' +
+'            end for;\n' +
+'            Append(~zeros, b);\n' +
+'        end if;\n' +
+'        t0 := t1; f0 := f1;\n' +
+'    end while;\n' +
+'    return zeros;\n' +
+'end function;\n' +
+'\n' +
+'<span class="c">// (1) the Riemann zeta function</span>\n' +
+'CriticalLineZeros(RiemannZeta(: Precision := PREC), 50, 1/10);\n' +
+'\n' +
+'<span class="c">// (2) a Dedekind zeta function: Q(sqrt(-5)) has class number 2</span>\n' +
+'K := QuadraticField(-5);\n' +
+'ClassNumber(K);                       <span class="c">// 2</span>\n' +
+'Discriminant(MaximalOrder(K));        <span class="c">// -20</span>\n' +
+'CriticalLineZeros(LSeries(K : Precision := PREC), 30, 1/10);\n' +
+'\n' +
+'<span class="c">// (3) the Dirichlet L-function it factors through</span>\n' +
+'chi := KroneckerCharacter(-20);\n' +
+'CriticalLineZeros(LSeries(chi : Precision := PREC), 30, 1/10);\n' +
+'<span class="c">// L(1, chi) is the class number formula: 2*pi*h/(w*sqrt|D|) = pi/sqrt(5)</span>\n' +
+'Evaluate(LSeries(chi : Precision := PREC), 1);\n' +
+'\n' +
+'<span class="c">// (4) an elliptic curve L-function</span>\n' +
+'E := EllipticCurve("11a1");\n' +
+'CriticalLineZeros(LSeries(E : Precision := PREC), 35, 1/10);\n' +
+'\n' +
+'<span class="c">// A zero exactly at the centre is invisible to a sign change, so test</span>\n' +
+'<span class="c">// the central value separately -- this is 0 for 37a1, which has rank 1.</span>\n' +
+'Evaluate(LSeries(EllipticCurve("37a1") : Precision := PREC), 1);\n',
+
+    sage: '<span class="c"># Zeros of an L-function, in Sage. Rubinstein\'s lcalc does the work.</span>\n' +
+'\n' +
+'<span class="c"># (1) the Riemann zeta function -- the default L-function</span>\n' +
+'lcalc.zeros(10)\n' +
+'<span class="c"># [14.1347251, 21.0220396, 25.0108576, 30.4248761, ...]</span>\n' +
+'\n' +
+'<span class="c"># (2) a Dedekind zeta function: Q(sqrt(-5)) has class number 2.</span>\n' +
+'<span class="c">#     zeta_K = zeta * L(s, chi_D), so its zeros are the two lists merged.</span>\n' +
+'K = QuadraticField(-5)\n' +
+'K.class_number()                     <span class="c"># 2</span>\n' +
+'K.discriminant()                     <span class="c"># -20</span>\n' +
+'K.zeta_function()(2)                 <span class="c"># zeta_K(2)</span>\n' +
+'\n' +
+'<span class="c"># (3) the Dirichlet L-function it factors through</span>\n' +
+'from sage.libs.lcalc.lcalc_Lfunction import *\n' +
+'chi = kronecker_character(-20)\n' +
+'L = Lfunction_from_character(chi, type=\'int\')\n' +
+'L.find_zeros_via_N(10)\n' +
+'\n' +
+'<span class="c"># the class number formula, 2*pi*h/(w*sqrt|D|), here pi/sqrt(5)</span>\n' +
+'RR(pi / sqrt(5))                     <span class="c"># 1.40496294620815</span>\n' +
+'\n' +
+'<span class="c"># (4) an elliptic curve L-function</span>\n' +
+'E = EllipticCurve(\'11a1\')\n' +
+'E.lseries().zeros(10)\n' +
+'\n' +
+'<span class="c"># 37a1 has rank 1, so the first "zero" it reports sits at t = 0:</span>\n' +
+'EllipticCurve(\'37a1\').lseries().zeros(3)\n' +
+'<span class="c"># [0.000000000, 5.00317001, 6.87039122]</span>\n' +
+'\n' +
+'<span class="c"># Zeros in a window rather than the first few, plus high-precision</span>\n' +
+'<span class="c"># values away from the line:</span>\n' +
+'lcalc.zeros_in_interval(10, 30, 0.1)\n' +
+'EllipticCurve(\'11a1\').lseries().dokchitser()(1)\n' +
+'<span class="c"># 0.253841860855911</span>\n',
+
+    note: {
+      magma: 'This is the script that generated the tables on this page, run under ' +
+             'Magma 2.29-10. Its output matched Odlyzko and LMFDB on every zero.',
+      sage:  'The Sage calls follow the documented examples for lcalc and for ' +
+             'EllipticCurve.lseries(); they were not run on the machine that built ' +
+             'this page, which has no Sage installed.'
+    }
+  };
+
+  var sel = document.getElementById('lang');
+  var codeEl = document.getElementById('code');
+  var noteEl = document.getElementById('codenote');
+  function showCode() {
+    codeEl.innerHTML = SNIPPETS[sel.value];
+    noteEl.textContent = SNIPPETS.note[sel.value];
+  }
+  sel.addEventListener('change', showCode);
+  showCode();
+
+  document.getElementById('copybtn').addEventListener('click', function () {
+    var btn = this;
+    navigator.clipboard.writeText(codeEl.textContent).then(function () {
+      btn.textContent = 'copied';
+      setTimeout(function () { btn.textContent = 'copy'; }, 1400);
+    }, function () {
+      btn.textContent = 'select and copy';
+      setTimeout(function () { btn.textContent = 'copy'; }, 1800);
+    });
+  });
+})();
+</script>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>lfunctions.js against Magma</title>
+<style>
+  body { font: 13px ui-monospace, Consolas, monospace; margin: 16px; }
+  table { border-collapse: collapse; margin-bottom: 8px; }
+  td, th { padding: 2px 10px; text-align: left; border-bottom: 1px solid #ddd; }
+  .bad { background: #ffd7d7; font-weight: bold; }
+  .ok { color: #157a2b; }
+</style>
+</head>
+<body>
+<h1>lfunctions.js vs Magma 2.29-10</h1>
+<div id="out">running…</div>
+<script src="lfunctions.js"></script>
+<script>
+/* Reference values: Magma 2.29-10, from results/lfunction-data-20260921.txt
+   and results/quad-char-values-20260921.txt. Arithmetic normalisation,
+   truncated to double precision. */
+var REF = [
+  ['zeta', 2,    0,  1.6449340668482264365,   0],
+  ['zeta', 3,    0,  1.2020569031595942854,   0],
+  ['zeta', -1,   0, -0.08333333333333333333,  0],
+  ['zeta', 0.5,  10, 1.544895220296752767,   -0.115336465271273375],
+  ['zeta', 1.5,  2,  0.752181869034232573,   -0.333979060993313994],
+  ['zeta', 0.25, 30,-0.586482788839217947,   -0.611149631076442808],
+
+  ['chi3', 1,    0,  0.604599788078072617,    0],
+  ['chi3', 2,    0,  0.781302412896486297,    0],
+  ['chi3', 0.5,  8, -0.008551825621845696,   -0.045642894073806266],
+  ['chi3', 1.5,  2,  0.887975617038254324,    0.306624551829293709],
+
+  ['chi20', 1,   0,  1.404962946208145279,    0],
+  ['chi20', 2,   0,  1.128043324740947073,    0],
+  ['chi20', 0.5, 8,  1.014233683410808397,    0.081603494515159363],
+  ['chi20', 1.5, 2,  0.824042098870424429,   -0.139834560945106232],
+
+  ['chi23', 1,   0,  1.965202054107859166,    0],
+  ['chi23', 2,   0,  1.403216904595041268,    0],
+  ['chi23', 0.5, 8,  0.990281897343391444,   -0.513994797557352349],
+  ['chi23', 1.5, 2,  0.858777017474714702,   -0.540178535428016931],
+
+  ['zetaK3',  2,   0, 1.285190955484149403,   0],
+  ['zetaK3',  0.5, 8, 0.005815538065859838,  -0.059749970936190629],
+  ['zetaK20', 2,   0, 1.855556893747120635,   0],
+  ['zetaK20', 0.5, 8, 1.229906720513664929,   0.466492523231854167],
+  ['zetaK23', 2,   0, 2.308199289545700991,   0],
+  ['zetaK23', 0.5, 8, 1.414611549834838389,  -0.281635095878226658],
+
+  ['11a1', 1,    0,  0.253841860855910684,    0],
+  ['11a1', 2,    0,  0.546048036215013518,    0],
+  ['11a1', 1,    8,  0.468984360739247929,   -1.069326100440198089],
+  ['11a1', 1.5,  2,  0.666225036715991390,    0.697351416836392980],
+  ['37a1', 2,    0,  0.381575408260711211,    0],
+  ['37a1', 1,    0,  0,                       0]
+];
+
+var rows = [], worst = 0, fails = 0;
+REF.forEach(function (r) {
+  var id = r[0], sr = r[1], si = r[2];
+  var v = LF.evaluate(id, sr, si);
+  var err = Math.hypot(v[0] - r[3], v[1] - r[4]);
+  var scale = Math.max(1e-3, Math.hypot(r[3], r[4]));
+  var rel = err / scale;
+  if (rel > worst) worst = rel;
+  var bad = rel > 1e-9;
+  if (bad) fails++;
+  rows.push('<tr class="' + (bad ? 'bad' : '') + '"><td>' + id +
+    '</td><td>' + sr + (si ? '+' + si + 'i' : '') +
+    '</td><td>' + v[0].toPrecision(16) + '</td><td>' + r[3].toPrecision(16) +
+    '</td><td>' + v[1].toPrecision(16) + '</td><td>' + r[4].toPrecision(16) +
+    '</td><td>' + rel.toExponential(2) + '</td></tr>');
+});
+
+/* The class number formula, which the app quotes in three places:
+   L(1, chi_D) = 2 pi h / (w sqrt|D|). */
+var cnf = [];
+['chi3', 'chi20', 'chi23'].forEach(function (k) {
+  var c = LF.CHARS[k];
+  var want = 2 * Math.PI * c.h / (c.w * Math.sqrt(Math.abs(c.D)));
+  var got = LF.dirichletL(1, 0, c)[0];
+  var rel = Math.abs(got - want) / want;
+  if (rel > 1e-12) fails++;
+  cnf.push('<tr class="' + (rel > 1e-12 ? 'bad' : '') + '"><td>' + k +
+           '</td><td>h=' + c.h + ' w=' + c.w + ' D=' + c.D +
+           '</td><td>' + got.toPrecision(16) + '</td><td>' + want.toPrecision(16) +
+           '</td><td>' + rel.toExponential(2) + '</td></tr>');
+});
+
+/* Every tabulated zero should actually be a zero. The tolerance differs by
+   method: Euler-Maclaurin holds full double precision, while the elliptic
+   smoothed sum bleeds about e^{pi t / 2} of it to cancellation, so at the top
+   of its window only ~5 digits survive. Both are reported, not hidden. */
+var TOL = { zeta: 1e-10, chi3: 1e-10, chi20: 1e-10, chi23: 1e-10,
+            zetaK3: 1e-9, zetaK20: 1e-9, zetaK23: 1e-9,
+            '11a1': 1e-3, '37a1': 1e-3 };
+var zrows = [], zworst = 0;
+Object.keys(LF.ZEROS).forEach(function (id) {
+  var c = LF.FAMILY[id].centre, lim = LF.FAMILY[id].maxIm;
+  var mx = 0, n = 0, at = 0;
+  LF.ZEROS[id].forEach(function (t) {
+    if (Math.abs(t) > lim) return;
+    var v = LF.evaluate(id, c, t);
+    var m = Math.hypot(v[0], v[1]);
+    if (m > mx) { mx = m; at = t; }
+    n++;
+  });
+  if (mx > zworst) zworst = mx;
+  var bad = mx > TOL[id];
+  if (bad) fails++;
+  zrows.push('<tr class="' + (bad ? 'bad' : '') + '"><td>' + id +
+             '</td><td>' + n + ' zeros</td><td>max |L| = ' + mx.toExponential(2) +
+             ' at t = ' + at.toFixed(3) + '</td><td>tol ' +
+             TOL[id].toExponential(0) + '</td></tr>');
+});
+
+/* Z must be real (that is the whole point), |Z(t)| must equal |L(c+it)|,
+   and Z must change sign across every tabulated zero. */
+var zfrows = [];
+Object.keys(LF.FAMILY).forEach(function (id) {
+  var c = LF.FAMILY[id].centre, lim = LF.FAMILY[id].maxIm;
+  var magErr = 0, t;
+  for (t = 0.5; t < lim * 0.9; t += lim / 17) {
+    var z = Math.abs(LF.zfunction(id, t));
+    var v = LF.evaluate(id, c, t);
+    var m = Math.hypot(v[0], v[1]);
+    magErr = Math.max(magErr, Math.abs(z - m) / Math.max(1e-6, m));
+  }
+  var crossings = 0, missed = 0;
+  LF.ZEROS[id].forEach(function (t0) {
+    if (t0 === 0 || Math.abs(t0) > lim * 0.95) return;
+    var d = 0.02;
+    var a = LF.zfunction(id, t0 - d), b = LF.zfunction(id, t0 + d);
+    if (a * b < 0) crossings++; else missed++;
+  });
+  var bad = magErr > 1e-8 || missed > 0;
+  if (bad) fails++;
+  zfrows.push('<tr class="' + (bad ? 'bad' : '') + '"><td>' + id +
+    '</td><td>||Z| - |L|| rel = ' + magErr.toExponential(2) +
+    '</td><td>' + crossings + ' sign changes, ' + missed + ' missed</td></tr>');
+});
+
+/* grid() must agree with evaluate() point by point. */
+var gmsg = [];
+Object.keys(LF.FAMILY).forEach(function (id) {
+  var W = 7, H = 5, x0 = -0.5, x1 = 2.2, y0 = 1, y1 = 12;
+  var g = LF.grid(id, x0, x1, y0, y1, W, H);
+  var mx = 0;
+  for (var i = 0; i < H; i++) for (var j = 0; j < W; j++) {
+    var sr = x0 + j * (x1 - x0) / (W - 1);
+    var si = y1 - i * (y1 - y0) / (H - 1);
+    var v = LF.evaluate(id, sr, si);
+    var o = 2 * (i * W + j);
+    var e = Math.hypot(g[o] - v[0], g[o + 1] - v[1]) /
+            Math.max(1e-3, Math.hypot(v[0], v[1]));
+    if (e > mx) mx = e;
+  }
+  var bad = mx > 1e-9;
+  if (bad) fails++;
+  gmsg.push('<tr class="' + (bad ? 'bad' : '') + '"><td>' + id +
+            '</td><td>grid vs evaluate</td><td>' + mx.toExponential(2) + '</td></tr>');
+});
+
+/* Timing, since the plot has to feel immediate. */
+var tmsg = [];
+['zeta', 'chi3', 'chi20', 'chi23', 'zetaK20', 'zetaK23', '11a1'].forEach(function (id) {
+  var f = LF.FAMILY[id];
+  var w = f.cost > 100 ? 200 : (f.cost > 10 ? 300 : 440);
+  var h = Math.round(w * 1.4);
+  var t0 = performance.now();
+  LF.grid(id, f.view[0], f.view[1], f.view[2], f.view[3], w, h);
+  tmsg.push('<tr><td>' + id + '</td><td>' + w + '&times;' + h +
+            '</td><td>' + (performance.now() - t0).toFixed(0) + ' ms</td></tr>');
+});
+
+document.getElementById('out').innerHTML =
+  '<h2>' + (fails === 0 ? '<span class="ok">ALL CHECKS PASS</span>'
+                        : fails + ' FAILURES') +
+  ' — worst relative error on Magma values ' + worst.toExponential(2) + '</h2>' +
+  '<h3>values vs Magma</h3>' +
+  '<table><tr><th>L</th><th>s</th><th>Re computed</th><th>Re Magma</th>' +
+  '<th>Im computed</th><th>Im Magma</th><th>rel err</th></tr>' +
+  rows.join('') + '</table>' +
+  '<h3>class number formula: L(1, chi_D) = 2&pi;h / (w&radic;|D|)</h3>' +
+  '<table>' + cnf.join('') + '</table>' +
+  '<h3>tabulated zeros really are zeros — worst |L| = ' + zworst.toExponential(2) + '</h3>' +
+  '<table>' + zrows.join('') + '</table>' +
+  '<h3>Z-function: real, |Z| = |L|, sign changes at the zeros</h3>' +
+  '<table>' + zfrows.join('') + '</table>' +
+  '<h3>grid() consistency</h3><table>' + gmsg.join('') + '</table>' +
+  '<h3>timing</h3><table>' + tmsg.join('') + '</table>';
+</script>
+</body>
+</html>
