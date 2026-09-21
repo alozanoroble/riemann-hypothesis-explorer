@@ -134,58 +134,29 @@ var, .v { font-family: var(--serif); font-style: italic; font-size: 1.06em; }
   border-radius: 3px;
   overflow-x: auto;
 }
-/* Display mathematics, set by hand rather than by a TeX engine. The sandbox
-   this page runs in allows scripts from a CDN but neither stylesheets nor font
-   files, which rules out KaTeX and MathJax's font-based output; these few
-   primitives cover what the page actually needs -- limits stacked on a big
-   operator, and built-up fractions -- and cost nothing to load. */
-.eq .mrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  row-gap: 6px;
+/* Display mathematics is native MathML. Every current browser lays it out
+   without any external stylesheet or font download, and unlike a hand-set
+   approximation it carries real structure -- so assistive technology can
+   navigate it, render it to mathematical braille, and explore it spatially,
+   none of which a spoken label can offer. Each formula also ships a TeX
+   annotation inside <semantics>, which browsers do not render but which gives
+   a reader something to copy. */
+.eq math {
+  /* Per-glyph fallback: letters come from the page's serif, and any operator
+     it lacks -- the divisibility bars especially -- from a math font. */
+  font-family: "Newsreader", "Cambria Math", "STIX Two Math",
+               "Latin Modern Math", Georgia, "Times New Roman", serif;
+  font-size: 1.3rem;
+  color: inherit;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
-.eq .rel { margin: 0 0.4em; }
-
-.bigop {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1;
-  margin: 0 0.2em;
-}
-.bigop .sym {
-  font-size: 1.75em;
-  line-height: 0.9;
-  font-style: normal;
-}
-.bigop .lim {
-  font-size: 0.56em;
-  font-style: normal;
-  white-space: nowrap;
-  letter-spacing: 0.01em;
-}
-.bigop .lim.top { margin-bottom: 0.15em; }
-.bigop .lim.bot { margin-top: 0.15em; }
-/* an operator whose only limit is underneath, like lim or a bare product */
-.bigop.under .sym { font-size: 1em; line-height: 1.1; }
-
-.frac {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.25;
-  margin: 0 0.2em;
-  text-align: center;
-}
-.frac > .num { padding: 0 0.35em 0.12em; }
-.frac > .den {
-  padding: 0.12em 0.35em 0;
-  border-top: 1px solid currentColor;
-  width: 100%;
-  box-sizing: border-box;
-}
+/* Operators and digits should not inherit the italic of the surrounding
+   prose; MathML italicises single-letter identifiers on its own. */
+.eq math mo, .eq math mn, .eq math mtext { font-style: normal; }
+.eq math mtext { font-family: var(--serif); }
 
 .eq .where {
   display: block;
@@ -503,19 +474,7 @@ footer {
       function is what the hypothesis is about.
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="zeta of s equals the sum from n equals 1 to infinity of 1 over n to the s">
-        <span class="fn">&zeta;</span>(<span class="v">s</span>)
-        <span class="rel">=</span>
-        <span class="bigop">
-          <span class="lim top">&infin;</span>
-          <span class="sym">&sum;</span>
-          <span class="lim bot"><span class="v">n</span>&thinsp;=&thinsp;1</span>
-        </span>
-        <span class="frac">
-          <span class="num">1</span>
-          <span class="den"><span class="v">n</span><sup><span class="v">s</span></sup></span>
-        </span>
-      </span>
+      <math display="block"><semantics><mrow><mi>&#950;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munderover><mo>&#8721;</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi>&#8734;</mi></munderover><mfrac><mn>1</mn><msup><mi>n</mi><mi>s</mi></msup></mfrac></mrow><annotation encoding="application/x-tex">\zeta(s)=\sum_{n=1}^{\infty}\frac{1}{n^{s}}</annotation></semantics></math>
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
@@ -544,15 +503,7 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="zeta of s equals the product over primes p of, one minus p to the minus s, all to the minus one">
-        <span class="fn">&zeta;</span>(<span class="v">s</span>)
-        <span class="rel">=</span>
-        <span class="bigop">
-          <span class="sym">&prod;</span>
-          <span class="lim bot"><span class="v">p</span> prime</span>
-        </span>
-        <span>(1 &minus; <span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
-      </span>
+      <math display="block"><semantics><mrow><mi>&#950;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>&#8719;</mo><mrow><mi>p</mi><mspace width="0.25em"/><mtext>prime</mtext></mrow></munder><msup><mrow><mo>(</mo><mn>1</mn><mo>&#8722;</mo><msup><mi>p</mi><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mo>)</mo></mrow><mrow><mo>&#8722;</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\zeta(s)=\prod_{p\ \mathrm{prime}}\left(1-p^{-s}\right)^{-1}</annotation></semantics></math>
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
@@ -574,13 +525,7 @@ footer {
       Everything unresolved is squeezed into the strip between.
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="capital lambda of s equals pi to the minus s over 2, times gamma of s over 2, times zeta of s; and this equals capital lambda of 1 minus s">
-      &Lambda;(<span class="v">s</span>) =
-      &pi;<sup>&minus;<span class="v">s</span>/2</sup>
-      &Gamma;(<span class="v">s</span>/2)
-      <span class="fn">&zeta;</span>(<span class="v">s</span>)
-      = &Lambda;(1 &minus; <span class="v">s</span>)
-      </span>
+      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>&#960;</mi><mrow><mo>&#8722;</mo><mi>s</mi><mo>/</mo><mn>2</mn></mrow></msup><mi>&#915;</mi><mo stretchy="false">(</mo><mi>s</mi><mo>/</mo><mn>2</mn><mo stretchy="false">)</mo><mi>&#950;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mi>&#923;</mi><mo stretchy="false">(</mo><mn>1</mn><mo>&#8722;</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s)=\pi^{-s/2}\Gamma(s/2)\zeta(s)=\Lambda(1-s)</annotation></semantics></math>
       <span class="lbl">the functional equation</span>
     </div>
     <div id="strip-rh"></div>
@@ -685,9 +630,7 @@ footer {
       has discriminant &minus;15 and class number 2 as well.)
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="six equals two times three, and also equals, one plus the square root of minus five, times one minus the square root of minus five">
-      6 = 2 &middot; 3 = (1 + &radic;&minus;5)(1 &minus; &radic;&minus;5)
-      </span>
+      <math display="block"><semantics><mrow><mn>6</mn><mo>=</mo><mn>2</mn><mo>&#8901;</mo><mn>3</mn><mo>=</mo><mo>(</mo><mn>1</mn><mo>+</mo><msqrt><mrow><mo>&#8722;</mo><mn>5</mn></mrow></msqrt><mo>)</mo><mo>(</mo><mn>1</mn><mo>&#8722;</mo><msqrt><mrow><mo>&#8722;</mo><mn>5</mn></mrow></msqrt><mo>)</mo></mrow><annotation encoding="application/x-tex">6=2\cdot 3=\left(1+\sqrt{-5}\right)\left(1-\sqrt{-5}\right)</annotation></semantics></math>
       <span class="lbl">two genuinely different factorisations into irreducibles</span>
     </div>
   </div>
@@ -700,18 +643,7 @@ footer {
       function of <span class="v">K</span> counts ideals, graded by their norm.
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="zeta sub K of s equals the sum over non-zero ideals I of 1 over the norm of I, to the s">
-        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
-        <span class="rel">=</span>
-        <span class="bigop">
-          <span class="sym">&sum;</span>
-          <span class="lim bot"><span class="v">I</span> &ne; 0</span>
-        </span>
-        <span class="frac">
-          <span class="num">1</span>
-          <span class="den"><span class="fn">N</span>(<span class="v">I</span>)<sup><span class="v">s</span></sup></span>
-        </span>
-      </span>
+      <math display="block"><semantics><mrow><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>&#8721;</mo><mrow><mi>I</mi><mo>&#8800;</mo><mn>0</mn></mrow></munder><mfrac><mn>1</mn><msup><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>I</mi><mo stretchy="false">)</mo></mrow><mi>s</mi></msup></mfrac></mrow><annotation encoding="application/x-tex">\zeta_K(s)=\sum_{I\neq 0}\frac{1}{N(I)^{s}}</annotation></semantics></math>
       <span class="lbl"><span class="v">I</span> runs over the non-zero ideals of the ring of integers; Re(s) &gt; 1</span>
     </div>
     <p>
@@ -745,15 +677,7 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="zeta sub K of s equals the product over prime ideals P of, one minus the norm of P to the minus s, all to the minus one">
-        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
-        <span class="rel">=</span>
-        <span class="bigop">
-          <span class="sym">&prod;</span>
-          <span class="lim bot"><span class="v">P</span></span>
-        </span>
-        <span>(1 &minus; <span class="fn">N</span>(<span class="v">P</span>)<sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
-      </span>
+      <math display="block"><semantics><mrow><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>&#8719;</mo><mi>P</mi></munder><msup><mrow><mo>(</mo><mn>1</mn><mo>&#8722;</mo><msup><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>P</mi><mo stretchy="false">)</mo></mrow><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mo>)</mo></mrow><mrow><mo>&#8722;</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\zeta_K(s)=\prod_{P}\left(1-N(P)^{-s}\right)^{-1}</annotation></semantics></math>
       <span class="lbl"><span class="v">P</span> runs over the prime ideals &mdash; not the prime numbers <span class="v">p</span></span>
     </div>
     <p>
@@ -765,11 +689,7 @@ footer {
       <span class="v">&chi;<sub>D</sub></span> of the discriminant.
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="zeta sub K of s equals zeta of s times L of s, chi sub D">
-      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
-      <span class="fn">&zeta;</span>(<span class="v">s</span>) &middot;
-      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;<sub>D</sub></span>)
-      </span>
+      <math display="block"><semantics><mrow><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mi>&#950;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>&#8901;</mo><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><msub><mi>&#967;</mi><mi>D</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\zeta_K(s)=\zeta(s)\,L(s,\chi_D)</annotation></semantics></math>
       <span class="lbl">for any quadratic field of discriminant D</span>
     </div>
     <p class="note">
@@ -794,14 +714,7 @@ footer {
       <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;<sub>D</sub></span>).
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="capital lambda sub K of s equals the absolute value of d sub K, to the s over 2, times 2 pi to the minus s, times gamma of s, times zeta sub K of s; and this equals capital lambda sub K of 1 minus s">
-      &Lambda;<sub><span class="v">K</span></sub>(<span class="v">s</span>) =
-      |<span class="v">d<sub>K</sub></span>|<sup><span class="v">s</span>/2</sup>
-      (2&pi;)<sup>&minus;<span class="v">s</span></sup>
-      &Gamma;(<span class="v">s</span>)
-      <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)
-      = &Lambda;<sub><span class="v">K</span></sub>(1 &minus; <span class="v">s</span>)
-      </span>
+      <math display="block"><semantics><mrow><msub><mi>&#923;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mrow><mo>|</mo><msub><mi>d</mi><mi>K</mi></msub><mo>|</mo></mrow><mrow><mi>s</mi><mo>/</mo><mn>2</mn></mrow></msup><msup><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>&#960;</mi><mo stretchy="false">)</mo></mrow><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mi>&#915;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>&#923;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mn>1</mn><mo>&#8722;</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda_K(s)=|d_K|^{s/2}(2\pi)^{-s}\Gamma(s)\zeta_K(s)=\Lambda_K(1-s)</annotation></semantics></math>
       <span class="lbl">imaginary quadratic: one complex place, no real ones</span>
     </div>
     <p>
@@ -811,18 +724,7 @@ footer {
       arithmetic the field started with.
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="the limit as s tends to 1 of, s minus 1 times zeta sub K of s, equals 2 pi h over w times the square root of the absolute value of d sub K">
-        <span class="bigop under">
-          <span class="sym fn">lim</span>
-          <span class="lim bot"><span class="v">s</span>&thinsp;&rarr;&thinsp;1</span>
-        </span>
-        <span>(<span class="v">s</span> &minus; 1)&thinsp;<span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>)</span>
-        <span class="rel">=</span>
-        <span class="frac">
-          <span class="num">2&pi;<span class="v">h</span></span>
-          <span class="den"><span class="v">w</span>&thinsp;&radic;<span style="border-top:1px solid currentColor;padding:0 0.1em">|<span class="v">d<sub>K</sub></span>|</span></span>
-        </span>
-      </span>
+      <math display="block"><semantics><mrow><munder><mo movablelimits="false">lim</mo><mrow><mi>s</mi><mo>&#8594;</mo><mn>1</mn></mrow></munder><mo stretchy="false">(</mo><mi>s</mi><mo>&#8722;</mo><mn>1</mn><mo stretchy="false">)</mo><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mn>2</mn><mi>&#960;</mi><mi>h</mi></mrow><mrow><mi>w</mi><msqrt><mrow><mo>|</mo><msub><mi>d</mi><mi>K</mi></msub><mo>|</mo></mrow></msqrt></mrow></mfrac></mrow><annotation encoding="application/x-tex">\lim_{s\to 1}(s-1)\zeta_K(s)=\frac{2\pi h}{w\sqrt{|d_K|}}</annotation></semantics></math>
       <span class="lbl"><span class="v">h</span> the class number, <span class="v">w</span> the roots of unity</span>
     </div>
     <div id="strip-erh"></div>
@@ -957,19 +859,7 @@ footer {
       <span class="v">&chi;</span>(&minus;1) = &minus;1.
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="L of s, chi, equals the sum from n equals 1 to infinity of chi of n over n to the s">
-        <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
-        <span class="rel">=</span>
-        <span class="bigop">
-          <span class="lim top">&infin;</span>
-          <span class="sym">&sum;</span>
-          <span class="lim bot"><span class="v">n</span>&thinsp;=&thinsp;1</span>
-        </span>
-        <span class="frac">
-          <span class="num"><span class="v">&chi;</span>(<span class="v">n</span>)</span>
-          <span class="den"><span class="v">n</span><sup><span class="v">s</span></sup></span>
-        </span>
-      </span>
+      <math display="block"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo><mo>=</mo><munderover><mo>&#8721;</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi>&#8734;</mi></munderover><mfrac><mrow><mi>&#967;</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><msup><mi>n</mi><mi>s</mi></msup></mfrac></mrow><annotation encoding="application/x-tex">L(s,\chi)=\sum_{n=1}^{\infty}\frac{\chi(n)}{n^{s}}</annotation></semantics></math>
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
@@ -1000,15 +890,7 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="L of s, chi, equals the product over primes p not equal to 3 of, one minus chi of p times p to the minus s, all to the minus one">
-        <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
-        <span class="rel">=</span>
-        <span class="bigop">
-          <span class="sym">&prod;</span>
-          <span class="lim bot"><span class="v">p</span> &ne; 3</span>
-        </span>
-        <span>(1 &minus; <span class="v">&chi;</span>(<span class="v">p</span>)&thinsp;<span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
-      </span>
+      <math display="block"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>&#8719;</mo><mrow><mi>p</mi><mo>&#8800;</mo><mn>3</mn></mrow></munder><msup><mrow><mo>(</mo><mn>1</mn><mo>&#8722;</mo><mi>&#967;</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><msup><mi>p</mi><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mo>)</mo></mrow><mrow><mo>&#8722;</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">L(s,\chi)=\prod_{p\neq 3}\left(1-\chi(p)p^{-s}\right)^{-1}</annotation></semantics></math>
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
@@ -1030,13 +912,7 @@ footer {
       <em>odd</em> integers &minus;1, &minus;3, &minus;5, &hellip;
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="capital lambda of s, chi, equals 3 over pi to the power s plus 1 over 2, times gamma of s plus 1 over 2, times L of s, chi; and this equals capital lambda of 1 minus s, chi">
-      &Lambda;(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>) =
-      (3/&pi;)<sup>(<span class="v">s</span>+1)/2</sup>
-      &Gamma;((<span class="v">s</span>+1)/2)
-      <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
-      = &Lambda;(1 &minus; <span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
-      </span>
+      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mrow><mo>(</mo><mfrac><mn>3</mn><mi>&#960;</mi></mfrac><mo>)</mo></mrow><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>/</mo><mn>2</mn></mrow></msup><mi>&#915;</mi><mrow><mo>(</mo><mfrac><mrow><mi>s</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac><mo>)</mo></mrow><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo><mo>=</mo><mi>&#923;</mi><mo stretchy="false">(</mo><mn>1</mn><mo>&#8722;</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s,\chi)=\left(\frac{3}{\pi}\right)^{(s+1)/2}\Gamma\!\left(\frac{s+1}{2}\right)L(s,\chi)=\Lambda(1-s,\chi)</annotation></semantics></math>
       <span class="lbl">root number +1 for this character</span>
     </div>
     <div id="strip-grh"></div>
@@ -1189,19 +1065,7 @@ footer {
       record the deficit.
     </p>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="L of E, s, equals the sum from n equals 1 to infinity of a sub n over n to the s">
-        <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>)
-        <span class="rel">=</span>
-        <span class="bigop">
-          <span class="lim top">&infin;</span>
-          <span class="sym">&sum;</span>
-          <span class="lim bot"><span class="v">n</span>&thinsp;=&thinsp;1</span>
-        </span>
-        <span class="frac">
-          <span class="num"><span class="v">a<sub>n</sub></span></span>
-          <span class="den"><span class="v">n</span><sup><span class="v">s</span></sup></span>
-        </span>
-      </span>
+      <math display="block"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>E</mi><mo>,</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munderover><mo>&#8721;</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi>&#8734;</mi></munderover><mfrac><msub><mi>a</mi><mi>n</mi></msub><msup><mi>n</mi><mi>s</mi></msup></mfrac></mrow><annotation encoding="application/x-tex">L(E,s)=\sum_{n=1}^{\infty}\frac{a_n}{n^{s}}</annotation></semantics></math>
       <span class="where">
         where <span class="v">a<sub>p</sub></span> =
         <span class="v">p</span> + 1 &minus;
@@ -1238,20 +1102,7 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="L of E, s, equals the product over primes p not dividing N of, one minus a sub p times p to the minus s, plus p to the 1 minus 2 s, all to the minus one; times the product over primes p dividing N of, one minus a sub p times p to the minus s, all to the minus one">
-        <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>)
-        <span class="rel">=</span>
-        <span class="bigop">
-          <span class="sym">&prod;</span>
-          <span class="lim bot"><span class="v">p</span> &#8740; <span class="v">N</span></span>
-        </span>
-        <span>(1 &minus; <span class="v">a<sub>p</sub></span>&thinsp;<span class="v">p</span><sup>&minus;<span class="v">s</span></sup> + <span class="v">p</span><sup>1&minus;2<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
-        <span class="bigop">
-          <span class="sym">&prod;</span>
-          <span class="lim bot"><span class="v">p</span> | <span class="v">N</span></span>
-        </span>
-        <span>(1 &minus; <span class="v">a<sub>p</sub></span>&thinsp;<span class="v">p</span><sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup></span>
-      </span>
+      <math display="block"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>E</mi><mo>,</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>&#8719;</mo><mrow><mi>p</mi><mo>&#8740;</mo><mi>N</mi></mrow></munder><msup><mrow><mo>(</mo><mn>1</mn><mo>&#8722;</mo><msub><mi>a</mi><mi>p</mi></msub><msup><mi>p</mi><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mo>+</mo><msup><mi>p</mi><mrow><mn>1</mn><mo>&#8722;</mo><mn>2</mn><mi>s</mi></mrow></msup><mo>)</mo></mrow><mrow><mo>&#8722;</mo><mn>1</mn></mrow></msup><munder><mo>&#8719;</mo><mrow><mi>p</mi><mo>&#8739;</mo><mi>N</mi></mrow></munder><msup><mrow><mo>(</mo><mn>1</mn><mo>&#8722;</mo><msub><mi>a</mi><mi>p</mi></msub><msup><mi>p</mi><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mo>)</mo></mrow><mrow><mo>&#8722;</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">L(E,s)=\prod_{p\nmid N}\left(1-a_pp^{-s}+p^{1-2s}\right)^{-1}\prod_{p\mid N}\left(1-a_pp^{-s}\right)^{-1}</annotation></semantics></math>
       <span class="lbl">degree 2 at good primes, degree at most 1 at bad primes &mdash; degree 1 for this curve</span>
     </div>
     <p>
@@ -1276,14 +1127,7 @@ footer {
   <div class="step"><div class="letter">d</div><div class="body prose">
     <h3>The critical strip</h3>
     <div class="eq">
-      <span class="mrow" role="img" aria-label="capital lambda of s equals N to the s over 2, times 2 pi to the minus s, times gamma of s, times L of E, s; and this equals epsilon times capital lambda of 2 minus s">
-      &Lambda;(<span class="v">s</span>) =
-      <span class="v">N</span><sup><span class="v">s</span>/2</sup>
-      (2&pi;)<sup>&minus;<span class="v">s</span></sup>
-      &Gamma;(<span class="v">s</span>)
-      <span class="v">L</span>(<span class="v">E</span>,&thinsp;<span class="v">s</span>)
-      = <span class="v">&epsilon;</span>&thinsp;&Lambda;(2 &minus; <span class="v">s</span>)
-      </span>
+      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>N</mi><mrow><mi>s</mi><mo>/</mo><mn>2</mn></mrow></msup><msup><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>&#960;</mi><mo stretchy="false">)</mo></mrow><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mi>&#915;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mi>L</mi><mo stretchy="false">(</mo><mi>E</mi><mo>,</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mi>&#949;</mi><mi>&#923;</mi><mo stretchy="false">(</mo><mn>2</mn><mo>&#8722;</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s)=N^{s/2}(2\pi)^{-s}\Gamma(s)L(E,s)=\varepsilon\Lambda(2-s)</annotation></semantics></math>
       <span class="lbl"><span class="v">&epsilon;</span> = +1 for <span class="lit">11a1</span>, &minus;1 for <span class="lit">37a1</span></span>
     </div>
     <p>
