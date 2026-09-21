@@ -1418,8 +1418,18 @@ footer {
       g.push('<circle cx="' + X(opts.c) + '" cy="' + (yMid + m * (bot - top) / 2 / opts.scale) + '" r="3.5" fill="var(--zero)"/>');
     });
     if (opts.pole !== undefined) {
-      g.push('<text x="' + X(opts.pole) + '" y="' + (yMid - 8) + '" text-anchor="middle" font-size="13" fill="var(--crit)">&#215;</text>');
-      g.push('<text x="' + X(opts.pole) + '" y="' + (yMid - 18) + '" text-anchor="middle" font-size="9.5" fill="var(--faint)" font-family="IBM Plex Mono, monospace">pole</text>');
+      /* The pole is a real point, s = 1, so its marker has to sit ON the real
+         axis. Drawn as two crossing lines centred at (X, yMid) rather than as
+         a text glyph: the y of an SVG <text> is its baseline, so a character
+         placed here floats above the axis by most of its own height. */
+      var px = X(opts.pole), a = 5;
+      g.push('<line x1="' + (px - a) + '" y1="' + (yMid - a) + '" x2="' + (px + a) +
+             '" y2="' + (yMid + a) + '" stroke="var(--crit)" stroke-width="1.8" stroke-linecap="round"/>');
+      g.push('<line x1="' + (px - a) + '" y1="' + (yMid + a) + '" x2="' + (px + a) +
+             '" y2="' + (yMid - a) + '" stroke="var(--crit)" stroke-width="1.8" stroke-linecap="round"/>');
+      /* anchored to the right of the cross: centred, the label would run back
+         across the critical line, which is only a few pixels away */
+      g.push('<text x="' + (px + 9) + '" y="' + (yMid - 5) + '" text-anchor="start" font-size="9.5" fill="var(--crit)" font-family="IBM Plex Mono, monospace">pole at s = ' + opts.pole + '</text>');
     }
     g.push('<text x="' + X(opts.c) + '" y="' + (top - 13) + '" text-anchor="middle" font-size="10" fill="var(--crit)" font-family="IBM Plex Mono, monospace">Re(s) = ' + opts.cLabel + '</text>');
     g.push('<text x="' + (X(opts.a) + X(opts.b)) / 2 + '" y="' + (bot + 17) +
