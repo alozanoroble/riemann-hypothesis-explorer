@@ -343,14 +343,18 @@
             19.120252802798512, 20.542108704454735, 21.622206406481371,
             23.786167100158956, 24.906610399535413, 26.378159592740234,
             27.429410778006436, 29.315636462947542, 30.813432186697565,
-            31.629850769137192, 33.162006756974157],
+            31.629850769137192, 33.162006756974157, 34.518530834860204,
+            36.351014501254046, 37.050936518052881, 38.361186646821365,
+            39.804810634381604],
     chi23: [2.871339848930368, 4.215189804229719, 6.731189150719542,
             8.334849030124398, 10.633871230218586, 12.581696786969625,
             13.604131724738555, 15.385560733598581, 15.938101367347983,
             18.985931202695874, 19.987766847887368, 21.203602256396255,
             22.874076023463120, 23.946447295267818, 25.462561010482498,
             26.486391237836839, 28.502865498702425, 30.101719258358329,
-            31.254693951229937, 31.918338693736597],
+            31.254693951229937, 31.918338693736597, 33.151307942492053,
+            34.870172459568831, 36.075735833691798, 37.967917830330852,
+            38.687242403298728],
     '11a1': [6.362613894713089, 8.603539619290756, 10.035509097181079,
              11.451258610345211, 13.568639057129995, 15.914072603300384,
              17.033610320380624, 17.941433573459341, 19.185724971852241,
@@ -363,9 +367,25 @@
              19.814822245363376]
   };
   function bySize(p, q) { return p - q; }
-  ZEROS.zetaK3  = ZEROS.zeta.concat(ZEROS.chi3).sort(bySize);
-  ZEROS.zetaK20 = ZEROS.zeta.concat(ZEROS.chi20).sort(bySize);
-  ZEROS.zetaK23 = ZEROS.zeta.concat(ZEROS.chi23).sort(bySize);
+
+  /* Merging the two factor lists only gives CONSECUTIVE zeros of zeta_K up to
+   * the point where both lists are still complete. Past the shorter list's
+   * last entry the merge silently turns into "the remaining zeros of the
+   * longer factor", which are not the next zeros of zeta_K at all -- so the
+   * merge is cut at min(max of each list). COMPLETE_TO records that height for
+   * every family, and the app refuses to mark zeros above it. */
+  function mergeZeros(a, b) {
+    var lim = Math.min(a[a.length - 1], b[b.length - 1]);
+    return a.concat(b).sort(bySize).filter(function (t) { return t <= lim; });
+  }
+  ZEROS.zetaK3  = mergeZeros(ZEROS.zeta, ZEROS.chi3);
+  ZEROS.zetaK20 = mergeZeros(ZEROS.zeta, ZEROS.chi20);
+  ZEROS.zetaK23 = mergeZeros(ZEROS.zeta, ZEROS.chi23);
+
+  var COMPLETE_TO = {};
+  Object.keys(ZEROS).forEach(function (k) {
+    COMPLETE_TO[k] = ZEROS[k][ZEROS[k].length - 1];
+  });
 
   /* kind: which evaluator and which gamma factor.
    * centre: the critical line. eps: the root number.
@@ -610,6 +630,7 @@
     ellipticL: ellipticL, evaluate: evaluate,
     gammaFactor: gammaFactor, zfunction: zfunction, zline: zline,
     grid: grid, gridJob: gridJob,
-    CHARS: CHARS, CURVES: CURVES, ZEROS: ZEROS, FAMILY: FAMILY
+    CHARS: CHARS, CURVES: CURVES, ZEROS: ZEROS, FAMILY: FAMILY,
+    COMPLETE_TO: COMPLETE_TO
   };
 })(typeof window !== 'undefined' ? window : this);

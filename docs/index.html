@@ -420,8 +420,13 @@ footer {
     Hypothesis</strong>), and for the <span class="v">L</span>-function of an
     elliptic curve or any automorphic form (the <strong>Grand Riemann
     Hypothesis</strong>). The names are not used entirely consistently in the
-    literature, and the four statements are not independent &mdash; but they
-    get harder in roughly this order. Pick one above.
+    literature, and the four statements are very far from independent. A
+    Dedekind zeta function of an <em>abelian</em> field factors into Dirichlet
+    <span class="v">L</span>-functions, so ERH for those fields is exactly RH
+    together with GRH for the factors; it is the non-abelian fields that push
+    you towards Artin and then automorphic
+    <span class="v">L</span>-functions, and the Grand Riemann Hypothesis
+    contains the rest as special cases. Pick one above.
   </p>
 </section>
 
@@ -456,10 +461,12 @@ footer {
     </div>
     <p>
       The continuation is holomorphic on all of &#8450; except for a single
-      simple pole at <span class="v">s</span> = 1 with residue 1. That pole is
-      the analytic shadow of the fact that
-      &sum;&thinsp;1/<span class="v">p</span> diverges &mdash; there are
-      infinitely many primes.
+      simple pole at <span class="v">s</span> = 1 with residue 1. The pole is
+      the continuation of the logarithmic divergence of the harmonic series;
+      read through the Euler product it is also tied to Euler's theorem that
+      &sum;<sub><span class="v">p</span></sub>&thinsp;1/<span class="v">p</span>
+      diverges, which is a good deal sharper than saying there are infinitely
+      many primes.
     </p>
   </div></div>
 
@@ -470,8 +477,8 @@ footer {
     <p class="note">
       Everything arithmetic in <span class="fn">&zeta;</span> comes from the
       exponent <span class="v">n</span><sup>&minus;<span class="v">s</span></sup>,
-      not from the numerators. The other two variants earn their difficulty by
-      putting real arithmetic into these coefficients.
+      not from the numerators. The other three variants earn their difficulty
+      by putting real arithmetic into these coefficients.
     </p>
   </div></div>
 
@@ -538,9 +545,12 @@ footer {
       </li>
       <li>
         <strong>A positive proportion are on the line.</strong> Levinson
-        (1974) got at least a third; Conrey (1989) two fifths; Pratt, Robles,
-        Zaharescu and Zeindler (2020) currently hold the record at more than
-        five twelfths.
+        (1974) proved more than a third; Conrey (1989) more than two fifths;
+        Pratt, Robles, Zaharescu and Zeindler (2020) more than five twelfths,
+        which is the current <em>published</em> record. A 2026 preprint of
+        Alp&ouml;ge and Furman claims the substantially stronger proportion two
+        thirds, simple and on the line, together with five sixths distinct
+        &mdash; not yet refereed, so treat it as a claim rather than a fact.
       </li>
       <li>
         <strong>No zeros on Re(<span class="v">s</span>) = 1.</strong> Proved
@@ -567,12 +577,14 @@ footer {
     </p>
     <h3>Further reading</h3>
     <ul class="refs">
-      <li>B. Riemann, <em>&Uuml;ber die Anzahl der Primzahlen unter einer gegebenen Gr&ouml;sse</em> (1859). <span class="who">The original eight pages.</span></li>
-      <li>H. M. Edwards, <em>Riemann's Zeta Function</em> (1974). <span class="who">Still the best way in; builds everything from the memoir.</span></li>
-      <li>J. B. Conrey, <em>The Riemann Hypothesis</em>, Notices of the AMS <strong>50</strong> (2003), 341&ndash;353. <span class="who">The standard survey.</span></li>
-      <li>D. Platt and T. Trudgian, <em>The Riemann hypothesis is true up to 3&middot;10<sup>12</sup></em>, Bull. LMS <strong>53</strong> (2021). <span class="who">The current verification.</span></li>
-      <li>K. Pratt, N. Robles, A. Zaharescu, D. Zeindler, <em>More than five-twelfths of the zeros of &zeta; are on the critical line</em>, Res. Math. Sci. <strong>7</strong> (2020). <span class="who">The current proportion.</span></li>
-      <li><a href="https://www-users.cse.umn.edu/~odlyzko/zeta_tables/">A. Odlyzko's tables of zeros</a>. <span class="who">Source of the numbers above.</span></li>
+      <li>B. Riemann, &ldquo;Ueber die Anzahl der Primzahlen unter einer gegebenen Gr&ouml;sse&rdquo;, <em>Monatsberichte der K&ouml;niglichen Preussischen Akademie der Wissenschaften zu Berlin</em> (1859), 671&ndash;680.</li>
+      <li>H. M. Edwards, <em>Riemann's Zeta Function</em>, Academic Press, 1974. <span class="who">Still the best way in; builds everything from the memoir.</span></li>
+      <li>J. B. Conrey, &ldquo;The Riemann Hypothesis&rdquo;, <em>Notices of the American Mathematical Society</em> <strong>50</strong> (2003), no. 3, 341&ndash;353. <span class="who">The standard survey.</span></li>
+      <li>D. J. Platt and T. S. Trudgian, &ldquo;The Riemann hypothesis is true up to 3&middot;10<sup>12</sup>&rdquo;, <em>Bulletin of the London Mathematical Society</em> <strong>53</strong> (2021), no. 3, 792&ndash;797. <a href="https://doi.org/10.1112/blms.12460">doi:10.1112/blms.12460</a></li>
+      <li>K. Pratt, N. Robles, A. Zaharescu and D. Zeindler, &ldquo;More than five-twelfths of the zeros of &zeta; are on the critical line&rdquo;, <em>Research in the Mathematical Sciences</em> <strong>7</strong> (2020), article 2. <a href="https://doi.org/10.1007/s40687-019-0199-8">doi:10.1007/s40687-019-0199-8</a> <span class="who">The current published proportion.</span></li>
+      <li>L. Alp&ouml;ge and R. Furman, &ldquo;More than two thirds of the zeta zeros are simple and on the critical line&rdquo;, <a href="https://arxiv.org/abs/2608.13637">arXiv:2608.13637</a> (2026). <span class="who">Preprint, not refereed at the time of writing.</span></li>
+      <li>A. M. Turing, &ldquo;Some calculations of the Riemann zeta-function&rdquo;, <em>Proceedings of the London Mathematical Society</em> (3) <strong>3</strong> (1953), 99&ndash;117. <span class="who">The zero-counting method used to certify that a list of zeros is complete.</span></li>
+      <li><a href="https://www-users.cse.umn.edu/~odlyzko/zeta_tables/">A. M. Odlyzko, tables of zeros of the Riemann zeta function</a>. <span class="who">Source of the numbers above.</span></li>
     </ul>
   </div></div>
 </section>
@@ -597,8 +609,10 @@ footer {
       construction goes through &mdash; with one complication that is the
       reason to care. In a general ring of integers, numbers do not factor
       uniquely. The example here is
-      <span class="v">K</span> = &#8474;(&radic;&minus;5), the smallest field
-      where that failure is visible.
+      <span class="v">K</span> = &#8474;(&radic;&minus;5), the standard
+      smallest-radicand example in which unique factorisation of <em>elements</em>
+      fails. (It is not the smallest by discriminant: &#8474;(&radic;&minus;15)
+      has discriminant &minus;15 and class number 2 as well.)
     </p>
     <div class="eq">
       6 = 2 &middot; 3 = (1 + &radic;&minus;5)(1 &minus; &radic;&minus;5)
@@ -615,9 +629,9 @@ footer {
     </p>
     <div class="eq">
       <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
-      &sum;<sub><span class="v">&#120504;</span> &ne; 0</sub>
-      1 / <span class="fn">N</span>(<span class="v">&#120504;</span>)<sup><span class="v">s</span></sup>
-      <span class="lbl">over non-zero ideals of the ring of integers, Re(s) &gt; 1</span>
+      &sum;<sub><span class="v">I</span> &ne; 0</sub>
+      1 / <span class="fn">N</span>(<span class="v">I</span>)<sup><span class="v">s</span></sup>
+      <span class="lbl">I runs over the non-zero ideals of the ring of integers; Re(s) &gt; 1</span>
     </div>
     <p>
       How far unique factorisation fails is measured by the <strong>class
@@ -651,9 +665,9 @@ footer {
     <h3>Euler product</h3>
     <div class="eq">
       <span class="fn">&zeta;</span><sub><span class="v">K</span></sub>(<span class="v">s</span>) =
-      &prod;<sub><span class="v">&#120505;</span> prime</sub>
-      (1 &minus; <span class="fn">N</span>(<span class="v">&#120505;</span>)<sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
-      <span class="lbl">now over prime ideals, not prime numbers</span>
+      &prod;<sub><span class="v">P</span></sub>
+      (1 &minus; <span class="fn">N</span>(<span class="v">P</span>)<sup>&minus;<span class="v">s</span></sup>)<sup>&minus;1</sup>
+      <span class="lbl">P runs over the prime ideals — not the prime numbers p</span>
     </div>
     <p>
       Grouping the prime ideals by the rational prime underneath them gives the
@@ -728,6 +742,17 @@ footer {
         separately so you can see which is which; in the plot they are one set
         of points on one line.
       </p>
+      <p class="note">
+        The merged column stops where it does on purpose. Interleaving two
+        finite lists only gives <em>consecutive</em> zeros of
+        <span class="fn">&zeta;</span><sub><span class="v">K</span></sub> up to
+        the last entry of the shorter one; past that, a merge would quietly
+        turn into &ldquo;the remaining tabulated zeros of
+        <span class="fn">&zeta;</span>&rdquo;, skipping the zeros of
+        <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;<sub>D</sub></span>)
+        that belong between them. So the merge is cut at that height, and the
+        plot marks no zeros above it either.
+      </p>
     </div>
     <div class="scroll"><table id="zeros-erh"></table></div>
   </div></div>
@@ -758,31 +783,39 @@ footer {
         conjecture.
       </li>
       <li>
-        <strong>ERH makes class groups computable.</strong> Bach proved that
-        under ERH the class group is generated by the prime ideals of norm at
-        most 12(log&thinsp;|<span class="v">d<sub>K</sub></span>|)&sup2;.
+        <strong>ERH makes class groups cheap to compute.</strong> Bach proved
+        that under ERH the class group is generated by the prime ideals of norm
+        at most 12(log&thinsp;|<span class="v">d<sub>K</sub></span>|)&sup2;.
         Unconditionally one falls back on the Minkowski bound, which is
-        enormously larger. This is not a footnote: it is why serious class
-        group computations are usually reported as conditional on ERH.
+        enormously larger. That bound is one reason many large class group
+        computations are run under ERH; unconditional certification is
+        possible, but generally far more expensive.
       </li>
       <li>
-        <strong>And makes Chebotarev effective.</strong> Lagarias and Odlyzko's
-        effective Chebotarev density theorem, under ERH, bounds the norm of the
-        smallest prime with a given Frobenius. Without ERH the bounds are
-        ineffective in the same way Siegel's are.
+        <strong>And sharpens Chebotarev.</strong> Under ERH the Chebotarev
+        density theorem gives much cleaner bounds for the norm of the smallest
+        prime with a prescribed Frobenius (Lagarias&ndash;Odlyzko).
+        Unconditionally, effective bounds still exist &mdash;
+        Lagarias, Montgomery and Odlyzko proved one for the least prime ideal
+        in 1979 &mdash; but they are substantially weaker, because they must
+        accommodate the possibility of an exceptional real zero.
       </li>
       <li>
-        <strong>Verified numerically, field by field.</strong> As with
+        <strong>Checked numerically, field by field.</strong> As with
         <span class="fn">&zeta;</span> there is no proof, only computation:
-        LMFDB stores verified zeros for a large number of number fields.
+        LMFDB stores computed zeros for a large number of number fields.
+        Whether a given dataset also carries a rigorous completeness
+        certificate is a separate question, and should not be assumed.
       </li>
     </ul>
     <h3>Further reading</h3>
     <ul class="refs">
-      <li>J. Neukirch, <em>Algebraic Number Theory</em>, ch. VII. <span class="who">Dedekind zeta, the functional equation, the class number formula.</span></li>
-      <li>E. Bach, <em>Explicit bounds for primality testing and related problems</em>, Math. Comp. <strong>55</strong> (1990). <span class="who">The 12(log|d|)&sup2; bound.</span></li>
-      <li>J. Lagarias and A. Odlyzko, <em>Effective versions of the Chebotarev density theorem</em> (1977). <span class="who">What ERH buys you.</span></li>
-      <li>H. Aramata (1933) and R. Brauer (1947). <span class="who">&zeta;<sub>K</sub>/&zeta; is entire for Galois K.</span></li>
+      <li>J. Neukirch, <em>Algebraic Number Theory</em>, Grundlehren der mathematischen Wissenschaften <strong>322</strong>, Springer, 1999, ch. VII. <span class="who">Dedekind zeta, the functional equation, the class number formula.</span></li>
+      <li>E. Bach, &ldquo;Explicit bounds for primality testing and related problems&rdquo;, <em>Mathematics of Computation</em> <strong>55</strong> (1990), no. 191, 355&ndash;380. <span class="who">The 12(log|d<sub>K</sub>|)&sup2; bound.</span></li>
+      <li>J. C. Lagarias and A. M. Odlyzko, &ldquo;Effective versions of the Chebotarev density theorem&rdquo;, in <em>Algebraic Number Fields: L-functions and Galois Properties</em>, Academic Press, 1977, 409&ndash;464. <span class="who">What ERH buys you.</span></li>
+      <li>J. C. Lagarias, H. L. Montgomery and A. M. Odlyzko, &ldquo;A bound for the least prime ideal in the Chebotarev density theorem&rdquo;, <em>Inventiones Mathematicae</em> <strong>54</strong> (1979), 271&ndash;296. <a href="https://doi.org/10.1007/BF01390234">doi:10.1007/BF01390234</a> <span class="who">The unconditional effective bound.</span></li>
+      <li>H. Aramata, &ldquo;&Uuml;ber die Teilbarkeit der Dedekindschen Zetafunktionen&rdquo;, <em>Proceedings of the Imperial Academy, Tokyo</em> <strong>9</strong> (1933), 31&ndash;34.</li>
+      <li>R. Brauer, &ldquo;On the zeta-functions of algebraic number fields&rdquo;, <em>American Journal of Mathematics</em> <strong>69</strong> (1947), 243&ndash;250. <span class="who">With Aramata: &zeta;<sub>K</sub>/&zeta; is entire for Galois K.</span></li>
       <li><a href="https://www.lmfdb.org/NumberField/2.0.20.1">LMFDB: the field &#8474;(&radic;&minus;5)</a> and <a href="https://www.lmfdb.org/NumberField/2.0.23.1">&#8474;(&radic;&minus;23)</a>. <span class="who">Class groups, and the zeros used here.</span></li>
     </ul>
   </div></div>
@@ -792,7 +825,7 @@ footer {
 <section class="panel" id="panel-grh" role="tabpanel" aria-labelledby="tab-grh" hidden>
 
   <div class="prose">
-    <p class="eyebrow">Variant two</p>
+    <p class="eyebrow">Variant three</p>
     <h2>Dirichlet <span class="v">L</span>-functions</h2>
     <div class="claim">
       <p class="eyebrow">The conjecture</p>
@@ -830,10 +863,21 @@ footer {
       <span class="lbl">valid for Re(s) &gt; 1</span>
     </div>
     <p>
-      Because <span class="v">&chi;</span> is non-trivial the partial sums stay
-      bounded, so this one is entire &mdash; no pole at
-      <span class="v">s</span> = 1, and that is exactly what makes the next fact
-      possible.
+      Because <span class="v">&chi;</span> is non-trivial its partial sums stay
+      bounded, so partial summation already gives convergence, and hence
+      holomorphy, on Re(<span class="v">s</span>) &gt; 0. That alone does
+      <em>not</em> continue it to the whole plane. Writing it as a finite
+      combination of Hurwitz zeta functions does &mdash; and in that
+      combination the pole each piece has at <span class="v">s</span> = 1
+      cancels, because &sum;<span class="v">&chi;</span>(<span class="v">a</span>) = 0.
+      So <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
+      is entire, which is exactly what makes the next fact possible.
+    </p>
+    <p class="note">
+      That cancellation is not just theory here: it is literally how this page
+      evaluates the function, and subtracting the pieces after dividing rather
+      than before gives &infin; &minus; &infin; at
+      <span class="v">s</span> = 1.
     </p>
   </div></div>
 
@@ -936,19 +980,31 @@ footer {
         contain a constant no one can compute.
       </li>
       <li>
-        <strong>A great deal is conditional on it.</strong> Under GRH the
-        Miller&ndash;Rabin test becomes a deterministic polynomial-time primality
-        test (Miller, 1976), Artin's primitive root conjecture holds (Hooley,
-        1967), and Chebotarev's density theorem becomes effective
-        (Lagarias&ndash;Odlyzko).
+        <strong>A great deal is conditional on Riemann hypotheses &mdash; but
+        not all on this one.</strong> GRH for Dirichlet
+        <span class="v">L</span>-functions is enough to make Miller's test
+        deterministic in polynomial time: it bounds how far you must go through
+        Miller&ndash;Rabin bases before a composite is certain to be exposed
+        (Miller, 1976). Hooley's conditional proof of Artin's primitive root
+        conjecture (1967) needs <em>more</em> &mdash; the Riemann hypothesis for
+        the Dedekind zeta functions of the fields
+        &#8474;(&zeta;<sub><span class="v">n</span></sub>,&thinsp;<span class="v">a</span><sup>1/<span class="v">n</span></sup>),
+        which are not abelian in general. Effective Chebotarev for a general
+        extension likewise needs ERH for its Dedekind zeta function, or for the
+        relevant Artin <span class="v">L</span>-functions, rather than Dirichlet
+        GRH alone. The hypotheses in this family are not interchangeable, and
+        it is worth keeping track of which one a given theorem actually uses.
       </li>
     </ul>
     <h3>Further reading</h3>
     <ul class="refs">
-      <li>H. Davenport, <em>Multiplicative Number Theory</em>, 3rd ed. <span class="who">The standard treatment of Dirichlet L-functions.</span></li>
-      <li>H. Iwaniec and E. Kowalski, <em>Analytic Number Theory</em>, AMS Colloq. Publ. 53 (2004). <span class="who">Chapter 5 for the general framework.</span></li>
-      <li>C. L. Siegel, <em>&Uuml;ber die Classenzahl quadratischer Zahlk&ouml;rper</em> (1935). <span class="who">The ineffective bound.</span></li>
-      <li><a href="https://www.lmfdb.org/L/Character/Dirichlet/3/2/">LMFDB: L-function 1-3-3.2-r1-0-0</a>. <span class="who">This exact function, with its zeros.</span></li>
+      <li>H. Davenport, <em>Multiplicative Number Theory</em>, 3rd ed., revised by H. L. Montgomery, Graduate Texts in Mathematics <strong>74</strong>, Springer, 2000. <span class="who">The standard treatment of Dirichlet L-functions.</span></li>
+      <li>H. Iwaniec and E. Kowalski, <em>Analytic Number Theory</em>, American Mathematical Society Colloquium Publications <strong>53</strong>, AMS, 2004, ch. 5. <span class="who">The general framework.</span></li>
+      <li>C. L. Siegel, &ldquo;&Uuml;ber die Classenzahl quadratischer Zahlk&ouml;rper&rdquo;, <em>Acta Arithmetica</em> <strong>1</strong> (1935), 83&ndash;86. <span class="who">The ineffective bound.</span></li>
+      <li>G. L. Miller, &ldquo;Riemann's hypothesis and tests for primality&rdquo;, <em>Journal of Computer and System Sciences</em> <strong>13</strong> (1976), 300&ndash;317.</li>
+      <li>C. Hooley, &ldquo;On Artin's conjecture&rdquo;, <em>Journal f&uuml;r die reine und angewandte Mathematik</em> <strong>225</strong> (1967), 209&ndash;220.</li>
+      <li><a href="https://dlmf.nist.gov/25.15">NIST DLMF &sect;25.15, Dirichlet L-functions</a>. <span class="who">Continuation, functional equation and trivial zeros in one place.</span></li>
+      <li><a href="https://www.lmfdb.org/L/Character/Dirichlet/3/2/">LMFDB: L-function 1-3-3.2-r1-0-0</a>, and <a href="https://www.lmfdb.org/L/Character/Dirichlet/20/19/">1-20-20.19-r1-0-0</a>, <a href="https://www.lmfdb.org/L/Character/Dirichlet/23/22/">1-23-23.22-r1-0-0</a>. <span class="who">These exact functions, with their zeros.</span></li>
     </ul>
   </div></div>
 </section>
@@ -957,15 +1013,16 @@ footer {
 <section class="panel" id="panel-grand" role="tabpanel" aria-labelledby="tab-grand" hidden>
 
   <div class="prose">
-    <p class="eyebrow">Variant three</p>
+    <p class="eyebrow">Variant four</p>
     <h2>Automorphic <span class="v">L</span>-functions</h2>
     <div class="claim">
       <p class="eyebrow">The conjecture</p>
       <p class="statement">
-        For every cuspidal automorphic representation of
-        GL<sub><span class="v">n</span></sub> over a number field, every
-        non-trivial zero of its <span class="v">L</span>-function lies on the
-        central line.
+        For every unitary cuspidal automorphic representation
+        <span class="v">&pi;</span> of GL<sub><span class="v">n</span></sub>
+        over a number field, every non-trivial zero of its <em>standard</em>
+        <span class="v">L</span>-function, in the unitary normalisation, has
+        real part &frac12;.
       </p>
     </div>
     <p>
@@ -1039,8 +1096,10 @@ footer {
     </div>
     <p>
       The quadratic factor is what &ldquo;degree 2&rdquo; means, and it is why
-      the zeros are packed about twice as densely as
-      <span class="fn">&zeta;</span>'s at the same height.
+      the zeros are packed asymptotically about twice as densely as
+      <span class="fn">&zeta;</span>'s &mdash; the degree controls the leading
+      term in the zero-counting formula, though at low height the conductor
+      matters too.
     </p>
   </div></div>
 
@@ -1057,11 +1116,16 @@ footer {
     </div>
     <p>
       The sign <span class="v">&epsilon;</span> is forced by the curve and it
-      decides the parity of the order of vanishing at the centre. When
+      decides the <em>parity</em> of the order of vanishing at the centre. When
       <span class="v">&epsilon;</span> = &minus;1 the completed function is odd
-      about <span class="v">s</span> = 1 and therefore <em>must</em> vanish
-      there &mdash; which is why 37a1 has a zero sitting exactly at the centre
-      and 11a1 does not.
+      about <span class="v">s</span> = 1 and therefore must vanish there, which
+      is why 37a1 has a zero sitting exactly at the centre. When
+      <span class="v">&epsilon;</span> = +1 the order is even &mdash; but even
+      includes 2, 4, &hellip;, so the sign alone does not say the function is
+      non-zero. That 11a1 has no central zero is a separate computation:
+      <span class="v">L</span>(<span class="v">E</span>,&thinsp;1) =
+      0.2538418608&hellip;, which you can read off the plot by hovering at
+      <span class="v">s</span> = 1.
     </p>
     <div id="strip-grand"></div>
   </div></div>
@@ -1090,9 +1154,11 @@ footer {
         <strong>The functions exist.</strong> For elliptic curves over
         &#8474;, analytic continuation and the functional equation follow from
         modularity: Wiles and Taylor&ndash;Wiles (1995) for the semistable case,
-        completed by Breuil, Conrad, Diamond and Taylor (2001). For general
-        automorphic <span class="v">L</span>-functions this is
-        Godement&ndash;Jacquet.
+        completed by Breuil, Conrad, Diamond and Taylor (2001). For the
+        <em>standard</em> <span class="v">L</span>-functions of cuspidal
+        representations of GL<sub><span class="v">n</span></sub> it is
+        Godement&ndash;Jacquet; the trivial GL<sub>1</sub> representation is the
+        familiar case with a pole.
       </li>
       <li>
         <strong>The centre is understood in low rank.</strong> Birch and
@@ -1104,15 +1170,20 @@ footer {
         0.2538418608&hellip;; 37a1 has rank 1 and vanishes there.
       </li>
       <li>
-        <strong>No zero-free region reaching the line.</strong> As with
-        <span class="fn">&zeta;</span>, non-vanishing on Re(<span class="v">s</span>) = 3/2
-        is known and everything inside is open.
+        <strong>No zero-free region reaching the central line.</strong>
+        Non-vanishing on the boundary Re(<span class="v">s</span>) = 3/2 is
+        known, and quantitative zero-free regions just inside it are available.
+        What is open is whether <em>every</em> non-trivial zero in the strip
+        lies on Re(<span class="v">s</span>) = 1 &mdash; not the weaker claim
+        that nothing at all is known inside.
       </li>
       <li>
-        <strong>The statistics look right.</strong> Spacings between high zeros
-        match the eigenvalue statistics of random unitary matrices, and low-lying
-        zeros in families follow the Katz&ndash;Sarnak predictions &mdash;
-        evidence of the spectral interpretation that a proof would presumably
+        <strong>The statistics look right.</strong> Numerical data for high
+        zeros agree strikingly with the eigenvalue statistics of random unitary
+        matrices, and for low-lying zeros in families there are rigorous results
+        matching the Katz&ndash;Sarnak predictions for suitably restricted test
+        functions. The full conjectural picture is not a theorem, but it is
+        evidence for the spectral interpretation that a proof would presumably
         need.
       </li>
       <li>
@@ -1127,10 +1198,14 @@ footer {
     </ul>
     <h3>Further reading</h3>
     <ul class="refs">
-      <li>H. Iwaniec and E. Kowalski, <em>Analytic Number Theory</em>, ch. 5. <span class="who">The axioms an L-function is expected to satisfy.</span></li>
-      <li>P. Sarnak, <em>Notes on the generalized Ramanujan conjectures</em> (2005). <span class="who">Where Grand RH sits among its neighbours.</span></li>
-      <li>J. E. Cremona, <em>Algorithms for Modular Elliptic Curves</em>, 2nd ed. (1997). <span class="who">Includes the smoothed sum this page uses to evaluate L(E,s).</span></li>
-      <li>B. Gross and D. Zagier, <em>Heegner points and derivatives of L-series</em>, Invent. Math. <strong>84</strong> (1986). <span class="who">With Kolyvagin, BSD in analytic rank &le; 1.</span></li>
+      <li>H. Iwaniec and E. Kowalski, <em>Analytic Number Theory</em>, American Mathematical Society Colloquium Publications <strong>53</strong>, AMS, 2004, ch. 5. <span class="who">The axioms an L-function is expected to satisfy.</span></li>
+      <li>P. Sarnak, &ldquo;Notes on the generalized Ramanujan conjectures&rdquo;, in <em>Harmonic Analysis, the Trace Formula, and Shimura Varieties</em>, Clay Mathematics Proceedings <strong>4</strong>, AMS/Clay Mathematics Institute, 2005, 659&ndash;685. <span class="who">Where Grand RH sits among its neighbours.</span></li>
+      <li>A. Wiles, &ldquo;Modular elliptic curves and Fermat's Last Theorem&rdquo;, <em>Annals of Mathematics</em> <strong>141</strong> (1995), 443&ndash;551.</li>
+      <li>R. Taylor and A. Wiles, &ldquo;Ring-theoretic properties of certain Hecke algebras&rdquo;, <em>Annals of Mathematics</em> <strong>141</strong> (1995), 553&ndash;572.</li>
+      <li>C. Breuil, B. Conrad, F. Diamond and R. Taylor, &ldquo;On the modularity of elliptic curves over &#8474;: wild 3-adic exercises&rdquo;, <em>Journal of the American Mathematical Society</em> <strong>14</strong> (2001), 843&ndash;939. <span class="who">Modularity for every elliptic curve over &#8474;.</span></li>
+      <li>B. Gross and D. Zagier, &ldquo;Heegner points and derivatives of L-series&rdquo;, <em>Inventiones Mathematicae</em> <strong>84</strong> (1986), 225&ndash;320.</li>
+      <li>V. A. Kolyvagin, &ldquo;Finiteness of E(&#8474;) and &#1064;(E,&#8474;) for a subclass of Weil curves&rdquo;, <em>Izvestiya Akademii Nauk SSSR. Seriya Matematicheskaya</em> <strong>52</strong> (1988), 522&ndash;540; English translation, <em>Mathematics of the USSR-Izvestiya</em> <strong>32</strong> (1989), 523&ndash;541. <span class="who">With Gross&ndash;Zagier, BSD in analytic rank &le; 1.</span></li>
+      <li>J. E. Cremona, <em>Algorithms for Modular Elliptic Curves</em>, 2nd ed., Cambridge University Press, 1997. <span class="who">Includes the smoothed sum this page uses to evaluate L(E,s).</span></li>
       <li><a href="https://www.lmfdb.org/L/EllipticCurve/Q/11/a/">LMFDB: L-function 2-11-1.1-c1-0-0</a> and <a href="https://www.lmfdb.org/L/EllipticCurve/Q/37/a/">2-37-1.1-c1-0-1</a>. <span class="who">Source of the zeros above.</span></li>
     </ul>
   </div></div>
@@ -1142,8 +1217,22 @@ footer {
     <div class="prose">
       <h3>Compute it yourself</h3>
       <p>
-        Nothing on this page needs to be taken on trust. Both scripts below find
-        zeros from scratch; the Magma one is what produced the tables here.
+        Nothing on this page needs to be taken on trust. Both scripts below
+        locate critical-line zeros numerically, by detecting sign changes of a
+        real-valued function on the line; the Magma one produced the tables
+        here.
+      </p>
+      <p class="note">
+        What that does and does not establish. For the examples and ranges
+        shown, the ordinates it finds agree with the Odlyzko and LMFDB data
+        listed above &mdash; a numerical reproduction of those zeros. It is
+        <em>not</em> a proof that the list is complete: a sign change detects a
+        zero of odd order, so it can miss a zero of even multiplicity, or an
+        even number of zeros falling inside one step, and a zero exactly at the
+        central point has to be tested separately (the script does). Nor does
+        searching the line say anything about zeros off it. Establishing
+        completeness rigorously needs a zero-counting argument &mdash; Turing's
+        method, which is what LMFDB's certified zeta-zero dataset uses.
       </p>
       <div class="row" style="margin:14px 0">
         <select id="lang" aria-label="Language" style="max-width:170px">
@@ -1533,14 +1622,18 @@ footer {
             19.120252802798512, 20.542108704454735, 21.622206406481371,
             23.786167100158956, 24.906610399535413, 26.378159592740234,
             27.429410778006436, 29.315636462947542, 30.813432186697565,
-            31.629850769137192, 33.162006756974157],
+            31.629850769137192, 33.162006756974157, 34.518530834860204,
+            36.351014501254046, 37.050936518052881, 38.361186646821365,
+            39.804810634381604],
     chi23: [2.871339848930368, 4.215189804229719, 6.731189150719542,
             8.334849030124398, 10.633871230218586, 12.581696786969625,
             13.604131724738555, 15.385560733598581, 15.938101367347983,
             18.985931202695874, 19.987766847887368, 21.203602256396255,
             22.874076023463120, 23.946447295267818, 25.462561010482498,
             26.486391237836839, 28.502865498702425, 30.101719258358329,
-            31.254693951229937, 31.918338693736597],
+            31.254693951229937, 31.918338693736597, 33.151307942492053,
+            34.870172459568831, 36.075735833691798, 37.967917830330852,
+            38.687242403298728],
     '11a1': [6.362613894713089, 8.603539619290756, 10.035509097181079,
              11.451258610345211, 13.568639057129995, 15.914072603300384,
              17.033610320380624, 17.941433573459341, 19.185724971852241,
@@ -1553,9 +1646,25 @@ footer {
              19.814822245363376]
   };
   function bySize(p, q) { return p - q; }
-  ZEROS.zetaK3  = ZEROS.zeta.concat(ZEROS.chi3).sort(bySize);
-  ZEROS.zetaK20 = ZEROS.zeta.concat(ZEROS.chi20).sort(bySize);
-  ZEROS.zetaK23 = ZEROS.zeta.concat(ZEROS.chi23).sort(bySize);
+
+  /* Merging the two factor lists only gives CONSECUTIVE zeros of zeta_K up to
+   * the point where both lists are still complete. Past the shorter list's
+   * last entry the merge silently turns into "the remaining zeros of the
+   * longer factor", which are not the next zeros of zeta_K at all -- so the
+   * merge is cut at min(max of each list). COMPLETE_TO records that height for
+   * every family, and the app refuses to mark zeros above it. */
+  function mergeZeros(a, b) {
+    var lim = Math.min(a[a.length - 1], b[b.length - 1]);
+    return a.concat(b).sort(bySize).filter(function (t) { return t <= lim; });
+  }
+  ZEROS.zetaK3  = mergeZeros(ZEROS.zeta, ZEROS.chi3);
+  ZEROS.zetaK20 = mergeZeros(ZEROS.zeta, ZEROS.chi20);
+  ZEROS.zetaK23 = mergeZeros(ZEROS.zeta, ZEROS.chi23);
+
+  var COMPLETE_TO = {};
+  Object.keys(ZEROS).forEach(function (k) {
+    COMPLETE_TO[k] = ZEROS[k][ZEROS[k].length - 1];
+  });
 
   /* kind: which evaluator and which gamma factor.
    * centre: the critical line. eps: the root number.
@@ -1800,7 +1909,8 @@ footer {
     ellipticL: ellipticL, evaluate: evaluate,
     gammaFactor: gammaFactor, zfunction: zfunction, zline: zline,
     grid: grid, gridJob: gridJob,
-    CHARS: CHARS, CURVES: CURVES, ZEROS: ZEROS, FAMILY: FAMILY
+    CHARS: CHARS, CURVES: CURVES, ZEROS: ZEROS, FAMILY: FAMILY,
+    COMPLETE_TO: COMPLETE_TO
   };
 })(typeof window !== 'undefined' ? window : this);
 
@@ -2088,6 +2198,18 @@ footer {
        cannot be drawn to equal scales and still fit on a screen. The vertical
        axis is compressed by about 5x; the tick labels say so, and the caption
        under the plot says so in words. */
+    /* The marked zeros are a finite tabulated list. Say where it stops rather
+       than let a reader infer, from an unmarked stretch, that there are no
+       zeros there. For a Dedekind zeta the list runs out at whichever of its
+       two factors was tabulated less far. */
+    function completenessNote() {
+      var lim = LF.COMPLETE_TO[id];
+      if (view[3] <= lim) return '';
+      return ' Marked zeros are tabulated only up to Im(s) = ' + lim.toFixed(3) +
+             '; above that the function is still drawn correctly, but no ' +
+             'markers are shown because the list is not known to be complete.';
+    }
+
     function px() {
       var w = Math.max(240, Math.min(540, stage.clientWidth));
       var aspect = (view[3] - view[2]) / (view[1] - view[0]);
@@ -2165,7 +2287,9 @@ footer {
       }
       if (show.zeros) {
         octx.strokeStyle = cZero; octx.lineWidth = 1.8 * dpr;
+        var lim = LF.COMPLETE_TO[id];
         (LF.ZEROS[id] || []).forEach(function (t) {
+          if (t > lim) return;
           [t, -t].forEach(function (tt) {
             if (tt < view[2] || tt > view[3]) return;
             var p = toPx(c, tt);
@@ -2194,7 +2318,8 @@ footer {
         'Horizontal axis Re(s), vertical axis Im(s). The vertical axis is ' +
         'compressed by a factor of about ' + k.toFixed(1) + ', which is the ' +
         'only way a tall stretch of the strip fits on a screen — so a ' +
-        'zero shows up as a flattened white spot rather than a round one.';
+        'zero shows up as a flattened white spot rather than a round one.' +
+        completenessNote();
 
       /* Paint in bands so even the slowest of these never freezes the page. */
       var job = LF.gridJob(id, view[0], view[1], view[2], view[3], inner.w, inner.h);
@@ -2295,7 +2420,7 @@ footer {
       if (show.zeros) {
         fctx.strokeStyle = zcol; fctx.fillStyle = zcol; fctx.lineWidth = 2;
         (LF.ZEROS[id] || []).forEach(function (z) {
-          if (z < t0 || z > t1) return;
+          if (z < t0 || z > t1 || z > LF.COMPLETE_TO[id]) return;
           var xz = X(z);
           fctx.beginPath();
           fctx.moveTo(xz, Y(0) + 4); fctx.lineTo(xz, Y(0) + 12);
@@ -2315,7 +2440,8 @@ footer {
         'are the tabulated zeros, and the curve crosses the axis at every one.' +
         (clipped ? ' The vertical scale is set by the typical size of Z rather ' +
                    'than its largest excursion, which reaches ' +
-                   reach.toPrecision(3) + ' here; taller peaks are clipped.' : '');
+                   reach.toPrecision(3) + ' here; taller peaks are clipped.' : '') +
+        completenessNote();
       dirty = false;
     }
 
@@ -2567,7 +2693,10 @@ footer {
 
     note: {
       magma: 'This is the script that generated the tables on this page, run under ' +
-             'Magma 2.29-10. Its output matched Odlyzko and LMFDB on every zero.',
+             'Magma 2.29-10. Over the ranges shown its ordinates agreed with the ' +
+             'Odlyzko and LMFDB values to every digit those sources print — a ' +
+             'reproduction of them, not an independent certification that the ' +
+             'lists are complete.',
       sage:  'The Sage calls follow the documented examples for lcalc and for ' +
              'EllipticCurve.lseries(); they were not run on the machine that built ' +
              'this page, which has no Sage installed.'

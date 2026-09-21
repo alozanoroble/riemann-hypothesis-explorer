@@ -142,6 +142,40 @@ Object.keys(LF.FAMILY).forEach(function (id) {
     '</td><td>' + crossings + ' sign changes, ' + missed + ' missed</td></tr>');
 });
 
+/* The referee's point: a merged list of zeros is only a list of CONSECUTIVE
+   zeros up to where both factor lists run out. Test it directly rather than
+   trust the merge -- scan Z on a fine grid up to the stated completeness
+   height and count sign changes. Every one must be accounted for by a listed
+   zero, and every listed zero by a crossing. This catches a truncated list,
+   an interleaving mistake, and a fabricated ordinate alike. */
+var crows = [];
+Object.keys(LF.FAMILY).forEach(function (id) {
+  var lim = LF.COMPLETE_TO[id];
+  /* scan a little past `lim`: the last listed zero sits exactly at it, and a
+     sign change there needs a sample on both sides */
+  var step = 0.02, prev = LF.zfunction(id, 0.01), found = [];
+  for (var t = 0.01 + step; t <= lim + 3 * step; t += step) {
+    var cur = LF.zfunction(id, t);
+    if (prev * cur < 0) found.push(t - step / 2);
+    prev = cur;
+  }
+  var listed = LF.ZEROS[id].filter(function (z) { return z > 0 && z <= lim; });
+  var matched = listed.filter(function (z) {
+    return found.some(function (t) { return Math.abs(t - z) < 0.05; });
+  });
+  var extra = found.filter(function (t) {
+    return !listed.some(function (z) { return Math.abs(t - z) < 0.05; });
+  });
+  var bad = matched.length !== listed.length || extra.length > 0;
+  if (bad) fails++;
+  crows.push('<tr class="' + (bad ? 'bad' : '') + '"><td>' + id +
+    '</td><td>complete to ' + lim.toFixed(3) +
+    '</td><td>' + listed.length + ' listed, ' + found.length + ' crossings found' +
+    '</td><td>' + (bad ? (listed.length - matched.length) + ' unmatched, ' +
+                   extra.length + ' unlisted crossings' : 'every crossing listed') +
+    '</td></tr>');
+});
+
 /* grid() must agree with evaluate() point by point. */
 var gmsg = [];
 Object.keys(LF.FAMILY).forEach(function (id) {
@@ -189,6 +223,8 @@ document.getElementById('out').innerHTML =
   '<table>' + zrows.join('') + '</table>' +
   '<h3>Z-function: real, |Z| = |L|, sign changes at the zeros</h3>' +
   '<table>' + zfrows.join('') + '</table>' +
+  '<h3>the listed zeros are consecutive, up to the stated height</h3>' +
+  '<table>' + crows.join('') + '</table>' +
   '<h3>grid() consistency</h3><table>' + gmsg.join('') + '</table>' +
   '<h3>timing</h3><table>' + tmsg.join('') + '</table>';
 </script>
