@@ -28,7 +28,7 @@ for d in [-3, -5, -23] do
     printf "D%o ZETAK_VAL_2 %o\n", Abs(D), Evaluate(LK, 2);
     printf "D%o ZETAK_VAL_halfplus8i %o\n", Abs(D), Evaluate(LK, CC!(1/2) + i*8);
     printf "D%o SPLIT %o\n", Abs(D),
-        [<p, [Norm(f[1]) : f in Factorisation(p*OK)]> : p in PrimesUpTo(30)];
+        [<p, [Norm(f[1]) : f in Factorization(p*OK)]> : p in PrimesUpTo(30)];
 end for;
 printf "### DONE\n";
 quit;

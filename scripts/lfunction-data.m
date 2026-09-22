@@ -64,7 +64,7 @@ end function;
 // Scan the critical line for sign changes and refine each one.
 function CriticalLineZeros(L, height, tag)
     m      := MotivicWeight(L);
-    centre := RR!(m+1)/2;
+    center := RR!(m+1)/2;
     // Sign(L) is 0 until the functional equation has actually been checked,
     // which would make the rotation below divide by zero.
     fecheck := CheckFunctionalEquation(L);
@@ -72,9 +72,9 @@ function CriticalLineZeros(L, height, tag)
     eps    := CC!Sign(L);
     error if eps eq 0, "root number still unknown for " cat tag;
     rt     := Sqrt(eps);
-    Z      := func< t | Real(LStar(L, centre + i*RR!t)/rt) >;
+    Z      := func< t | Real(LStar(L, center + i*RR!t)/rt) >;
 
-    printf "%o CENTRE %o\n", tag, centre;
+    printf "%o CENTRE %o\n", tag, center;
     printf "%o WEIGHT %o\n", tag, m;
     printf "%o SIGN %o\n", tag, eps;
     printf "%o DEGREE %o\n", tag, Degree(L);
@@ -84,7 +84,7 @@ function CriticalLineZeros(L, height, tag)
     f0 := Z(t0);
     // A zero at the central point itself (analytic rank > 0) is not found by
     // a sign change, so test it separately.
-    centralval := Abs(Evaluate(L, centre));
+    centralval := Abs(Evaluate(L, center));
     printf "%o CENTRALVALUE %o\n", tag, centralval;
 
     while t0 lt height do

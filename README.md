@@ -3,7 +3,7 @@
 **[Open the app →](https://alozanoroble.github.io/riemann-hypothesis-explorer/)**
 
 A teaching tool for the Riemann Hypothesis and its three standard
-generalisations. Each one gets the same treatment: the conjecture stated
+generalizations. Each one gets the same treatment: the conjecture stated
 precisely, the *L*-function defined, its coefficients and Euler product, the
 critical strip and functional equation, a table of zeros, a live plot, and
 references.
@@ -15,7 +15,7 @@ references.
 | **GRH** | zeros of *L*(*s*, χ) | quadratic characters of conductor 3, 20, 23 |
 | **Grand RH** | zeros of automorphic *L* | elliptic curves 11a1 (rank 0) and 37a1 (rank 1) |
 
-Every plot has two views. The **complex plane** view colours the strip by
+Every plot has two views. The **complex plane** view colors the strip by
 |*L*(*s*)|, white at the zeros, so they appear as a row of white points on a
 single vertical line. The **critical line** view plots the *Z*-function — the
 completed *L*-function rotated so that it is real — where the zeros become
@@ -156,12 +156,12 @@ root number and *a<sub>n</sub>*. One gap: every character currently included is
 odd, so a real quadratic field would need the even branch of `gammaFactor`
 written.
 
-## Licence
+## License
 
-[![Licence: CC BY 4.0](https://img.shields.io/badge/licence-CC%20BY%204.0-informational)](https://creativecommons.org/licenses/by/4.0/)
+[![License: CC BY 4.0](https://img.shields.io/badge/license-CC%20BY%204.0-informational)](https://creativecommons.org/licenses/by/4.0/)
 
 Released under the [Creative Commons Attribution 4.0 International
-licence](https://creativecommons.org/licenses/by/4.0/). You may share and
+license](https://creativecommons.org/licenses/by/4.0/). You may share and
 adapt any of it, including commercially, provided you give credit. The full
 text is in [`LICENSE`](LICENSE).
 
@@ -171,7 +171,7 @@ To attribute:
 > University of Connecticut,
 > <https://github.com/alozanoroble/riemann-hypothesis-explorer>, CC BY 4.0.
 
-The licence covers the exposition, the plots and the code here. It does not
+The license covers the exposition, the plots and the code here. It does not
 cover the data it cites: Odlyzko's tables and LMFDB's zeros belong to their
 authors and are linked rather than redistributed.
 

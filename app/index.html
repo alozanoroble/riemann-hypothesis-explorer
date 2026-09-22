@@ -399,7 +399,7 @@ footer {
 <header class="top wrap">
   <h1>The <em>Riemann</em> Hypothesis</h1>
   <p class="standfirst">
-    One statement about where a function vanishes, and three generalisations
+    One statement about where a function vanishes, and three generalizations
     that stretch it across all of arithmetic. Each comes with a live picture of
     its <span class="v">L</span>-function &mdash; over the complex plane, where
     the zeros are white points strung along a single vertical line, or along
@@ -424,14 +424,22 @@ footer {
   <p>
     For a complex number <span class="v">s</span> with real part greater than 1
     &mdash; that is, with Re(<span class="v">s</span>) &gt; 1 &mdash; the series
-    <span class="v">&sum;</span>&thinsp;1/<span class="v">n<sup>s</sup></span>
-    converges. <strong>Euler's identity</strong> is the statement that this sum
-    equals a product running over the primes, with one factor for each prime,
-    and it holds precisely because every integer factors into primes in exactly
-    one way. That single identity is why a question about primes can be asked
-    as a question about a function of a complex variable. Riemann's 1859 memoir
-    continued the function to the whole plane and observed that the
-    distribution of primes is governed by the location of its zeros.
+    below converges, and its sum is the <strong>Riemann zeta function</strong>
+    <span class="fn">&zeta;</span>(<span class="v">s</span>).
+  </p>
+  <div class="eq">
+    <math display="block"><semantics><mrow><mi>&#950;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munderover><mo>&#8721;</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi>&#8734;</mi></munderover><mfrac><mn>1</mn><msup><mi>n</mi><mi>s</mi></msup></mfrac></mrow><annotation encoding="application/x-tex">\zeta(s)=\sum_{n=1}^{\infty}\frac{1}{n^{s}}</annotation></semantics></math>
+    <span class="lbl">convergent for Re(s) &gt; 1</span>
+  </div>
+  <p class="prose">
+    <strong>Euler's identity</strong> is the statement that this sum equals a
+    product running over the primes, with one factor for each prime, and it
+    holds precisely because every integer factors into primes in exactly one
+    way. That single identity is why a question about primes can be asked as a
+    question about a function of a complex variable. Riemann's 1859 memoir
+    continued <span class="fn">&zeta;</span>(<span class="v">s</span>) to the
+    whole plane and observed that the distribution of primes is governed by the
+    location of its zeros.
   </p>
   <p>
     All the interesting zeros lie in the <strong>critical strip</strong>, and
@@ -460,7 +468,7 @@ footer {
 </section>
 
 <!-- ==================================================== RH ============= -->
-<section class="panel" id="panel-rh" role="tabpanel" aria-labelledby="tab-rh">
+<section class="panel" id="panel-rh" role="tabpanel" aria-labeledby="tab-rh">
 
   <div class="prose">
     <p class="eyebrow">Variant one</p>
@@ -502,10 +510,10 @@ footer {
     <p>The most featureless coefficients possible: every one of them is 1.</p>
     <div class="coeffs" id="coef-zeta"></div>
     <p class="note">
-      Everything arithmetic in <span class="fn">&zeta;</span> comes from the
-      denominator of 1/<span class="v">n<sup>s</sup></span>, not from the
-      numerators. The other three variants earn their difficulty by putting
-      real arithmetic into these coefficients.
+      Everything arithmetic in <span class="fn">&zeta;</span>(<span class="v">s</span>)
+      comes from the denominator of 1/<span class="v">n<sup>s</sup></span>, not
+      from the numerators. The other three variants earn their difficulty by
+      putting real arithmetic into these coefficients.
     </p>
   </div></div>
 
@@ -519,7 +527,7 @@ footer {
       Expanding each factor as a geometric series and multiplying out
       reproduces the terms 1/<span class="v">n<sup>s</sup></span> exactly once
       for each <span class="v">n</span> &mdash; the product <em>is</em> unique
-      factorisation, written analytically.
+      factorization, written analytically.
     </p>
   </div></div>
 
@@ -536,9 +544,11 @@ footer {
       half-planes, 0 &le; Re(<span class="v">s</span>) &le; 1.
     </p>
     <p>
-      Both statements come from the same object. Multiplying
-      <span class="fn">&zeta;</span> by a gamma factor and a power of
-      &pi; produces the <strong>completed zeta function</strong>
+      That functional equation is not a symmetry of
+      <span class="fn">&zeta;</span>(<span class="v">s</span>) itself but of a
+      modified function. Multiplying
+      <span class="fn">&zeta;</span>(<span class="v">s</span>) by a gamma factor
+      and a power of &pi; produces the <strong>completed zeta function</strong>
       &Lambda;(<span class="v">s</span>) &mdash; &ldquo;completed&rdquo; because
       the extra factor is the missing Euler factor at infinity, the one the
       product over primes leaves out.
@@ -555,11 +565,11 @@ footer {
       <span class="lbl">the functional equation, reflecting s about the critical line</span>
     </div>
     <p>
-      &Gamma; has poles at 0, &minus;1, &minus;2, &hellip;, so
-      &Gamma;(<span class="v">s</span>/2) has poles at
-      <span class="v">s</span> = 0, &minus;2, &minus;4, &hellip; The trivial
-      zeros of <span class="fn">&zeta;</span> are exactly what cancels those
-      poles. Away from them the gamma factor is finite and non-zero, so
+      &Gamma;(<span class="v">s</span>) has poles at 0, &minus;1, &minus;2,
+      &hellip; (all simple), so &Gamma;(<span class="v">s</span>/2) has poles at
+      <span class="v">s</span> = 0, &minus;2, &minus;4, &hellip;. The trivial
+      zeros of <span class="fn">&zeta;</span>(<span class="v">s</span>) are
+      exactly what cancels those poles. Away from them the gamma factor is finite and non-zero, so
       <strong>the non-trivial zeros of
       <span class="fn">&zeta;</span>(<span class="v">s</span>) are precisely the
       zeros of &Lambda;(<span class="v">s</span>), with the same
@@ -585,12 +595,14 @@ footer {
     <div class="prose">
       <h3>The function on the plane</h3>
       <p>
-        The second view needs a word of warning, because it is <em>not</em> a
-        graph of <span class="fn">&zeta;</span> on the critical line.
-        <span class="fn">&zeta;</span>(&frac12; + <span class="v">it</span>) is
-        complex, so it has no graph over the reals. What is real there is
-        &Lambda;, by the functional equation: &Lambda;(&frac12; + <span class="v">it</span>)
-        = &Lambda;(&frac12; &minus; <span class="v">it</span>), and since
+        The view below needs a word of warning, because it is <em>not</em> a
+        graph of <span class="fn">&zeta;</span>(<span class="v">s</span>) on the
+        critical line. The function
+        <span class="fn">&zeta;</span>(&frac12; + <span class="v">it</span>) for
+        real <span class="v">t</span> is complex-valued, so it has no graph over
+        the reals. What is real there is &Lambda;, by the functional equation:
+        &Lambda;(&frac12; + <span class="v">it</span>) =
+        &Lambda;(&frac12; &minus; <span class="v">it</span>), and since
         &Lambda; takes conjugate values at conjugate points, that forces
         &Lambda;(&frac12; + <span class="v">it</span>) to equal its own
         conjugate. Dividing by the modulus of the gamma factor rescales it
@@ -600,19 +612,37 @@ footer {
         <math display="block"><semantics><mrow><mi>Z</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>&#923;</mi><mrow><mo>(</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mi>i</mi><mi>t</mi><mo>)</mo></mrow></mrow><mrow><mo>|</mo><msup><mi>&#960;</mi><mrow><mo>&#8722;</mo><mi>s</mi><mo>/</mo><mn>2</mn></mrow></msup><mi>&#915;</mi><mo stretchy="false">(</mo><mi>s</mi><mo>/</mo><mn>2</mn><mo stretchy="false">)</mo><mo>|</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">Z(t)=\frac{\Lambda\!\left(\tfrac12+it\right)}{\left|\pi^{-s/2}\Gamma(s/2)\right|}</annotation></semantics></math>
         <span class="where">
           evaluated at <span class="v">s</span> = &frac12; +
-          <span class="v">it</span>. <span class="v">Z</span> is real,
+          <span class="v">it</span>. The function
+          <span class="v">Z</span>(<span class="v">t</span>) is real, so
           |<span class="v">Z</span>(<span class="v">t</span>)| =
           |<span class="fn">&zeta;</span>(&frac12; + <span class="v">it</span>)|,
-          and <span class="v">Z</span> changes sign exactly at the zeros on the
-          line. For <span class="fn">&zeta;</span> this is Hardy's
-          <span class="v">Z</span>-function.
+          and <span class="v">Z</span>(<span class="v">t</span>) changes sign
+          exactly at the imaginary parts of the zeros on the critical line. For
+          <span class="fn">&zeta;</span>(<span class="v">s</span>) this is
+          Hardy's <span class="v">Z</span>-function.
         </span>
       </div>
       <p>
         So the crossings you see are genuinely the zeros; the curve is just not
-        <span class="fn">&zeta;</span> itself. The same construction works for
-        every <span class="v">L</span>-function on this page, with its own gamma
-        factor and a rotation by the root number where that is &minus;1.
+        <span class="fn">&zeta;</span>(<span class="v">s</span>) itself.
+      </p>
+      <p class="note">
+        The same construction works for every <span class="v">L</span>-function
+        on this page, but it needs one more ingredient in general. A completed
+        <span class="v">L</span>-function satisfies
+        &Lambda;(<span class="v">s</span>) =
+        <span class="v">W</span>&thinsp;&Lambda;(1 &minus; <span class="v">s</span>)
+        for a <strong>root number</strong> <span class="v">W</span> of modulus 1,
+        and when <span class="v">W</span> &ne; 1 the value
+        &Lambda;(&frac12; + <span class="v">it</span>) need not be real at all.
+        What is real is the ratio
+        &Lambda;(&frac12; + <span class="v">it</span>)&thinsp;/&thinsp;&radic;<span class="v">W</span>,
+        and it does not matter which square root you pick &mdash; the two
+        choices differ by a sign, so one is real exactly when the other is. Every
+        example on this page happens to have <span class="v">W</span> = &plusmn;1,
+        since the characters are real and the curves are over &#8474;, but the
+        plotting code divides by &radic;<span class="v">W</span> for a general
+        <span class="v">W</span>.
       </p>
     </div>
     <div class="plotwrap" data-plot="rh" data-ids="zeta"></div>
@@ -638,15 +668,20 @@ footer {
         <strong>No zeros on Re(<span class="v">s</span>) = 1.</strong> Proved
         independently by Hadamard and de la Vall&eacute;e Poussin in 1896, and
         equivalent to the prime number theorem. The best known zero-free region
-        is still essentially Vinogradov&ndash;Korobov, and is far from the line.
+        on the right half of the critical strip is still essentially that due to
+        Vinogradov&ndash;Korobov, and is far from the line.
       </li>
       <li>
         <strong>Verified very far up.</strong> Platt and Trudgian (2021)
         rigorously verified that every non-trivial zero
         <span class="v">&beta;</span> + <span class="v">i&gamma;</span> with
         0 &lt; <span class="v">&gamma;</span> &le; 3&nbsp;&times;&nbsp;10<sup>12</sup>
-        has <span class="v">&beta;</span> = &frac12;; the reflected range
-        follows by symmetry.
+        has <span class="v">&beta;</span> = &frac12;. That the zeros down to
+        imaginary part &minus;3&nbsp;&times;&nbsp;10<sup>12</sup> in the bottom
+        part of the critical strip all have real part &frac12; follows by
+        symmetry, and there are no real zeros in the critical strip at all,
+        since <span class="fn">&zeta;</span>(<span class="v">s</span>) &lt; 0
+        for 0 &lt; <span class="v">s</span> &lt; 1.
       </li>
       <li>
         <strong>It is worth a million dollars.</strong> One of the seven Clay
@@ -675,7 +710,7 @@ footer {
 </section>
 
 <!-- ==================================================== ERH ============ -->
-<section class="panel" id="panel-erh" role="tabpanel" aria-labelledby="tab-erh" hidden>
+<section class="panel" id="panel-erh" role="tabpanel" aria-labeledby="tab-erh" hidden>
 
   <div class="prose">
     <p class="eyebrow">Variant two</p>
@@ -695,13 +730,13 @@ footer {
       reason to care. In a general ring of integers, numbers do not factor
       uniquely. The example here is
       <span class="v">K</span> = &#8474;(&radic;&minus;5), the standard
-      smallest-radicand example in which unique factorisation of <em>elements</em>
+      smallest-radicand example in which unique factorization of <em>elements</em>
       fails. (It is not the smallest by discriminant: &#8474;(&radic;&minus;15)
       has discriminant &minus;15 and class number 2 as well.)
     </p>
     <div class="eq">
       <math display="block"><semantics><mrow><mn>6</mn><mo>=</mo><mn>2</mn><mo>&#8901;</mo><mn>3</mn><mo>=</mo><mo>(</mo><mn>1</mn><mo>+</mo><msqrt><mrow><mo>&#8722;</mo><mn>5</mn></mrow></msqrt><mo>)</mo><mo>(</mo><mn>1</mn><mo>&#8722;</mo><msqrt><mrow><mo>&#8722;</mo><mn>5</mn></mrow></msqrt><mo>)</mo></mrow><annotation encoding="application/x-tex">6=2\cdot 3=\left(1+\sqrt{-5}\right)\left(1-\sqrt{-5}\right)</annotation></semantics></math>
-      <span class="lbl">two genuinely different factorisations into irreducibles</span>
+      <span class="lbl">two genuinely different factorizations into irreducibles</span>
     </div>
   </div>
 
@@ -709,7 +744,7 @@ footer {
     <h3>The function on a right half-plane</h3>
     <p>
       Kummer and Dedekind's repair was to factor <em>ideals</em> instead of
-      numbers, and for ideals factorisation is unique again. So the zeta
+      numbers, and for ideals factorization is unique again. So the zeta
       function of <span class="v">K</span> counts ideals, graded by their norm.
     </p>
     <div class="eq">
@@ -717,12 +752,12 @@ footer {
       <span class="lbl"><span class="v">I</span> runs over the non-zero ideals of the ring of integers; Re(s) &gt; 1</span>
     </div>
     <p>
-      How far unique factorisation fails is measured by the <strong>class
+      How far unique factorization fails is measured by the <strong>class
       number</strong> <span class="v">h</span>, the size of the group of
       ideals modulo principal ones. For &#8474;(&radic;&minus;5),
       <span class="v">h</span> = 2; for &#8474;(&radic;&minus;23),
       <span class="v">h</span> = 3; for &#8474;(&radic;&minus;3),
-      <span class="v">h</span> = 1 and factorisation does work. All three are
+      <span class="v">h</span> = 1 and factorization does work. All three are
       available in the plot below.
     </p>
   </div></div>
@@ -747,8 +782,8 @@ footer {
   <div class="step"><div class="letter">c</div><div class="body prose">
     <h3>Euler product</h3>
     <div class="eq">
-      <math display="block"><semantics><mrow><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>&#8719;</mo><mi>P</mi></munder><mfrac><mn>1</mn><mrow><mn>1</mn><mo>&#8722;</mo><mfrac><mn>1</mn><msup><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>P</mi><mo stretchy="false">)</mo></mrow><mi>s</mi></msup></mfrac></mrow></mfrac></mrow><annotation encoding="application/x-tex">\zeta_K(s)=\prod_{P}\frac{1}{1-1/N(P)^{s}}</annotation></semantics></math>
-      <span class="lbl"><span class="v">P</span> runs over the prime ideals &mdash; not the prime numbers <span class="v">p</span></span>
+      <math display="block"><semantics><mrow><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>&#8719;</mo><mrow><mi>P</mi><mo>&#8800;</mo><mn>0</mn></mrow></munder><mfrac><mn>1</mn><mrow><mn>1</mn><mo>&#8722;</mo><mfrac><mn>1</mn><msup><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>P</mi><mo stretchy="false">)</mo></mrow><mi>s</mi></msup></mfrac></mrow></mfrac></mrow><annotation encoding="application/x-tex">\zeta_K(s)=\prod_{P\neq 0}\frac{1}{1-1/N(P)^{s}}</annotation></semantics></math>
+      <span class="lbl"><span class="v">P</span> runs over the nonzero prime ideals &mdash; not the prime numbers <span class="v">p</span></span>
     </div>
     <p>
       Grouping the prime ideals by the rational prime underneath them gives the
@@ -895,7 +930,7 @@ footer {
 </section>
 
 <!-- ==================================================== GRH ============ -->
-<section class="panel" id="panel-grh" role="tabpanel" aria-labelledby="tab-grh" hidden>
+<section class="panel" id="panel-grh" role="tabpanel" aria-labeledby="tab-grh" hidden>
 
   <div class="prose">
     <p class="eyebrow">Variant three</p>
@@ -907,6 +942,17 @@ footer {
         <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;</span>)
         in the strip 0 &lt; Re(<span class="v">s</span>) &lt; 1 satisfies
         Re(<span class="v">s</span>) = &frac12;.
+      </p>
+      <p class="note">
+        The restriction to the open strip is doing quiet work. If
+        <span class="v">&chi;</span> is imprimitive, induced by a character of
+        smaller conductor, its <span class="v">L</span>-function differs from the
+        primitive one by finitely many Euler factors
+        (1 &minus; <span class="v">&chi;</span><sub>0</sub>(<span class="v">p</span>)<span class="v">p</span><sup>&minus;<span class="v">s</span></sup>),
+        and each of those contributes zeros on the line
+        Re(<span class="v">s</span>) = 0. Stating the conjecture about the
+        interior of the strip leaves those untouched. The three characters used
+        here are all primitive, so the question does not arise for them.
       </p>
     </div>
     <p>
@@ -1048,10 +1094,15 @@ footer {
       <li>
         <strong>A great deal is conditional on Riemann hypotheses &mdash; but
         not all on this one.</strong> GRH for Dirichlet
-        <span class="v">L</span>-functions is enough to make Miller's test
-        deterministic in polynomial time: it bounds how far you must go through
-        Miller&ndash;Rabin bases before a composite is certain to be exposed
-        (Miller, 1976). Hooley's conditional proof of Artin's primitive root
+        <span class="v">L</span>-functions is enough to make Miller's primality
+        test deterministic in polynomial time: it bounds how far you must go
+        through Miller&ndash;Rabin bases before an odd composite is certain to
+        have its compositeness exposed (Miller, 1976; Bach, 1990). Miller's own
+        bound on the first witness was
+        <span class="fn">O</span>((log&thinsp;<span class="v">n</span>)&sup2;)
+        with no explicit constant, so the test was polynomial time in theory but
+        not yet usable; Bach showed the constant may be taken to be 2, which is
+        what made it a practical algorithm. Hooley's conditional proof of Artin's primitive root
         conjecture (1967) needs <em>more</em> &mdash; the Riemann hypothesis for
         the Dedekind zeta functions of the fields
         &#8474;(&zeta;<sub><span class="v">n</span></sub>,&thinsp;<span class="v">a</span><sup>1/<span class="v">n</span></sup>),
@@ -1068,6 +1119,7 @@ footer {
       <li>H. Iwaniec and E. Kowalski, <em>Analytic Number Theory</em>, American Mathematical Society Colloquium Publications <strong>53</strong>, AMS, 2004, ch. 5. <span class="who">The general framework.</span></li>
       <li>C. L. Siegel, &ldquo;&Uuml;ber die Classenzahl quadratischer Zahlk&ouml;rper&rdquo;, <em>Acta Arithmetica</em> <strong>1</strong> (1935), 83&ndash;86. <span class="who">The ineffective bound.</span></li>
       <li>G. L. Miller, &ldquo;Riemann's hypothesis and tests for primality&rdquo;, <em>Journal of Computer and System Sciences</em> <strong>13</strong> (1976), 300&ndash;317.</li>
+      <li>E. Bach, &ldquo;Explicit bounds for primality testing and related problems&rdquo;, <em>Mathematics of Computation</em> <strong>55</strong> (1990), no. 191, 355&ndash;380. <span class="who">Supplies the explicit constant Miller's bound lacked.</span></li>
       <li>C. Hooley, &ldquo;On Artin's conjecture&rdquo;, <em>Journal f&uuml;r die reine und angewandte Mathematik</em> <strong>225</strong> (1967), 209&ndash;220.</li>
       <li><a href="https://dlmf.nist.gov/25.15">NIST DLMF &sect;25.15, Dirichlet L-functions</a>. <span class="who">Continuation, functional equation and trivial zeros in one place.</span></li>
       <li><a href="https://www.lmfdb.org/L/Character/Dirichlet/3/2/">LMFDB: L-function 1-3-3.2-r1-0-0</a>, and <a href="https://www.lmfdb.org/L/Character/Dirichlet/20/19/">1-20-20.19-r1-0-0</a>, <a href="https://www.lmfdb.org/L/Character/Dirichlet/23/22/">1-23-23.22-r1-0-0</a>. <span class="who">These exact functions, with their zeros.</span></li>
@@ -1076,7 +1128,7 @@ footer {
 </section>
 
 <!-- ==================================================== Grand RH ======= -->
-<section class="panel" id="panel-grand" role="tabpanel" aria-labelledby="tab-grand" hidden>
+<section class="panel" id="panel-grand" role="tabpanel" aria-labeledby="tab-grand" hidden>
 
   <div class="prose">
     <p class="eyebrow">Variant four</p>
@@ -1087,7 +1139,7 @@ footer {
         For every unitary cuspidal automorphic representation
         <span class="v">&pi;</span> of GL<sub><span class="v">n</span></sub>
         over a number field, every non-trivial zero of its <em>standard</em>
-        <span class="v">L</span>-function, in the unitary normalisation, has
+        <span class="v">L</span>-function, in the unitary normalization, has
         real part &frac12;.
       </p>
     </div>
@@ -1115,8 +1167,8 @@ footer {
       functional equation. The examples below are over &#8474;.
     </p>
     <p class="note">
-      A warning about normalisation. For an elliptic curve the natural
-      variable puts the centre at <span class="v">s</span> = 1 and the strip at
+      A warning about normalization. For an elliptic curve the natural
+      variable puts the center at <span class="v">s</span> = 1 and the strip at
       &frac12; &lt; Re(<span class="v">s</span>) &lt; 3/2; this is what the plot
       below uses. Replacing <span class="v">s</span> by
       <span class="v">s</span> + &frac12; slides everything back to the familiar
@@ -1202,10 +1254,10 @@ footer {
     </div>
     <p>
       The sign <span class="v">&epsilon;</span> is forced by the curve and it
-      decides the <em>parity</em> of the order of vanishing at the centre. When
+      decides the <em>parity</em> of the order of vanishing at the center. When
       <span class="v">&epsilon;</span> = &minus;1 the completed function is odd
       about <span class="v">s</span> = 1 and therefore must vanish there, which
-      is why 37a1 has a zero sitting exactly at the centre. When
+      is why 37a1 has a zero sitting exactly at the center. When
       <span class="v">&epsilon;</span> = +1 the order is even &mdash; but even
       includes 2, 4, &hellip;, so the sign alone does not say the function is
       non-zero. That 11a1 has no central zero is a separate computation:
@@ -1247,7 +1299,7 @@ footer {
         familiar case with a pole.
       </li>
       <li>
-        <strong>The centre is understood in low rank.</strong> Birch and
+        <strong>The center is understood in low rank.</strong> Birch and
         Swinnerton-Dyer predict that the order of vanishing at
         <span class="v">s</span> = 1 equals the rank of
         <span class="v">E</span>(&#8474;). When the analytic order is 0 or 1 this
@@ -1285,7 +1337,7 @@ footer {
     <h3>Further reading</h3>
     <ul class="refs">
       <li>H. Iwaniec and E. Kowalski, <em>Analytic Number Theory</em>, American Mathematical Society Colloquium Publications <strong>53</strong>, AMS, 2004, ch. 5. <span class="who">The axioms an L-function is expected to satisfy.</span></li>
-      <li>P. Sarnak, &ldquo;Notes on the generalized Ramanujan conjectures&rdquo;, in <em>Harmonic Analysis, the Trace Formula, and Shimura Varieties</em>, Clay Mathematics Proceedings <strong>4</strong>, AMS/Clay Mathematics Institute, 2005, 659&ndash;685. <span class="who">Where Grand RH sits among its neighbours.</span></li>
+      <li>P. Sarnak, &ldquo;Notes on the generalized Ramanujan conjectures&rdquo;, in <em>Harmonic Analysis, the Trace Formula, and Shimura Varieties</em>, Clay Mathematics Proceedings <strong>4</strong>, AMS/Clay Mathematics Institute, 2005, 659&ndash;685. <span class="who">Where Grand RH sits among its neighbors.</span></li>
       <li>A. Wiles, &ldquo;Modular elliptic curves and Fermat's Last Theorem&rdquo;, <em>Annals of Mathematics</em> <strong>141</strong> (1995), 443&ndash;551.</li>
       <li>R. Taylor and A. Wiles, &ldquo;Ring-theoretic properties of certain Hecke algebras&rdquo;, <em>Annals of Mathematics</em> <strong>141</strong> (1995), 553&ndash;572.</li>
       <li>C. Breuil, B. Conrad, F. Diamond and R. Taylor, &ldquo;On the modularity of elliptic curves over &#8474;: wild 3-adic exercises&rdquo;, <em>Journal of the American Mathematical Society</em> <strong>14</strong> (2001), 843&ndash;939. <span class="who">Modularity for every elliptic curve over &#8474;.</span></li>
@@ -1464,7 +1516,7 @@ footer {
   /* A small diagram is worth more here than another paragraph: it is the one
      place the reader can see strip, line, trivial zeros and reflection at once. */
 
-  /* The zeros are drawn at their true heights against a labelled Im axis. An
+  /* The zeros are drawn at their true heights against a labeled Im axis. An
      earlier version spaced them evenly, which put the first one of zeta
      seemingly a hair above the trivial zeros instead of up at 14.13 -- the one
      quantitative fact the picture most needs to get right. The vertical scale
@@ -1513,7 +1565,7 @@ footer {
     });
     if (opts.pole !== undefined) {
       /* The pole is a real point, s = 1, so its marker has to sit ON the real
-         axis. Drawn as two crossing lines centred at (X, yMid) rather than as
+         axis. Drawn as two crossing lines centered at (X, yMid) rather than as
          a text glyph: the y of an SVG <text> is its baseline, so a character
          placed here floats above the axis by most of its own height. */
       var px = X(opts.pole), a = 5;
@@ -1521,7 +1573,7 @@ footer {
              '" y2="' + (yMid + a) + '" stroke="var(--crit)" stroke-width="1.8" stroke-linecap="round"/>');
       g.push('<line x1="' + (px - a) + '" y1="' + (yMid + a) + '" x2="' + (px + a) +
              '" y2="' + (yMid - a) + '" stroke="var(--crit)" stroke-width="1.8" stroke-linecap="round"/>');
-      /* anchored to the right of the cross: centred, the label would run back
+      /* anchored to the right of the cross: centered, the label would run back
          across the critical line, which is only a few pixels away */
       g.push('<text x="' + (px + 9) + '" y="' + (yMid - 5) + '" text-anchor="start" font-size="9.5" fill="var(--crit)" font-family="IBM Plex Mono, monospace">pole at s = ' + opts.pole + '</text>');
     }
@@ -1539,7 +1591,7 @@ footer {
       g.join('') + '</svg>' +
       '<p class="note" style="margin-top:2px">The dots are the first ' +
       shown.length + ' pairs of non-trivial zeros, at their actual heights &mdash; ' +
-      'the lowest sits at Im(<span class="v">s</span>) = ' + shown[0].toFixed(3) +
+      'the lowest sits at Im(<span class="v">s</span>) &asymp; ' + shown[0].toFixed(4) +
       ', well above the trivial zeros on the real axis. Note the two axes are ' +
       'not to the same scale: the strip is one unit wide, and the vertical ' +
       'range shown here is ' + (2 * imMax) + ' units.</p>';
@@ -1564,7 +1616,7 @@ footer {
     trivial: [0, -1, -2], zeros: LF.ZEROS['11a1'], imMax: 16
   });
 
-  /* -------------------------------------------------------- colouring -- */
+  /* -------------------------------------------------------- coloring -- */
   /* Hue carries the argument; lightness carries the modulus, running to white
      at a zero and to black at a pole. Faint banding on log|L| gives the eye
      level curves to hold on to. */
@@ -1605,7 +1657,7 @@ footer {
       var m = Math.hypot(re, im);
       /* A sigmoid in log |L|: mid-tone at |L| = 1, white only very near a
          zero, near-black only near a pole. Without this almost the whole
-         strip washes out to the same pale colour. */
+         strip washes out to the same pale color. */
       var u = Math.log(m + 1e-300);
       var l = 0.5 - 0.5 * Math.tanh(u / 3);
       /* faint level curves at each doubling, to give the eye something to hold */
@@ -1661,7 +1713,7 @@ footer {
             '<div class="row"><input type="radio" name="v' + PLOTS.length + '" id="vp' + PLOTS.length + '" checked><label for="vp' + PLOTS.length + '">the complex plane</label></div>' +
             '<div class="row"><input type="radio" name="v' + PLOTS.length + '" id="vl' + PLOTS.length + '"><label for="vl' + PLOTS.length + '">Z(t) along the critical line</label></div>' +
           '</fieldset>' +
-          '<fieldset class="colourset"><legend>colour</legend>' +
+          '<fieldset class="colorset"><legend>color</legend>' +
             '<div class="row"><input type="radio" name="m' + PLOTS.length + '" id="mo' + PLOTS.length + '" checked><label for="mo' + PLOTS.length + '">|L(s)| only</label></div>' +
             '<div class="row"><input type="radio" name="m' + PLOTS.length + '" id="ph' + PLOTS.length + '"><label for="ph' + PLOTS.length + '">|L(s)| and phase</label></div>' +
             '<div class="legendbar"></div>' +
@@ -1747,7 +1799,7 @@ footer {
       var cZero = cs.getPropertyValue('--zero').trim() || '#0f7382';
       var cFaint = cs.getPropertyValue('--faint').trim() || '#888';
       var cPaper = cs.getPropertyValue('--paper').trim() || '#f1f3f6';
-      var f = LF.FAMILY[id], c = f.centre;
+      var f = LF.FAMILY[id], c = f.center;
 
       /* The strip reads by contrast, not by tint: a wash over everything
          OUTSIDE it, so the strip is the only part at full strength. A faint
@@ -1829,7 +1881,7 @@ footer {
       var my = ++token;
       lastWidth = stage.clientWidth;
       lab.textContent = LABEL[id];
-      root.querySelector('.colourset').hidden = (vmode !== 'plane');
+      root.querySelector('.colorset').hidden = (vmode !== 'plane');
       var ov = root.querySelectorAll('fieldset')[2].querySelectorAll('.row');
       ov[0].hidden = ov[1].hidden = (vmode !== 'plane');
       if (vmode === 'line') { renderLine(my); return; }
@@ -1865,8 +1917,8 @@ footer {
 
     /* ------------------------------------------- the critical-line view -- */
     /* Z(t) is real, vanishes exactly at the zeros on the line, and has
-       |Z(t)| = |L(centre + it)|. Plotting it is the only way to *see* a zero
-       as a crossing rather than infer it from a colour. */
+       |Z(t)| = |L(center + it)|. Plotting it is the only way to *see* a zero
+       as a crossing rather than infer it from a color. */
     function renderLine(my) {
       var w = Math.max(240, Math.min(540, stage.clientWidth));
       var h = Math.round(Math.max(220, Math.min(340, w * 0.62)));
@@ -1963,7 +2015,7 @@ footer {
         'the completed function on that line, which the functional equation ' +
         'forces to be real, divided by the modulus of its gamma factor. So ' +
         '|Z(t)| = |L(' +
-        (LF.FAMILY[id].centre === 0.5 ? '½' : '1') +
+        (LF.FAMILY[id].center === 0.5 ? '½' : '1') +
         ' + it)| and Z crosses zero precisely where L does — the teal ticks ' +
         'are the tabulated zeros, and the curve crosses the axis at every one.' +
         (clipped ? ' The vertical scale is set by the typical size of Z rather ' +
@@ -2085,7 +2137,7 @@ footer {
         vmode = i === 0 ? 'plane' : 'line'; render();
       });
     });
-    root.querySelector('.colourset').querySelectorAll('input').forEach(function (r, i) {
+    root.querySelector('.colorset').querySelectorAll('input').forEach(function (r, i) {
       r.addEventListener('change', function () {
         mode = i === 0 ? 'modulus' : 'phase'; render();
       });
@@ -2127,7 +2179,7 @@ footer {
   var SNIPPETS = {
     magma: '<span class="c">// Zeros of an L-function on the critical line, in Magma.</span>\n' +
 '<span class="c">// Magma 2.29-10 has no zero-finder for the LSer type, so this uses the</span>\n' +
-'<span class="c">// fact that Lambda(centre + it) / sqrt(eps) is real, and hunts sign changes.</span>\n' +
+'<span class="c">// fact that Lambda(center + it) / sqrt(eps) is real, and hunts sign changes.</span>\n' +
 '<span class="c">// Run it with:  magma -b thisfile.m</span>\n' +
 '\n' +
 'PREC := 40;\n' +
@@ -2137,9 +2189,9 @@ footer {
 '\n' +
 'function CriticalLineZeros(L, height, step)\n' +
 '    _ := CheckFunctionalEquation(L);   <span class="c">// Sign(L) is 0 until you do this</span>\n' +
-'    centre := RR!(MotivicWeight(L)+1)/2;\n' +
+'    center := RR!(MotivicWeight(L)+1)/2;\n' +
 '    rt := Sqrt(CC!Sign(L));\n' +
-'    Z := func&lt; t | Real(LStar(L, centre + i*RR!t)/rt) &gt;;\n' +
+'    Z := func&lt; t | Real(LStar(L, center + i*RR!t)/rt) &gt;;\n' +
 '    zeros := [RR|];\n' +
 '    t0 := step; f0 := Z(t0);\n' +
 '    while t0 lt height do\n' +
@@ -2184,7 +2236,7 @@ footer {
 'for lab in ["11a1", "37a1"] do\n' +
 '    L := LSeries(EllipticCurve(lab) : Precision := PREC);\n' +
 '    CriticalLineZeros(L, 35, 1/10);\n' +
-'    <span class="c">// A zero exactly at the centre is invisible to a sign change,</span>\n' +
+'    <span class="c">// A zero exactly at the center is invisible to a sign change,</span>\n' +
 '    <span class="c">// so test the central value separately. It is 0 for 37a1,</span>\n' +
 '    <span class="c">// which has rank 1, and 0.2538... for 11a1, which has rank 0.</span>\n' +
 '    Evaluate(L, 1);\n' +

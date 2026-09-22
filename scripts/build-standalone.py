@@ -29,7 +29,7 @@ HEAD_OPEN = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="The Riemann Hypothesis and its generalisations \
+<meta name="description" content="The Riemann Hypothesis and its generalizations \
 -- ERH for Dedekind zeta functions, GRH for Dirichlet L-functions, and the Grand \
 Riemann Hypothesis -- each with its L-function, its zeros, and live plots of the \
 critical strip and the critical line.">

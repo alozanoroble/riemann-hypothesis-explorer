@@ -1,7 +1,7 @@
 /* lfunctions.js — evaluation of the example L-functions in the critical
- * strip, in double precision, fast enough to colour a grid.
+ * strip, in double precision, fast enough to color a grid.
  *
- * Normalisation is arithmetic throughout (the one LMFDB calls "arithmetic"):
+ * Normalization is arithmetic throughout (the one LMFDB calls "arithmetic"):
  *   zeta, Dirichlet L and Dedekind zeta have their critical line at Re(s)=1/2;
  *   the elliptic-curve L-functions have theirs at Re(s)=1, with the functional
  *   equation s <-> 2-s.
@@ -394,29 +394,29 @@
   });
 
   /* kind: which evaluator and which gamma factor.
-   * centre: the critical line. eps: the root number.
+   * center: the critical line. eps: the root number.
    * view: the default window. maxIm: how far the method stays trustworthy.
    * cost: relative price of one point, used to pick a grid resolution. */
   var FAMILY = {
-    zeta:    { kind: 'zeta', centre: 0.5, eps: 1, view: [-2, 3, -1, 35],
+    zeta:    { kind: 'zeta', center: 0.5, eps: 1, view: [-2, 3, -1, 35],
                maxIm: 80, cost: 1 },
-    chi3:    { kind: 'dirichlet', ch: 'chi3', centre: 0.5, eps: 1,
+    chi3:    { kind: 'dirichlet', ch: 'chi3', center: 0.5, eps: 1,
                view: [-2, 3, -1, 35], maxIm: 70, cost: 2 },
-    chi20:   { kind: 'dirichlet', ch: 'chi20', centre: 0.5, eps: 1,
+    chi20:   { kind: 'dirichlet', ch: 'chi20', center: 0.5, eps: 1,
                view: [-2, 3, -1, 35], maxIm: 45, cost: 6 },
-    chi23:   { kind: 'dirichlet', ch: 'chi23', centre: 0.5, eps: 1,
+    chi23:   { kind: 'dirichlet', ch: 'chi23', center: 0.5, eps: 1,
                view: [-2, 3, -1, 35], maxIm: 45, cost: 16 },
-    zetaK3:  { kind: 'dedekind', ch: 'chi3', centre: 0.5, eps: 1,
+    zetaK3:  { kind: 'dedekind', ch: 'chi3', center: 0.5, eps: 1,
                view: [-2, 3, -1, 35], maxIm: 70, cost: 3 },
-    zetaK20: { kind: 'dedekind', ch: 'chi20', centre: 0.5, eps: 1,
+    zetaK20: { kind: 'dedekind', ch: 'chi20', center: 0.5, eps: 1,
                view: [-2, 3, -1, 35], maxIm: 45, cost: 7 },
-    zetaK23: { kind: 'dedekind', ch: 'chi23', centre: 0.5, eps: 1,
+    zetaK23: { kind: 'dedekind', ch: 'chi23', center: 0.5, eps: 1,
                view: [-2, 3, -1, 35], maxIm: 45, cost: 17 },
     /* The smoothed sum loses roughly e^{pi t / 2} worth of significance to
      * cancellation, so past |Im s| ~ 20 double precision runs out. */
-    '11a1':  { kind: 'elliptic', centre: 1, eps: 1, view: [-0.5, 2.5, -2, 18],
+    '11a1':  { kind: 'elliptic', center: 1, eps: 1, view: [-0.5, 2.5, -2, 18],
                maxIm: 20, cost: 900 },
-    '37a1':  { kind: 'elliptic', centre: 1, eps: -1, view: [-0.5, 2.5, -2, 18],
+    '37a1':  { kind: 'elliptic', center: 1, eps: -1, view: [-0.5, 2.5, -2, 18],
                maxIm: 20, cost: 1600 }
   };
 
@@ -432,9 +432,9 @@
 
   /* ------------------------------------------------------- Z-function --- */
   /* The completed function Lambda = G * L satisfies Lambda(s) = eps
-   * Lambda(w-s), which forces Lambda(centre + it)/sqrt(eps) to be real. Divide
+   * Lambda(w-s), which forces Lambda(center + it)/sqrt(eps) to be real. Divide
    * by |G| and you get a real function of t whose modulus is exactly
-   * |L(centre+it)| and whose sign changes are exactly the zeros on the line.
+   * |L(center+it)| and whose sign changes are exactly the zeros on the line.
    * This is Hardy's Z for zeta, and it is what LMFDB plots. */
 
   /* the gamma factor G(s), including the conductor power */
@@ -465,7 +465,7 @@
   }
 
   function zfunction(id, t) {
-    var f = FAMILY[id], c = f.centre;
+    var f = FAMILY[id], c = f.center;
     var G = gammaFactor(id, c, t);
     var L = evaluate(id, c, t);
     var P = cmul(G[0], G[1], L[0], L[1]);           /* Lambda(c+it) */
@@ -486,7 +486,7 @@
   /* n^{-s} factors as exp(-sigma log n) -- which depends only on the column --
    * times cos/sin(t log n) -- which depend only on the row. Precomputing both
    * turns the inner loop into multiply-adds, and that is what makes zooming
-   * feel immediate. The elliptic-curve sum has no such factorisation and is
+   * feel immediate. The elliptic-curve sum has no such factorization and is
    * evaluated point by point instead. */
 
   function powerGrid(M, x0, dx, W) {

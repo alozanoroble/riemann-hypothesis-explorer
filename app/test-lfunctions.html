@@ -17,7 +17,7 @@
 <script src="lfunctions.js"></script>
 <script>
 /* Reference values: Magma 2.29-10, from results/lfunction-data-20260921.txt
-   and results/quad-char-values-20260921.txt. Arithmetic normalisation,
+   and results/quad-char-values-20260921.txt. Arithmetic normalization,
    truncated to double precision. */
 var REF = [
   ['zeta', 2,    0,  1.6449340668482264365,   0],
@@ -98,7 +98,7 @@ var TOL = { zeta: 1e-10, chi3: 1e-10, chi20: 1e-10, chi23: 1e-10,
             '11a1': 1e-3, '37a1': 1e-3 };
 var zrows = [], zworst = 0;
 Object.keys(LF.ZEROS).forEach(function (id) {
-  var c = LF.FAMILY[id].centre, lim = LF.FAMILY[id].maxIm;
+  var c = LF.FAMILY[id].center, lim = LF.FAMILY[id].maxIm;
   var mx = 0, n = 0, at = 0;
   LF.ZEROS[id].forEach(function (t) {
     if (Math.abs(t) > lim) return;
@@ -120,7 +120,7 @@ Object.keys(LF.ZEROS).forEach(function (id) {
    and Z must change sign across every tabulated zero. */
 var zfrows = [];
 Object.keys(LF.FAMILY).forEach(function (id) {
-  var c = LF.FAMILY[id].centre, lim = LF.FAMILY[id].maxIm;
+  var c = LF.FAMILY[id].center, lim = LF.FAMILY[id].maxIm;
   var magErr = 0, t;
   for (t = 0.5; t < lim * 0.9; t += lim / 17) {
     var z = Math.abs(LF.zfunction(id, t));
