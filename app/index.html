@@ -1612,8 +1612,14 @@ footer {
     g.push('<text x="' + X(opts.c) + '" y="' + (top - 13) + '" text-anchor="middle" font-size="10" fill="var(--crit)" font-family="IBM Plex Mono, monospace">Re(s) = ' + opts.cLabel + '</text>');
     g.push('<text x="' + (X(opts.a) + X(opts.b)) / 2 + '" y="' + (bot + 17) +
            '" text-anchor="middle" font-size="10" fill="var(--faint)" font-family="IBM Plex Mono, monospace">critical strip</text>');
-    g.push('<text x="' + (X(opts.trivial[0]) - 16) + '" y="' + (yMid + 20) +
-           '" text-anchor="end" font-size="10" fill="var(--faint)" font-family="IBM Plex Mono, monospace">trivial zeros</text>');
+    /* On its own line beneath the numbers. Anchored beside them it ran across
+       whichever trivial zeros lay further left -- trivial[0] is the rightmost
+       of them, so an end-anchored label extends back over all the others. */
+    var tvx = opts.trivial.map(X);
+    g.push('<text x="' +
+           ((Math.min.apply(null, tvx) + Math.max.apply(null, tvx)) / 2) +
+           '" y="' + (yMid + 36) +
+           '" text-anchor="middle" font-size="10" fill="var(--faint)" font-family="IBM Plex Mono, monospace">trivial zeros</text>');
     var shown = (opts.zeros || []).filter(function (z) { return z > 0 && z <= imMax; });
     el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" ' +
       'style="max-width:100%;display:block;margin:6px 0 2px" role="img" ' +
