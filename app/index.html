@@ -813,16 +813,26 @@ footer {
   <div class="step"><div class="letter">d</div><div class="body prose">
     <h3>The critical strip</h3>
     <p>
-      Same strip, same line. For an imaginary quadratic field the completed
-      function carries the discriminant as its conductor and a single
-      &Gamma;-factor, and the trivial zeros fill in all the negative integers
-      &mdash; the even ones inherited from
+      Same strip, same line, and the same two-step construction: first complete
+      the function, then state the symmetry. The trivial zeros here fill in all
+      the negative integers &mdash; the even ones inherited from
       <span class="fn">&zeta;</span> and the odd ones from
       <span class="v">L</span>(<span class="v">s</span>,&thinsp;<span class="v">&chi;<sub>D</sub></span>).
     </p>
     <div class="eq">
-      <math display="block"><semantics><mrow><msub><mi>&#923;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mrow><mo>|</mo><msub><mi>d</mi><mi>K</mi></msub><mo>|</mo></mrow><mrow><mi>s</mi><mo>/</mo><mn>2</mn></mrow></msup><msup><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>&#960;</mi><mo stretchy="false">)</mo></mrow><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mi>&#915;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>&#923;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mn>1</mn><mo>&#8722;</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda_K(s)=|d_K|^{s/2}(2\pi)^{-s}\Gamma(s)\zeta_K(s)=\Lambda_K(1-s)</annotation></semantics></math>
-      <span class="lbl">imaginary quadratic: one complex place, no real ones</span>
+      <math display="block"><semantics><mrow><msub><mi>&#923;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mrow><mo>|</mo><msub><mi>d</mi><mi>K</mi></msub><mo>|</mo></mrow><mrow><mi>s</mi><mo>/</mo><mn>2</mn></mrow></msup><msup><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>&#960;</mi><mo stretchy="false">)</mo></mrow><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mi>&#915;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><msub><mi>&#950;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda_K(s)=|d_K|^{s/2}(2\pi)^{-s}\Gamma(s)\zeta_K(s)</annotation></semantics></math>
+      <span class="lbl">the completed Dedekind zeta function</span>
+    </div>
+    <p>
+      The conductor here is the absolute discriminant
+      |<span class="v">d<sub>K</sub></span>|, and there is a single
+      &Gamma;-factor because an imaginary quadratic field has one complex place
+      and no real ones. As before, it is the completed function that satisfies
+      the symmetry:
+    </p>
+    <div class="eq">
+      <math display="block"><semantics><mrow><msub><mi>&#923;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>&#923;</mi><mi>K</mi></msub><mo stretchy="false">(</mo><mn>1</mn><mo>&#8722;</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda_K(s)=\Lambda_K(1-s)</annotation></semantics></math>
+      <span class="lbl">the functional equation</span>
     </div>
     <p>
       There is still a simple pole at <span class="v">s</span> = 1, and its
@@ -1030,8 +1040,17 @@ footer {
       <em>odd</em> integers &minus;1, &minus;3, &minus;5, &hellip;
     </p>
     <div class="eq">
-      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mrow><mo>(</mo><mfrac><mn>3</mn><mi>&#960;</mi></mfrac><mo>)</mo></mrow><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>/</mo><mn>2</mn></mrow></msup><mi>&#915;</mi><mrow><mo>(</mo><mfrac><mrow><mi>s</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac><mo>)</mo></mrow><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo><mo>=</mo><mi>&#923;</mi><mo stretchy="false">(</mo><mn>1</mn><mo>&#8722;</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s,\chi)=\left(\frac{3}{\pi}\right)^{(s+1)/2}\Gamma\!\left(\frac{s+1}{2}\right)L(s,\chi)=\Lambda(1-s,\chi)</annotation></semantics></math>
-      <span class="lbl">root number +1 for this character</span>
+      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mrow><mo>(</mo><mfrac><mn>3</mn><mi>&#960;</mi></mfrac><mo>)</mo></mrow><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>/</mo><mn>2</mn></mrow></msup><mi>&#915;</mi><mrow><mo>(</mo><mfrac><mrow><mi>s</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac><mo>)</mo></mrow><mi>L</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s,\chi)=\left(\frac{3}{\pi}\right)^{(s+1)/2}\Gamma\!\left(\frac{s+1}{2}\right)L(s,\chi)</annotation></semantics></math>
+      <span class="lbl">the completed Dirichlet L-function, conductor 3</span>
+    </div>
+    <p>
+      The root number of this character is +1, so the functional equation
+      carries no extra factor and &Lambda; is symmetric about the critical line
+      exactly as <span class="fn">&zeta;</span>'s is:
+    </p>
+    <div class="eq">
+      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo><mo>=</mo><mi>&#923;</mi><mo stretchy="false">(</mo><mn>1</mn><mo>&#8722;</mo><mi>s</mi><mo>,</mo><mi>&#967;</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s,\chi)=\Lambda(1-s,\chi)</annotation></semantics></math>
+      <span class="lbl">the functional equation</span>
     </div>
     <div id="strip-grh"></div>
   </div></div>
@@ -1251,12 +1270,23 @@ footer {
   <div class="step"><div class="letter">d</div><div class="body prose">
     <h3>The critical strip</h3>
     <div class="eq">
-      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>N</mi><mrow><mi>s</mi><mo>/</mo><mn>2</mn></mrow></msup><msup><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>&#960;</mi><mo stretchy="false">)</mo></mrow><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mi>&#915;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mi>L</mi><mo stretchy="false">(</mo><mi>E</mi><mo>,</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mi>&#949;</mi><mi>&#923;</mi><mo stretchy="false">(</mo><mn>2</mn><mo>&#8722;</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s)=N^{s/2}(2\pi)^{-s}\Gamma(s)L(E,s)=\varepsilon\Lambda(2-s)</annotation></semantics></math>
+      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>N</mi><mrow><mi>s</mi><mo>/</mo><mn>2</mn></mrow></msup><msup><mrow><mo stretchy="false">(</mo><mn>2</mn><mi>&#960;</mi><mo stretchy="false">)</mo></mrow><mrow><mo>&#8722;</mo><mi>s</mi></mrow></msup><mi>&#915;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mi>L</mi><mo stretchy="false">(</mo><mi>E</mi><mo>,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s)=N^{s/2}(2\pi)^{-s}\Gamma(s)L(E,s)</annotation></semantics></math>
+      <span class="lbl">the completed L-function of E, whose conductor is N</span>
+    </div>
+    <p>
+      Here the functional equation does carry a factor. The
+      <strong>root number</strong> <span class="v">&epsilon;</span> = &plusmn;1
+      is determined by the curve, and the reflection is about
+      <span class="v">s</span> = 1 rather than &frac12;, because this is the
+      arithmetic normalization:
+    </p>
+    <div class="eq">
+      <math display="block"><semantics><mrow><mi>&#923;</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mi>&#949;</mi><mspace width="0.12em"/><mi>&#923;</mi><mo stretchy="false">(</mo><mn>2</mn><mo>&#8722;</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Lambda(s)=\varepsilon\,\Lambda(2-s)</annotation></semantics></math>
       <span class="lbl"><span class="v">&epsilon;</span> = +1 for <span class="lit">11a1</span>, &minus;1 for <span class="lit">37a1</span></span>
     </div>
     <p>
-      The sign <span class="v">&epsilon;</span> is forced by the curve and it
-      decides the <em>parity</em> of the order of vanishing at the center. When
+      That sign decides the <em>parity</em> of the order of vanishing at the
+      center. When
       <span class="v">&epsilon;</span> = &minus;1 the completed function is odd
       about <span class="v">s</span> = 1 and therefore must vanish there, which
       is why 37a1 has a zero sitting exactly at the center. When
