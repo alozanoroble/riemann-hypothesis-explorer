@@ -50,6 +50,16 @@
   --shadow:  0 1px 2px #0006, 0 8px 24px #0003;
 }
 
+/* Keep native controls (radios, checkboxes, selects, scrollbars) in step with
+   whichever theme is in force, including an explicit override of the system
+   preference. Mirrors the token blocks above. */
+:root { color-scheme: light; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; }
+}
+:root[data-theme="dark"]  { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }
+
 * { box-sizing: border-box; }
 
 body {
@@ -210,6 +220,26 @@ sub, sup { font-size: 0.72em; line-height: 0; }
   color: var(--surface); background: var(--crit); border-color: var(--crit);
 }
 .tab:focus-visible { outline: 2px solid var(--zero); outline-offset: 2px; }
+
+.themetoggle {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 6px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.themetoggle:hover { color: var(--ink); background: var(--sunk); }
+.themetoggle:focus-visible { outline: 2px solid var(--zero); outline-offset: 2px; }
+.themetoggle svg { display: block; flex: none; }
+@media (max-width: 560px) { .themetoggle { margin-left: 0; } }
 
 /* --------------------------------------------------------- lettering --- */
 /* The (a)-(g) sequence is the structure of the material, not decoration:
@@ -396,6 +426,21 @@ footer {
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
+<script>
+/* Apply a stored theme choice before anything paints, so an explicit override
+   of the system preference does not flash the wrong colors first. Storage can
+   throw or come back empty (private windows, blocked site data), in which case
+   the page simply follows prefers-color-scheme as it did before. */
+(function () {
+  try {
+    var t = localStorage.getItem('rh-theme');
+    if (t === 'dark' || t === 'light') {
+      document.documentElement.setAttribute('data-theme', t);
+    }
+  } catch (e) { /* no stored preference available; fall through to the system */ }
+})();
+</script>
+
 <header class="top wrap">
   <h1>The <em>Riemann</em> Hypothesis</h1>
   <p class="standfirst">
@@ -413,6 +458,7 @@ footer {
     <button class="tab" role="tab" id="tab-erh"   aria-selected="false" data-panel="erh">Dedekind zeta functions</button>
     <button class="tab" role="tab" id="tab-grh"   aria-selected="false" data-panel="grh">Dirichlet <span class="v">L</span>-functions</button>
     <button class="tab" role="tab" id="tab-grand" aria-selected="false" data-panel="grand">Automorphic <span class="v">L</span>-functions</button>
+    <button class="themetoggle" id="themetoggle" type="button"></button>
   </div>
 </nav>
 
@@ -2203,6 +2249,15 @@ footer {
           built = true;
           render();
         }
+      },
+      /* The colored field itself is theme-independent by design -- white at a
+         zero in either theme -- so switching themes only has to redraw the
+         overlay, which is cheap. The line chart does take its colors from the
+         tokens, so that one is re-rendered. A hidden panel is just marked
+         dirty and picked up when it is next shown. */
+      themeChanged: function () {
+        if (!built || !stage.clientWidth) { dirty = true; return; }
+        if (vmode === 'line') render(); else drawOverlay();
       }
     };
     PLOTS.push(api);
@@ -2211,6 +2266,60 @@ footer {
 
   [].slice.call(document.querySelectorAll('.plotwrap')).forEach(makePlot);
   PLOTS[0].ensure();
+
+  /* ------------------------------------------------------------ theme --- */
+
+  var ICON_SUN =
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" ' +
+    'stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">' +
+    '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.2v2.4M12 19.4v2.4M2.2 12h2.4' +
+    'M19.4 12h2.4M5.1 5.1l1.7 1.7M17.2 17.2l1.7 1.7M18.9 5.1l-1.7 1.7M6.8 17.2l-1.7 1.7"/></svg>';
+  var ICON_MOON =
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" ' +
+    'stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M20.5 14.6A8.4 8.4 0 0 1 9.4 3.5a8.4 8.4 0 1 0 11.1 11.1z"/></svg>';
+
+  var themeBtn = document.getElementById('themetoggle');
+  var darkQuery = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+
+  function activeTheme() {
+    var forced = document.documentElement.getAttribute('data-theme');
+    if (forced === 'dark' || forced === 'light') return forced;
+    return darkQuery && darkQuery.matches ? 'dark' : 'light';
+  }
+
+  /* The button advertises what it will do, not what is currently showing --
+     an icon alone is ambiguous about which of those it means. */
+  function paintThemeButton() {
+    var next = activeTheme() === 'dark' ? 'light' : 'dark';
+    themeBtn.innerHTML = (next === 'dark' ? ICON_MOON : ICON_SUN) +
+      '<span>' + (next === 'dark' ? 'Dark' : 'Light') + '</span>';
+    themeBtn.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+    themeBtn.title = 'Switch to ' + next + ' theme';
+  }
+
+  function refreshForTheme() {
+    paintThemeButton();
+    PLOTS.forEach(function (p) { p.themeChanged(); });
+  }
+
+  themeBtn.addEventListener('click', function () {
+    var next = activeTheme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('rh-theme', next); } catch (e) { /* not persisted */ }
+    refreshForTheme();
+  });
+
+  if (darkQuery) {
+    var onSystemChange = function () {
+      /* an explicit choice outranks the system, so only follow it otherwise */
+      if (!document.documentElement.getAttribute('data-theme')) refreshForTheme();
+    };
+    if (darkQuery.addEventListener) darkQuery.addEventListener('change', onSystemChange);
+    else if (darkQuery.addListener) darkQuery.addListener(onSystemChange);
+  }
+
+  paintThemeButton();
 
   /* ------------------------------------------------------------- code -- */
 
