@@ -48,7 +48,10 @@ HEAD_CLOSE = """</head>
 <body>
 """
 
+# Shared top banner linking back to alozanoroble.github.io (lives in the
+# website-build repo).
 TAIL = """
+<script src="https://alozanoroble.github.io/banner.js" defer></script>
 </body>
 </html>
 """
